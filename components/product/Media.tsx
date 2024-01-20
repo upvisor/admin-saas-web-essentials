@@ -66,7 +66,7 @@ export const Media: React.FC<Props> = ({ information, setInformation }) => {
             ? information.images.map((image, index) => (
               <>
                 <img onMouseEnter={() => setTrash(index)} onMouseLeave={() => setTrash(-1)} onMouseDown={() => setIndexSelected(index)} onMouseUp={() => handleMouseUp(index)} onClick={() => handleDeleteImage(index)} className='w-28 h-28 shadow-md rounded-md cursor-pointer' draggable={false} key={image.public_id} src={image.url} />
-                <IoTrashOutline onMouseEnter={() => setTrash(index)} className={`${trash === index ? 'opacity-1' : 'opacity-0'} transition-opacity duration-150 cursor-pointer -ml-20 mt-10 mr-[42px] text-3xl dark:text-black`} />
+                <IoTrashOutline onMouseEnter={() => setTrash(index)} onMouseLeave={() => setTrash(-1)} onMouseDown={() => setIndexSelected(index)} onMouseUp={() => handleMouseUp(index)} onClick={() => handleDeleteImage(index)} className={`${trash === index ? 'opacity-1' : 'opacity-0'} transition-opacity duration-150 cursor-pointer -ml-20 mt-10 mr-[42px] text-3xl dark:text-black`} />
               </>
             ))
             : ''
