@@ -113,7 +113,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
                         <Segment setAutomatization={setAutomatization} automatization={automatization} clientTags={clientTags} />
                         {
                           automatization.automatization?.map((email, index) => (
-                            <Step email={email} index={index} setAutomatization={setAutomatization} automatization={automatization} setTempEmail={setTempEmail} />
+                            <Step key={email.affair} email={email} index={index} setAutomatization={setAutomatization} automatization={automatization} setTempEmail={setTempEmail} />
                           ))
                         }
                         <button onClick={(e: any) => {

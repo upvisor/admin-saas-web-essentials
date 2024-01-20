@@ -28,6 +28,7 @@ export default function Page () {
       }],
       category: {
         titleCategory: false,
+        title: '',
         descriptionCategory: false
       },
       products: {
@@ -296,6 +297,20 @@ export default function Page () {
                             }} />
                             <p className='text-sm'>Mostrar titulo categorias</p>
                           </div>
+                          {
+                            design.home.category.titleCategory
+                              ? (
+                                <div className='flex flex-col gap-2'>
+                                  <p className='text-sm'>Titulo categorias</p>
+                                  <input type='text' onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                    const updatedDesign = {...design}
+                                    updatedDesign.home.category.title = e.target.value
+                                    setDesign(updatedDesign)
+                                  }} value={design.home.category.title} placeholder='Link' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                                </div>
+                              )
+                              : ''
+                          }
                           <div className='flex gap-2'>
                             <input type='checkbox' onChange={(e: ChangeEvent<HTMLInputElement>) => {
                               const updatedDesign = {...design}
