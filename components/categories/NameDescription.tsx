@@ -32,7 +32,7 @@ export const NameDescription: React.FC<Props> = ({setCategoryInfo, categoryInfo}
       </div>
       <div className='flex flex-col gap-2'>
         <p className='text-sm'>Descripción</p>
-        <textarea placeholder='Descripción del producto' name='description' onChange={inputChange} value={categoryInfo.description} className='p-1.5 border rounded text-sm font-light h-36 focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+        <textarea placeholder='Descripción del producto' name='description' onChange={inputChange} value={categoryInfo.description} className='p-1.5 border rounded text-sm h-36 focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
         {
           categoryInfo.category !== ''
             ? (

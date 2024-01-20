@@ -12,7 +12,7 @@ interface Props {
 
 export const StockVariations: React.FC<Props> = ({information, setInformation}) => {
 
-  const [indexImage, setIndexImage] = useState(0)
+  const [indexImage, setIndexImage] = useState(-1)
 
   const inputChange = async (e: any) => {
     setInformation({ ...information, [e.target.name]: e.target.value })
@@ -104,7 +104,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                         <div className='flex flex-col gap-2' key={index}>
                           <div className='flex gap-2'>
                             <div {...getRootProps()} className={`flex w-20 h-20 transition-colors duration-200 border rounded-lg cursor-pointer ${isDragActive ? 'bg-neutral-100' : 'bg-white'} hover:bg-neutral-100 dark:bg-neutral-700 dark:border-neutral-600 dark:hover:bg-neutral-600`}>
-                              <div onDragEnter={() => setIndexImage(index)} onClick={() => setIndexImage(index)} className='w-20 h-20 flex'>
+                              <div onDragEnter={() => setIndexImage(index)} onMouseMove={() => setIndexImage(index)} onClick={() => setIndexImage(index)} className='w-20 h-20 flex'>
                                 <input {...getInputProps()} />
                                 {
                                   variation.image?.url !== undefined

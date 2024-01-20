@@ -36,7 +36,11 @@ export default function Page () {
     e.preventDefault()
     setLoading(true)
     await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/products/${productSelect._id}`)
-    router.refresh()
+    setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+    getProducts()
+    setTimeout(() => {
+      setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+    }, 200)
     setLoading(false)
   }
 
@@ -56,7 +60,7 @@ export default function Page () {
           <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className='w-[500px] p-6 flex flex-col gap-2 rounded-md shadow-md bg-white m-auto'>
             <p>Estas seguro que deseas eliminar el producto <strong>{productSelect.name}</strong></p>
             <div className='flex gap-6'>
-              <button onClick={deleteProduct} className='bg-red-600 h-10 w-36 rounded border border-red-600 text-white transition-colors duration-200 hover:bg-transparent hover:text-red-600'>{loading ? <Spinner2 /> : 'Eliminar'}</button>
+              <button onClick={deleteProduct} className='bg-red-600 h-9 w-36 rounded border border-red-600 text-white transition-colors duration-200 hover:bg-transparent hover:text-red-600'>{loading ? <Spinner2 /> : 'Eliminar'}</button>
               <button onClick={() => {
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
@@ -83,8 +87,8 @@ export default function Page () {
                 )
                 : products.length
                   ? (
-                    <table className='shadow-md w-full border dark:border-neutral-600'>
-                      <thead className='bg-white border-b w-full dark:bg-neutral-800 dark:border-neutral-600'>
+                    <table className='shadow-md w-full border dark:border-neutral-700'>
+                      <thead className='bg-white border-b w-full dark:bg-neutral-800 dark:border-neutral-700'>
                         <tr>
                           <th className='text-left p-2 font-medium'>Producto</th>
                           <th className='text-left p-2 font-medium'>Precio</th>
@@ -94,10 +98,10 @@ export default function Page () {
                           <th></th>
                         </tr>
                       </thead>
-                      <tbody className='bg-white w-full dark:bg-neutral-800 dark:border-neutral-600'>
+                      <tbody className='bg-white w-full dark:bg-neutral-800 dark:border-neutral-700'>
                         {
                           products.map((product: any) => (
-                            <tr className='border-b cursor-pointer w-full transition-colors duration-150 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700' key={product._id}>
+                            <tr className='border-b cursor-pointer w-full transition-colors duration-150 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700' key={product._id}>
                               <td className='flex gap-2 p-2' style={{width: '100%'}} onClick={() => router.push(`/productos/${product.slug}`)}>
                                 <img className='w-20' src={product.images[0].url} />
                                 <div className='mt-auto mb-auto w-full'>

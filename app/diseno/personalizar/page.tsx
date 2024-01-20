@@ -153,11 +153,11 @@ export default function Page () {
         <title>Personalizar sitio web</title>
       </Head>
       <div className='flex h-full'>
-        <div className='w-[300px] border-r pt-6 pb-6 pl-4 pr-4 flex flex-col justify-between bg-white dark:border-neutral-800 dark:bg-neutral-900' style={{ overflow: 'overlay' }}>
+        <div className='w-[300px] border-r flex flex-col justify-between bg-white dark:border-neutral-800 dark:bg-neutral-900' style={{ overflow: 'overlay' }}>
           {
             part === ''
               ? (
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-2 p-4'>
                   <div className='border-b pb-4 dark:border-neutral-700'>
                     <Link href='/diseno' className='flex gap-2 pt-1 pb-1 pl-2 pr-2 rounded transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl my-auto' /><p className='my-auto'>Volver</p></Link>
                   </div>
@@ -177,7 +177,7 @@ export default function Page () {
           {
             part === 'Encabezado'
               ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 p-4'>
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     setPart('')
@@ -198,7 +198,7 @@ export default function Page () {
           {
             part === 'Inicio'
               ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 p-4 overflow-y-auto'>
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     setPart('')
@@ -372,7 +372,7 @@ export default function Page () {
           {
             part === 'Producto'
               ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 p-4'>
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     setPart('')
@@ -426,7 +426,7 @@ export default function Page () {
           {
             part === 'Contacto'
               ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 p-4'>
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     setPart('')
@@ -463,7 +463,7 @@ export default function Page () {
           {
             part === 'Tienda'
               ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 p-4'>
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     setPart('')
@@ -512,7 +512,7 @@ export default function Page () {
           {
             part === 'Suscripcion'
               ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 p-4'>
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     setPart('')
@@ -573,7 +573,7 @@ export default function Page () {
           {
             part === 'Carrito'
               ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 p-4'>
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     setPart('')
@@ -605,7 +605,7 @@ export default function Page () {
           {
             part === 'Blog'
               ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 p-4'>
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     setPart('')
@@ -634,7 +634,7 @@ export default function Page () {
           {
             part === 'Popup'
               ? (
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 p-4'>
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     setPart('')
@@ -688,7 +688,7 @@ export default function Page () {
               )
               : ''
           }
-          <div className='flex flex-col gap-2'>
+          <div className='flex flex-col gap-2 border-t p-4'>
             <button onClick={handleSubmit} className='w-full bg-main border border-main transition-colors duration-200 text-white h-9 rounded hover:bg-transparent hover:text-main'>{loading ? <Spinner2 /> : 'Guardar'}</button>
             <Link className='w-full flex' href='/diseno'><p className='m-auto'>Descartar</p></Link>
           </div>
@@ -723,7 +723,7 @@ export default function Page () {
               <div className='flex flex-col gap-8 justify-around' style={{ width: 'calc(100% - 300px)' }}>
                 <div className='w-full bg-neutral-100 pl-4 pr-4 flex dark:bg-neutral-900'>
                   <form className='m-auto w-1280 mt-16 mb-16'>
-                    <h4 className='mb-4 text-[16px] font-semibold tracking-widest text-black text-center md:text-[20px] dark:text-white'>{design.subscription.title !== '' ? design.subscription.title.toUpperCase() : 'SUSCRIBETE EN NUESTRA LISTA PARA RECIBIR OFERTAS EXCLUSIVAS, SORTEOS Y MUCHO MÁS'}</h4>
+                    <h4 className='mb-4 text-[16px] font-semibold tracking-widest text-black text-center md:text-[20px] dark:text-white'>{design.subscription.title !== '' ? design.subscription.title.toUpperCase() : 'SUSCRIBETE EN NUESTRA LISTA PARA RECIBIR OFERTAS EXCLUSIVAS'}</h4>
                     <div className='flex'>
                       <input type='email' placeholder='Email' className='p-2 w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:bg-neutral-800' />
                       <button className='transition-colors duration-200 w-32 tracking-widest font-medium bg-[#1c1b1b] text-white hover:bg-white hover:text-[#1c1b1b] dark:bg-neutral-700 dark:hover:bg-white' onClick={handleSubmit}>{loading ? <Spinner2 /> : 'ENVÍAR'}</button>

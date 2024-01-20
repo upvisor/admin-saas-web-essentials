@@ -73,8 +73,8 @@ export default function Page () {
             <div className='flex gap-2 ml-auto w-fit'>
               {
                 information.name === initial.name
-                  ? <button onClick={(e: any) => e.preventDefault()} className='bg-main/50 cursor-not-allowed text-white text-sm rounded-md w-36 h-9'>Crear producto</button>
-                  : <button onClick={handleSubmit} className='bg-main border border-main transition-colors duration-200 text-white text-sm rounded-md w-36 h-9 hover:bg-transparent hover:text-main'>{submitLoading ? <Spinner2 /> : 'Crear producto'}</button>
+                  ? <button onClick={(e: any) => e.preventDefault()} className='bg-main/50 cursor-not-allowed text-white text-sm rounded w-40 h-9'>Crear producto</button>
+                  : <button onClick={handleSubmit} className='bg-main border border-main transition-colors duration-200 text-white text-sm rounded w-40 h-9 hover:bg-transparent hover:text-main'>{submitLoading ? <Spinner2 /> : 'Crear producto'}</button>
               }
               <Link className='pt-1.5 pb-1.5 my-auto text-sm rounded pl-4 pr-4' href='/productos'>Descartar</Link>
             </div>

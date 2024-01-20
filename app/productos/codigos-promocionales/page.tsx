@@ -35,8 +35,12 @@ export default function Page () {
   const deleteCode = async (e: any) => {
     e.preventDefault()
     setLoading(true)
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/products/${codeSelect._id}`)
-    router.refresh()
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/promotional-code/${codeSelect._id}`)
+    setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+    getCodes()
+    setTimeout(() => {
+      setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+    }, 200)
     setLoading(false)
   }
 
@@ -56,7 +60,7 @@ export default function Page () {
           <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className='w-[500px] p-6 flex flex-col gap-2 rounded-md shadow-md bg-white m-auto'>
             <p>Estas seguro que deseas eliminar el codigo <strong>{codeSelect.name}</strong></p>
             <div className='flex gap-6'>
-              <button onClick={deleteCode} className='bg-red-600 border border-red-600 transition-colors duration-200 h-9 w-36 rounded-md text-white hover:bg-transparent hover:text-red-600'>{loading ? <Spinner2 /> : 'Eliminar'}</button>
+              <button onClick={deleteCode} className='bg-red-600 border border-red-600 transition-colors duration-200 h-9 w-36 rounded text-white hover:bg-transparent hover:text-red-600'>{loading ? <Spinner2 /> : 'Eliminar'}</button>
               <button onClick={() => {
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
@@ -83,8 +87,8 @@ export default function Page () {
                   )
                 : codes.length
                   ? (
-                    <table className='shadow-md w-full border dark:border-neutral-600'>
-                      <thead className='bg-white border-b w-full dark:bg-neutral-800 dark:border-neutral-600'>
+                    <table className='shadow-md w-full border dark:border-neutral-700'>
+                      <thead className='bg-white border-b w-full dark:bg-neutral-800 dark:border-neutral-700'>
                         <tr>
                           <th className='text-left p-2 font-medium'>Codigo promocional</th>
                           <th className='text-left p-2 font-medium'>Tipo de descuento</th>
@@ -94,10 +98,10 @@ export default function Page () {
                           <th></th>
                         </tr>
                       </thead>
-                      <tbody className='bg-white w-full dark:bg-neutral-800 dark:border-neutral-600'>
+                      <tbody className='bg-white w-full dark:bg-neutral-800 dark:border-neutral-700'>
                         {
                           codes.map((promotionalCode: any) => (
-                            <tr className='border-b transition-colors duration-150 cursor-pointer w-full dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700' key={promotionalCode._id}>
+                            <tr className='border-b transition-colors duration-150 cursor-pointer w-full dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700' key={promotionalCode._id}>
                               <td className='p-2' onClick={() => router.push(`/productos/codigos-promocionales/${promotionalCode.promotionalCode}`)}>
                                 <p>{promotionalCode.promotionalCode}</p>
                               </td>

@@ -38,7 +38,7 @@ export default  function Page () {
               {
                 categoryInfo.category === initialCategory.category
                   ? <button onClick={(e: any) => e.preventDefault()} className='bg-main/50 text-white text-sm rounded w-40 h-9 cursor-not-allowed'>{loading ? <Spinner2 /> : 'Crear categoría'}</button>
-                  : <button onClick={handleSubmit} className='bg-main text-white border border-main transition-colors duration-200 text-sm rounded-md w-40 h-9 hover:bg-transparent hover:text-main'>{loading ? <Spinner2 /> : 'Crear categoría'}</button>
+                  : <button onClick={handleSubmit} className='bg-main text-white border border-main transition-colors duration-200 text-sm rounded w-40 h-9 hover:bg-transparent hover:text-main'>{loading ? <Spinner2 /> : 'Crear categoría'}</button>
               }
               <Link className='pt-1.5 pb-1.5 my-auto text-sm rounded pl-4 pr-4' href='/productos/categorias'>Descartar</Link>
             </div>

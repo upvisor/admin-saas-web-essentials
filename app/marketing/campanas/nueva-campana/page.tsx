@@ -1,4 +1,5 @@
 "use client"
+import { Config, Email, Segment } from '@/components/campaigns'
 import { Spinner2 } from '@/components/ui'
 import { IClientTag, IEmail, IStoreData } from '@/interfaces'
 import axios from 'axios'
@@ -6,6 +7,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { ChangeEvent, useEffect, useState } from 'react'
+import { BiArrowBack } from 'react-icons/bi'
 
 export default function Page () {
 
@@ -69,99 +71,16 @@ export default function Page () {
       </div>
       <div className='bg-[#f6f6f7] overflow-y-auto dark:bg-neutral-900' style={{ height: 'calc(100% - 69px)' }}>
         <div className='p-6 flex flex-col gap-4 w-full bg-[#f6f6f7] dark:bg-neutral-900'>
-          <div className='flex justify-between w-full max-w-1280 m-auto'>
-            <h1 className='text-xl font-medium'>Nueva campaña</h1>
+          <div className='flex gap-3 mb-4 max-w-1280'>
+            <Link href='/marketing/campanas' className='border rounded p-2 transition-colors duration-150 bg-white hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
+            <h1 className='text-xl font-medium my-auto'>Nueva campaña</h1>
           </div>
           <div className='flex flex-col gap-4 w-full max-w-1280 m-auto'>
-            <div className='bg-white p-4 w-full flex flex-col gap-2 rounded-md shadow-md dark:bg-neutral-800'>
-              <div className='flex'>
-                <p className='text-sm mt-auto mb-auto w-20'>Para:</p>
-                <select onChange={(e: ChangeEvent<HTMLSelectElement>) => setEmail({ ...email, address: e.target.value })} value={email.address} className='p-1.5 rounded border text-sm focus:outline-none w-full focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600'>
-                  <option>Todos los suscriptores</option>
-                  {
-                    clientTags.length
-                      ? clientTags.map(clientTag => (
-                        <option key={clientTag.tag}>{clientTag.tag}</option>
-                      ))
-                      : ''
-                  }
-                </select>
-              </div>
-              <div className='flex'>
-                <p className='text-sm mt-auto mb-auto w-20'>Asunto:</p>
-                <input type='text' placeholder='Asunto' onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail({...email, affair: e.target.value})} value={email.affair} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-              </div>
-            </div>
+            <Segment setEmail={setEmail} email={email} clientTags={clientTags} />
             <div className='w-full flex'>
               <div className='flex flex-wrap gap-6 m-auto'>
-                <div className='w-[600px] flex flex-col gap-4 m-auto bg-white pt-6 pb-6 dark:bg-neutral-800'>
-                  <img className='w-40 m-auto' src='https://res.cloudinary.com/blasspod/image/upload/v1692831635/blaspod/swiq7waalipkcq2dsucq.png' />
-                  <h1 className='m-auto text-3xl font-medium text-center'>{email.title}</h1>
-                  <p className='m-auto text-center'>{email.paragraph}</p>
-                  {
-                    email.buttonText
-                      ? <Link href={email.url} className='py-2 px-7 bg-main rounded w-fit m-auto text-white'>{email.buttonText}</Link>
-                      : ''
-                  }
-                  <div className='border-t pt-6 px-6 flex gap-4 justify-between dark:border-neutral-700'>
-                    {
-                      storeData
-                        ? (
-                          <>
-                            <div className='flex flex-col gap-2'>
-                              <p className='text-sm'>{storeData.name}</p>
-                              <p className='text-sm'>{storeData.email}</p>
-                              <p className='text-sm'>{storeData.phone}</p>
-                            </div>
-                            <div className='flex flex-col gap-2'>
-                              <p className='text-sm text-right'>{storeData.address}</p>
-                              <p className='text-sm text-right'>{storeData.city}, {storeData.region}</p>
-                            </div>
-                          </>
-                        )
-                        : ''
-                    }
-                  </div>
-                </div>
-                <div className='p-4 flex flex-col gap-4 m-auto bg-white w-96 rounded-md shadow-md dark:bg-neutral-800'>
-                  <h2 className='text-lg font-medium'>Contenido</h2>
-                  <div className='flex flex-col gap-2'>
-                    <p className='text-sm'>Titulo</p>
-                    <input type='text' placeholder='Titulo' onChange={(e: any) => setEmail({...email, title: e.target.value})} value={email.title} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                  </div>
-                  <div className='flex flex-col gap-2'>
-                    <p className='text-sm'>Parrafo</p>
-                    <textarea placeholder='Parrafo' onChange={(e: any) => setEmail({...email, paragraph: e.target.value})} value={email.paragraph} className='p-1.5 rounded border text-sm w-full h-20 focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                  </div>
-                  <div className='flex flex-col gap-2'>
-                    <p className='text-sm'>Texto boton</p>
-                    <input type='text' placeholder='Boton' onChange={(e: any) => setEmail({...email, buttonText: e.target.value})} value={email.buttonText} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                  </div>
-                  <div className='flex flex-col gap-2'>
-                    <p className='text-sm'>Link boton</p>
-                    <input type='text' placeholder='Url' onChange={(e: any) => setEmail({...email, url: e.target.value})} value={email.url} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                  </div>
-                  <div className='flex flex-col gap-2'>
-                    <p className='text-sm'>Programar envio</p>
-                    <div className='flex gap-2'>
-                      <input type='radio' name='send' onClick={() => setEmail({...email, date: undefined})} />
-                      <p className='text-sm'>En este momento</p>
-                    </div>
-                    <div className='flex gap-2'>
-                      <input type='radio' name='send' onClick={() => setDate(true)} />
-                      <p className='text-sm'>Fecha personalizada</p>
-                    </div>
-                    {
-                      date
-                        ? (
-                          <div className='flex gap-2'>
-                            <input type='datetime-local' onChange={(e: any) => setEmail({...email, date: e.target.value})} className='font-light p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                          </div>
-                        )
-                        : ''
-                    }
-                  </div>
-                </div>
+                <Email email={email} storeData={storeData} />
+                <Config setEmail={setEmail} email={email} setDate={setDate} date={date} />
               </div>
             </div>
           </div>
