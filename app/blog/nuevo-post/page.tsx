@@ -1,5 +1,5 @@
 "use client"
-import { LeftMenu, Spinner2 } from '@/components/ui'
+import { Spinner2 } from '@/components/ui'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -145,7 +145,7 @@ export default function Page () {
                 <button onClick={(e: any) => {
                   e.preventDefault()
                   setContentData({ ...contentData, content: contentData.content.concat({ type: 'Texto', html: 'H1', content: '', image: { public_id: '', url: '' } }) })
-                }} className='py-2 px-8 bg-main text-sm text-white m-auto rounded-md'>Agregar contenido</button>
+                }} className='py-2 px-8 bg-main border border-main transition-colors duration-200 text-sm text-white m-auto rounded hover:bg-transparent hover:text-main'>Agregar contenido</button>
               </div>
               <div className='bg-white border flex flex-col gap-4 border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
                 <h2 className='font-medium'>SEO</h2>

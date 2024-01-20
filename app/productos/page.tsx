@@ -141,7 +141,7 @@ export default function Page () {
                       </tbody>
                     </table>
                   )
-                  : 'No hay productos'
+                  : <p>No hay productos</p>
             }
           </div>
         </div>

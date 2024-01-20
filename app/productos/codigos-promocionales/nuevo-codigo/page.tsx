@@ -41,14 +41,14 @@ export default function Page () {
         <title>Nuevo codigo promocional</title>
       </Head>
         <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 dark:bg-neutral-800 dark:border-neutral-700' style={{ width: 'calc(100% - 70px)' }}>
-          <div className='flex m-auto w-1280'>
+          <div className='flex m-auto w-full'>
             <div className='flex gap-2 ml-auto w-fit'>
               {
                 codeInfo.promotionalCode === promotionalCode
-                  ? <button onClick={(e: any) => e.preventDefault()} className='bg-main/50 cursor-not-allowed w-36 h-8 text-white text-sm rounded-md'>Crear codigo</button>
-                  : <button onClick={handleSubmit} className='bg-main text-white text-sm rounded-md w-36 h-8'>{submitLoading ? <Spinner2 /> : 'Crear codigo'}</button>
+                  ? <button onClick={(e: any) => e.preventDefault()} className='bg-main/50 cursor-not-allowed w-36 h-9 text-white text-sm rounded'>Crear codigo</button>
+                  : <button onClick={handleSubmit} className='bg-main border border-main transition-colors duration-200 text-white text-sm rounded w-36 h-9 hover:bg-transparent hover:text-main'>{submitLoading ? <Spinner2 /> : 'Crear codigo'}</button>
               }
-              <Link className='bg-red-600 pt-1.5 pb-1.5 text-white text-sm rounded-md pl-4 pr-4' href='/productos'>Descartar</Link>
+              <Link className='pt-1.5 pb-1.5 text-sm rounded pl-4 pr-4' href='/productos/codigos-promocionales'>Descartar</Link>
             </div>
           </div>
         </div>

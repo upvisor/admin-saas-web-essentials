@@ -135,7 +135,7 @@ export default function Page () {
                       </tbody>
                     </table>
                   )
-                  : 'No hay codigos promocionales'
+                  : <p>No hay codigos promocionales</p>
             }
           </div>
         </div>

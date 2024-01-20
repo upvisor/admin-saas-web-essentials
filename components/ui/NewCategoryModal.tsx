@@ -48,7 +48,10 @@ export const NewCategoryModal: React.FC<Props> = ({ newCategory, setNewCategory,
     if (response.data) {
       setCategories(response.data)
     }
-    setNewCategory('hidden')
+    setNewCategory({ ...newCategory, view: 'flex', opacity: 'opacity-0' })
+    setTimeout(() => {
+      setNewCategory({ ...newCategory, view: 'hidden', opacity: 'opacity-0' })
+    }, 200)
     setLoading(false)
   }
 

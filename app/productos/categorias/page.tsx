@@ -133,7 +133,7 @@ export default function Page () {
                       </tbody>
                     </table>
                   )
-                  : 'No hay categorias'
+                  : <p>No hay categorias</p>
             }
           </div>
         </div>

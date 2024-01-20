@@ -5,6 +5,7 @@ import { City, IStoreData, Region } from '@/interfaces'
 import axios from 'axios'
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
 export default function Page () {
@@ -63,6 +64,8 @@ export default function Page () {
   const [regions, setRegions] = useState<Region[]>()
   const [citys, setCitys] = useState<City[]>()
   const [loading, setLoading] = useState(false)
+
+  const router = useRouter()
 
   const getStoreData = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/store-data`)
@@ -150,7 +153,7 @@ export default function Page () {
           <div className='flex m-auto w-full'>
             <div className='flex gap-2 ml-auto w-fit'>
               <button onClick={handleSubmit} className='bg-main border border-main transition-colors duration-200 text-white text-sm rounded w-40 h-9 hover:bg-transparent hover:text-main'>{loading ? <Spinner2 /> : 'Guardar datos'}</button>
-              <Link className='pt-1.5 pb-1.5 text-sm rounded pl-4 pr-4 my-auto' href='/productos'>Descartar</Link>
+              <button onClick={() => router.refresh()} className='pt-1.5 pb-1.5 text-sm rounded pl-4 pr-4 my-auto'>Descartar</button>
             </div>
           </div>
         </div>

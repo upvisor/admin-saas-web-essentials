@@ -4,7 +4,7 @@ import { LeftMenu, Spinner2 } from '@/components/ui'
 import axios from 'axios'
 import Head from 'next/head'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { AiOutlineLaptop, AiOutlineFileDone } from 'react-icons/ai'
 import { BsCreditCard } from 'react-icons/bs'
@@ -23,6 +23,8 @@ export default function Page () {
   const [loading, setLoading] = useState(false)
 
   const pathname = usePathname()
+
+  const router = useRouter()
 
   const getPolitics = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/politics`)
@@ -54,7 +56,7 @@ export default function Page () {
           <div className='flex m-auto w-full'>
             <div className='flex gap-2 ml-auto w-fit'>
               <button onClick={handleSubmit} className='bg-main border border-main transition-colors duration-200 text-white text-sm rounded w-40 h-9 hover:bg-transparent hover:text-main'>{loading ? <Spinner2 /> : 'Guardar datos'}</button>
-              <Link className='my-auto pt-1.5 pb-1.5 text-sm rounded-md pl-4 pr-4' href='/productos'>Descartar</Link>
+              <button onClick={() => router.refresh()} className='my-auto pt-1.5 pb-1.5 text-sm rounded-md pl-4 pr-4'>Descartar</button>
             </div>
           </div>
         </div>
