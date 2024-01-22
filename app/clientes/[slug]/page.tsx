@@ -43,7 +43,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
 
   const deleteClient = async () => {
     setLoading(true)
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/clients/${clientData?._id}`)
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/client/${clientData?._id}`)
     router.push('/clientes')
     setLoading(false)
   }

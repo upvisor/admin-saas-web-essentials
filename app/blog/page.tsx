@@ -12,8 +12,7 @@ export default function Page () {
 
   const [posts, setPosts] = useState<IPost[]>([])
   const [loading, setLoading] = useState(false)
-  const [popupView, setPopupView] = useState('hidden')
-  const [popupMouse, setPopupMouse] = useState(false)
+  const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [postSelect, setPostSelect] = useState({
     _id: '',
     title: ''
@@ -47,12 +46,24 @@ export default function Page () {
       <Head>
         <title>Blog</title>
       </Head>
-        <div onClick={() => !popupMouse ? setPopupView('hidden') : ''} className={`${popupView} right-0 fixed flex bg-black/20 dark:bg-black/40`} style={{ width: 'calc(100% - 70px)', height: 'calc(100vh - 56px)' }}>
-          <div onMouseEnter={() => setPopupMouse(true)} onMouseLeave={() => setPopupMouse(false)} className='w-[500px] p-6 flex flex-col gap-2 rounded-md shadow-md bg-white m-auto'>
+        <div onClick={() => {
+          if (!popup.mouse) {
+            setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+            setTimeout(() => {
+              setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+            }, 200)
+          }
+        }} className={`${popup.view} ${popup.opacity} transition-opacity duration-200 right-0 left-0 top-0 w-full h-full z-50 fixed flex bg-black/20 dark:bg-black/40`}>
+          <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className='w-[500px] p-6 flex flex-col gap-2 rounded-md shadow-md bg-white m-auto'>
             <p>Estas seguro que deseas eliminar el post <strong>{postSelect.title}</strong></p>
             <div className='flex gap-6'>
-              <button onClick={deleteProduct} className='bg-red-500 h-10 w-36 rounded-md text-white'>{loading ? <Spinner2 /> : 'Eliminar'}</button>
-              <button onClick={() => setPopupView('hidden')}>Cancelar</button>
+              <button onClick={deleteProduct} className='bg-red-600 border border-red-600 transition-colors duration-200 h-9 w-36 rounded text-white hover:bg-transparent hover:text-red-600'>{loading ? <Spinner2 /> : 'Eliminar'}</button>
+              <button onClick={() => {
+                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                setTimeout(() => {
+                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+                }, 200)
+              }}>Cancelar</button>
             </div>
           </div>
         </div>
@@ -76,37 +87,40 @@ export default function Page () {
                     <table className='shadow-md w-full border dark:border-neutral-600'>
                       <thead className='bg-white border-b w-full dark:bg-neutral-800 dark:border-neutral-600'>
                         <tr>
-                          <th className='text-left p-2 font-normal'>Imagen</th>
-                          <th className='text-left p-2 font-normal'>Titulo</th>
-                          <th className='text-left p-2 font-normal'>Estado</th>
-                          <th className='text-left p-2 font-normal'>Fecha</th>
+                          <th className='text-left p-2 font-medium'>Imagen</th>
+                          <th className='text-left p-2 font-medium'>Titulo</th>
+                          <th className='text-left p-2 font-medium'>Estado</th>
+                          <th className='text-left p-2 font-medium'>Fecha</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody className='bg-white w-full dark:bg-neutral-800 dark:border-neutral-600'>
                         {
                           posts.map(post => (
-                            <tr className='border-b cursor-pointer w-full dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700' key={post._id}>
+                            <tr className='border-b cursor-pointer transition-colors duration-150 w-full dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700' key={post._id}>
                               <td className='p-2 w-3/12' onClick={() => router.push(`/blog/${post._id}`)}>
                                 <img className='w-20' src={post.image.url} />
                               </td>
                               <td className='p-2 w-4/12' onClick={() => router.push(`/blog/${post._id}`)}>
-                                <p className='font-light'>{post.title}</p>
+                                <p>{post.title}</p>
                               </td>
                               <td className='p-2 w-2/12' onClick={() => router.push(`/blog/${post._id}`)}>
                                 {
                                   post.state === true
-                                    ? <p className='font-light w-fit pt-1 pb-1 pl-2 pr-2 bg-green-500 rounded-md text-white'>Activo</p>
-                                    : <p className='font-light w-fit pt-1 pb-1 pl-2 pr-2 bg-red-500 rounded-md text-white'>Borrador</p>
+                                    ? <p className='w-fit pt-1 pb-1 pl-2 pr-2 bg-green-500 rounded-md text-white'>Activo</p>
+                                    : <p className='w-fit pt-1 pb-1 pl-2 pr-2 bg-red-500 rounded-md text-white'>Borrador</p>
                                 }
                               </td>
                               <td className='p-2 w-2/12' onClick={() => router.push(`/blog/${post._id}`)}>
-                                <p className='font-light'>{new Date(post.createdAt!).toLocaleDateString()}</p>
+                                <p>{new Date(post.createdAt!).toLocaleDateString()}</p>
                               </td>
                               <td className='p-2 w-1/12'>
                                 <button onClick={async(e: any) => {
                                   e.preventDefault()
-                                  setPopupView('flex')
+                                  setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                                  setTimeout(() => {
+                                    setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
+                                  }, 10)
                                   setPostSelect({ _id: post._id!, title: post.title })
                                 }}><AiOutlineClose /></button>
                               </td>
