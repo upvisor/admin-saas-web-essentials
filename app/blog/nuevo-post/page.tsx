@@ -50,7 +50,14 @@ export default function Page () {
             <h1 className='text-xl my-auto font-medium'>Nuevo post</h1>
           </div>
           <form onSubmit={handleSubmit} className='flex gap-4 w-full m-auto'>
-            
+            <div className='flex gap-4 flex-col w-2/3'>
+              <Content setContentData={setContentData} contentData={contentData} setContent={setContent} content={content} />
+              <Seo setContentData={setContentData} contentData={contentData} />
+            </div>
+            <div className='w-1/3 flex flex-col gap-4'>
+              <Visibility setContentData={setContentData} contentData={contentData} />
+              <Image contentData={contentData} setContentData={setContentData} />
+            </div>
           </form>
         </div>
       </div>
