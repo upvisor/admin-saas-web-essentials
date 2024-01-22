@@ -82,8 +82,8 @@ export default function Page ({ params }: { params: { id: string } }) {
                 </div>
               )
             : (
-              <div className="flex bg-[#f6f6f7] w-full h-full mt-20">
-                <div className="m-auto mt-16 mb-16">
+              <div className="flex bg-[#f6f6f7] w-full h-full">
+                <div className="m-auto mt-16">
                   <Spinner />
                 </div>
               </div>
