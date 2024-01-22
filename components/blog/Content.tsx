@@ -1,6 +1,8 @@
 import React from 'react'
-import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import dynamic from 'next/dynamic'
+
+const ReactQuillComponent = dynamic(() => import("react-quill"), { ssr: false })
 
 interface Props {
     setContentData: any
@@ -23,7 +25,7 @@ export const Content: React.FC<Props> = ({ setContentData, contentData, setConte
       <div className='flex flex-col gap-2'>
         <p className='text-sm'>Contenido</p>
         <div>
-          <ReactQuill modules={{
+          <ReactQuillComponent modules={{
             toolbar: [
               [{ header: [ false, 1, 2, 3, 4] }],
               ['bold', 'italic', 'underline', 'strike', 'blockquote'],
