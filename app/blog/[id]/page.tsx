@@ -61,34 +61,36 @@ export default function Page ({ params }: { params: { id: string } }) {
             </div>
           </div>
         </div>
-        {
-          contentData._id !== ''
-            ? (
-                <div className='p-6 mb-16 w-full overflow-y-auto bg-[#f6f6f7] dark:bg-neutral-900' style={{ height: 'calc(100% - 69px)' }}>
-                  <div className='flex gap-2 w-full max-w-1280 m-auto mb-4'>
-                    <Link href='/blog' className='border rounded transition-colors duration-150 p-2 bg-white hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
-                    <h1 className='text-xl font-medium my-auto'>Post {contentData._id}</h1>
+        <div className='p-6 mb-16 w-full overflow-y-auto bg-[#f6f6f7] dark:bg-neutral-900' style={{ height: 'calc(100% - 69px)' }}>
+          {
+            contentData._id !== ''
+              ? (
+                  <>
+                    <div className='flex gap-2 w-full max-w-1280 m-auto mb-4'>
+                      <Link href='/blog' className='border rounded transition-colors duration-150 p-2 bg-white hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
+                      <h1 className='text-xl font-medium my-auto'>Post {contentData._id}</h1>
+                    </div>
+                    <form onSubmit={handleSubmit} className='flex gap-4 max-w-1280 m-auto'>
+                      <div className='flex gap-4 flex-col w-2/3'>
+                        <Content setContentData={setContentData} contentData={contentData} setContent={setContent} content={content} />
+                        <Seo setContentData={setContentData} contentData={contentData} />
+                      </div>
+                      <div className='w-1/3 flex flex-col gap-4'>
+                        <Visibility setContentData={setContentData} contentData={contentData} />
+                        <Image contentData={contentData} setContentData={setContentData} />
+                      </div>
+                    </form>
+                  </>
+                )
+              : (
+                <div className="flex w-full mt-32">
+                  <div className="m-auto mt-16 mb-16">
+                    <Spinner />
                   </div>
-                  <form onSubmit={handleSubmit} className='flex gap-4 max-w-1280 m-auto'>
-                    <div className='flex gap-4 flex-col w-2/3'>
-                      <Content setContentData={setContentData} contentData={contentData} setContent={setContent} content={content} />
-                      <Seo setContentData={setContentData} contentData={contentData} />
-                    </div>
-                    <div className='w-1/3 flex flex-col gap-4'>
-                      <Visibility setContentData={setContentData} contentData={contentData} />
-                      <Image contentData={contentData} setContentData={setContentData} />
-                    </div>
-                  </form>
                 </div>
-              )
-            : (
-              <div className="flex bg-[#f6f6f7] w-full h-full">
-                <div className="m-auto mt-16">
-                  <Spinner />
-                </div>
-              </div>
             )
           }
+        </div>
     </>
   )
 }
