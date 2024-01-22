@@ -41,17 +41,6 @@ export default function Page ({ params }: { params: { id: string } }) {
     getPost()
   }, [])
 
-  const imageChange = async (e: any) => {
-    const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/product-image-upload`, { image: e.target.files[0] }, {
-      headers: {
-        accept: 'application/json',
-        'Accept-Language': 'en-US,en;q=0.8',
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    setContentData({...contentData, image: { public_id: data.image.public_id, url: data.image.url }})
-  }
-
   const handleSubmit = async () => {
     setSubmitLoading(true)
     await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/post/${contentData._id}`, contentData)
