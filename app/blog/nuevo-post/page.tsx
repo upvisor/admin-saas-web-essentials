@@ -51,7 +51,7 @@ export default function Page () {
           </div>
           <form onSubmit={handleSubmit} className='flex gap-4 w-full m-auto'>
             <div className='flex gap-4 flex-col w-2/3'>
-              <Content setContentData={setContentData} contentData={contentData} setContent={setContent} content={content} />
+              
               <Seo setContentData={setContentData} contentData={contentData} />
             </div>
             <div className='w-1/3 flex flex-col gap-4'>
