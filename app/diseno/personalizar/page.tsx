@@ -290,7 +290,7 @@ export default function Page () {
                       ? (
                         <div className='flex flex-col gap-2'>
                           <div className='flex gap-2'>
-                            <input type='checkbox' onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                            <input type='checkbox' checked={design.home.category.titleCategory} onChange={(e: ChangeEvent<HTMLInputElement>) => {
                               const updatedDesign = {...design}
                               updatedDesign.home.category.titleCategory = e.target.checked ? true : false
                               setDesign(updatedDesign)
@@ -312,7 +312,7 @@ export default function Page () {
                               : ''
                           }
                           <div className='flex gap-2'>
-                            <input type='checkbox' onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                            <input type='checkbox' checked={design.home.category.descriptionCategory} onChange={(e: ChangeEvent<HTMLInputElement>) => {
                               const updatedDesign = {...design}
                               updatedDesign.home.category.descriptionCategory = e.target.checked ? true : false
                               setDesign(updatedDesign)
@@ -340,7 +340,7 @@ export default function Page () {
                           </div>
                           <div className='flex flex-col gap-2'>
                             <p className='text-sm'>Sección de productos</p>
-                            <select onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                            <select value={design.home.products.sectionProducts} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                               const updatedDesign = {...design}
                               updatedDesign.home.products.sectionProducts = e.target.value
                               setDesign(updatedDesign)
@@ -425,7 +425,7 @@ export default function Page () {
                   </div>
                   <div className='flex flex-col gap-2'>
                     <p className='text-sm'>Sección de productos</p>
-                    <select onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                    <select value={design.product.sectionProducts} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                       const updatedDesign = {...design}
                       updatedDesign.product.sectionProducts = e.target.value
                       setDesign(updatedDesign)
