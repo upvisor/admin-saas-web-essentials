@@ -1,5 +1,5 @@
 "use client"
-import { CategoryProduct, Media, NameDescription, Price, ProductOffer, ProductSeo, QuantityOffers, StockVariations, Visibility } from '@/components/product'
+import { CategoryProduct, Information, Media, NameDescription, Price, ProductOffer, ProductSeo, QuantityOffers, StockVariations, Visibility } from '@/components/product'
 import { NewCategoryModal, Spinner2 } from '@/components/ui'
 import { ICategory, IProduct, IProductsOffer } from '@/interfaces'
 import axios from 'axios'
@@ -23,7 +23,8 @@ export default function Page () {
     tags: [],
     titleSeo: '',
     descriptionSeo: '',
-    variations: { nameVariation: '', variations: [{ variation: '', stock: 0 }] }
+    variations: { nameVariation: '', variations: [{ variation: '', stock: 0 }] },
+    informations: [{ title: '', description: '', image: { public_id: '', url: '' }, align: 'Izquierda' }]
   })
   const [categories, setCategories] = useState<ICategory[]>()
   const [quantityOffers, setQuantityOffers] = useState([{
@@ -92,6 +93,7 @@ export default function Page () {
               <Media information={information} setInformation={setInformation} />
               <StockVariations information={information} setInformation={setInformation} />
               <ProductOffer productsOffer={productsOffer} setProductsOffer={setProductsOffer} />
+              <Information information={information} setInformation={setInformation} />
               <ProductSeo information={information} setInformation={setInformation} />
             </div>
             <div className='w-1/3 flex flex-col gap-4'>

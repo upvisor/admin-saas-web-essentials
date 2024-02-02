@@ -10,6 +10,7 @@ export interface IProduct {
   timeOffer?: string
   variations?: ITypeVariation
   productsOffer?: IProductsOffer[]
+  informations?: IInformation[]
   slug: string
   tags: string[]
   category: { category: string, slug: string }
@@ -67,4 +68,11 @@ export interface IQuantityOffer {
   _id?: string
   quantity: number
   descount: number
+}
+
+export interface IInformation {
+  title?: string
+  description?: string
+  image?: { public_id: string, url: string }
+  align: string
 }

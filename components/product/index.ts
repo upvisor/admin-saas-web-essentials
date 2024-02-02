@@ -1,4 +1,5 @@
 export * from './NameDescription'
+export * from './Information'
 export * from './Media'
 export * from './StockVariations'
 export * from './ProductSeo'

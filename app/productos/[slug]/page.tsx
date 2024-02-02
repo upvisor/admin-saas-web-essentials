@@ -6,11 +6,10 @@ import { BiArrowBack } from 'react-icons/bi'
 import Link from 'next/link'
 import Head from 'next/head'
 import { ICategory } from '../../../interfaces'
-import { CategoryProduct, Media, NameDescription, Price, ProductOffer, ProductSeo, QuantityOffers, StockVariations, Visibility } from '@/components/product'
+import { CategoryProduct, Information, Media, NameDescription, Price, ProductOffer, ProductSeo, QuantityOffers, StockVariations, Visibility } from '@/components/product'
 import { IProductsOffer } from '../../../interfaces/products'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { IoCloseOutline } from 'react-icons/io5'
 
 export default function Page ({ params }: { params: { slug: string } }) {
 
@@ -35,24 +34,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
 
   const getProduct = async () => {
     const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products/${params.slug}`)
-    setInformation({
-      _id: data._id,
-      name: data.name,
-      description: data.description,
-      category: data.category,
-      price: data.price,
-      beforePrice: data.beforePrice,
-      cost: data.cost,
-      images: data.images,
-      stock: data.stock,
-      slug: data.slug,
-      variations: data.variations.variations.length ? data.variations : { nameVariation: '', variations: [{ variation: '', stock: 0 }] },
-      state: data.state,
-      sku: data.sku,
-      tags: data.tags,
-      titleSeo: data.titleSeo,
-      descriptionSeo: data.descriptionSeo
-    })
+    setInformation(data)
     setProductsOffer(data.productsOffer?.length ? data.productsOffer : [{productsSale: [], price: 0}])
     setQuantityOffers(data.quantityOffers?.length ? data.quantityOffers : [{
       quantity: undefined,
@@ -72,7 +54,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
 
   const handleSubmit = async () => {
     setSubmitLoading(true)
-    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/products/${information?._id}`, { name: information?.name, description: information?.description, category: information?.category, price: information?.price, beforePrice: information?.beforePrice, images: information?.images, stock: information?.stock, slug: information?.slug, state: information?.state, tags: information?.tags, titleSeo: information?.titleSeo, descriptionSeo: information?.descriptionSeo, variations: information?.variations, productsOffer: productsOffer, cost: information?.cost, quantityOffers: quantityOffers })
+    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/products/${information?._id}`, { name: information?.name, description: information?.description, category: information?.category, price: information?.price, beforePrice: information?.beforePrice, images: information?.images, stock: information?.stock, slug: information?.slug, state: information?.state, tags: information?.tags, titleSeo: information?.titleSeo, descriptionSeo: information?.descriptionSeo, variations: information?.variations, productsOffer: productsOffer, cost: information?.cost, quantityOffers: quantityOffers, informations: information?.informations })
     router.push('/productos')
   }
 
@@ -134,13 +116,14 @@ export default function Page ({ params }: { params: { slug: string } }) {
                       <Media information={information} setInformation={setInformation} />
                       <StockVariations information={information} setInformation={setInformation} />
                       <ProductOffer productsOffer={productsOffer} setProductsOffer={setProductsOffer} />
+                      <Information information={information} setInformation={setInformation} />
                       <ProductSeo information={information} setInformation={setInformation} />
                     </div>
                     <div className='w-1/3 flex flex-col gap-4'>
                       <Visibility setInformation={setInformation} information={information} />
                       <Price information={information} setInformation={setInformation} />
-                      <QuantityOffers quantityOffers={quantityOffers} setQuantityOffers={setQuantityOffers} />
                       <CategoryProduct categories={categories} information={information} setInformation={setInformation} setNewCategory={setNewCategory} newCategory={newCategory} />
+                      <QuantityOffers quantityOffers={quantityOffers} setQuantityOffers={setQuantityOffers} />
                       <div className='bg-white p-4 flex flex-col gap-4 rounded-md shadow border border-white dark:bg-neutral-800 dark:border-neutral-700'>
                         <h2 className='font-medium'>Eliminar producto</h2>
                         <button onClick={async (e: any) => {

@@ -44,9 +44,6 @@ export default function Page () {
     product: {
       titleInfo: '',
       textInfo: '',
-      title: '',
-      sectionProducts: 'Todos los productos',
-      category: ''
     },
     contact: {
       title: '',
@@ -409,30 +406,8 @@ export default function Page () {
                         const updatedDesign = {...design}
                         updatedDesign.product.textInfo = e.target.value
                         setDesign(updatedDesign)
-                      }} value={design.product.textInfo} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                      }} value={design.product.textInfo} className='p-1.5 rounded h-24 border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
                     </div>
-                  </div>
-                  <div className='flex flex-col gap-4'>
-                    <p>Seccion de productos recomendados</p>
-                    <div className='flex flex-col gap-2'>
-                      <p className='text-sm'>Titulo</p>
-                      <input type='text' placeholder='Titulo' onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                        const updatedDesign = {...design}
-                        updatedDesign.product.title = e.target.value
-                        setDesign(updatedDesign)
-                      }} value={design.product.title} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                    </div>
-                  </div>
-                  <div className='flex flex-col gap-2'>
-                    <p className='text-sm'>Sección de productos</p>
-                    <select value={design.product.sectionProducts} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                      const updatedDesign = {...design}
-                      updatedDesign.product.sectionProducts = e.target.value
-                      setDesign(updatedDesign)
-                    }} className='p-1.5 mb-2 rounded border text-sm focus:outline-none w-full focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600'>
-                      <option>Todos los productos</option>
-                      <option>Productos en oferta</option>
-                    </select>
                   </div>
                 </div>
               )
