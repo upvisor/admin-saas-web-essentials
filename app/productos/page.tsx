@@ -103,7 +103,11 @@ export default function Page () {
                           products.map((product: any) => (
                             <tr className='border-b cursor-pointer w-full transition-colors duration-150 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700' key={product._id}>
                               <td className='flex gap-2 p-2' style={{width: '100%'}} onClick={() => router.push(`/productos/${product.slug}`)}>
-                                <img className='w-20' src={product.images[0].url} />
+                                {
+                                  product.images.length && product.images[0].url && product.images[0].url !== ''
+                                    ? <img className='w-20' src={product.images[0].url} />
+                                    : <div className='w-20 h-20' />
+                                }
                                 <div className='mt-auto mb-auto w-full'>
                                   <p>{product.name}</p>
                                 </div>
