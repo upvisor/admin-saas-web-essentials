@@ -1,21 +1,14 @@
 "use client"
-import { Montserrat, Poppins } from 'next/font/google'
 import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { Navbar } from '@/components/layouts'
 import { ThemeProvider } from 'next-themes'
 import { LeftMenu } from '@/components/ui'
+import localFont from 'next/font/local'
 
-const poppins = Poppins({
-  weight: ['300', '400', '500', '600'],
-  preload: false,
-  subsets: ['latin']
-})
-
-const montserrat = Montserrat({
-  weight: ['300', '400', '500', '600', '700'],
-  preload: false,
-  subsets: ['latin']
+const myFont = localFont({
+  src: './fonts/Montserrat-VariableFont_wght.ttf',
+  display: 'swap',
 })
 
 export default function RootLayout({
@@ -24,20 +17,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="es" className={myFont.className}>
       <body>
         <SessionProvider>
           <ThemeProvider attribute='class'>
             <Navbar>
               <LeftMenu>
-                <style jsx global>{`
-                  p, span, button, a, input, textarea, select, td {
-                    font-family: ${poppins.style.fontFamily};
-                  }
-                  h1, h2, h3, h4, h5, th {
-                    font-family: ${montserrat.style.fontFamily};
-                  }
-                `}</style>
                 {children}
               </LeftMenu>
             </Navbar>
