@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import axios from 'axios'
-import { IPage } from '@/interfaces'
+import { ICategory, IPage, IProduct } from '@/interfaces'
 
 interface Props {
     edit: any
@@ -10,9 +10,11 @@ interface Props {
     setPages: any
     index: number
     i: number
+    categories: ICategory[]
+    productsOrder: IProduct[] | undefined
 }
 
-export const Bloque5: React.FC<Props> = ({ edit, design, pages, setPages, index, i }) => {
+export const Bloque5: React.FC<Props> = ({ edit, design, pages, setPages, index, i, categories, productsOrder }) => {
   return (
     <div className="w-full flex py-24 px-2">
                                                 <div className="w-full text-center max-w-[1600px] m-auto flex flex-col gap-4">
@@ -67,11 +69,28 @@ export const Bloque5: React.FC<Props> = ({ edit, design, pages, setPages, index,
                                                                   setPages(oldPages)
                                                                 }} className='font-medium text-sm lg:text-[16px] w-32 bg-main rounded border border-neutral-500' />
                                                               </div>
-                                                              <input type='text' placeholder='Link boton 1' value={design.info.buttonLink} onChange={(e: any) => {
+                                                              <select value={design.info.buttonLink} onChange={(e: any) => {
                                                                 const oldPages = [...pages]
                                                                 oldPages[i].design[index].info.buttonLink = e.target.value
                                                                 setPages(oldPages)
-                                                              }} className='font-medium text-sm lg:text-[16px] p-1.5 rounded border' />
+                                                              }} className='rounded border w-full'>
+                                                                <option>Seleccionar pagina</option>
+                                                                {
+                                                                  pages.map(page => (
+                                                                    <option key={page.slug}>/{page.slug}</option>
+                                                                  ))
+                                                                }
+                                                                {
+                                                                  categories.map(category => (
+                                                                    <option key={category._id}>/tienda/{category.slug}</option>
+                                                                  ))
+                                                                }
+                                                                {
+                                                                  productsOrder?.map(product => (
+                                                                    <option key={product._id}>/tienda/{product.category.slug}/{product.slug}</option>
+                                                                  ))
+                                                                }
+                                                              </select>
                                                             </div>
                                                           </div>
                                                           <div className="w-1/2 flex flex-col gap-2">
@@ -93,11 +112,28 @@ export const Bloque5: React.FC<Props> = ({ edit, design, pages, setPages, index,
                                                                   setPages(oldPages)
                                                                 }} className='font-medium text-sm lg:text-[16px] w-32 bg-main rounded border border-neutral-500' />
                                                               </div>
-                                                              <input type='text' placeholder='Link boton 2' value={design.info.buttonLink2} onChange={(e: any) => {
+                                                              <select value={design.info.buttonLink2} onChange={(e: any) => {
                                                                 const oldPages = [...pages]
                                                                 oldPages[i].design[index].info.buttonLink2 = e.target.value
                                                                 setPages(oldPages)
-                                                              }} className='font-medium text-sm lg:text-[16px] p-1.5 rounded border' />
+                                                              }} className='rounded border w-full'>
+                                                                <option>Seleccionar pagina</option>
+                                                                {
+                                                                  pages.map(page => (
+                                                                    <option key={page.slug}>/{page.slug}</option>
+                                                                  ))
+                                                                }
+                                                                {
+                                                                  categories.map(category => (
+                                                                    <option key={category._id}>/tienda/{category.slug}</option>
+                                                                  ))
+                                                                }
+                                                                {
+                                                                  productsOrder?.map(product => (
+                                                                    <option key={product._id}>/tienda/{product.category.slug}/{product.slug}</option>
+                                                                  ))
+                                                                }
+                                                              </select>
                                                             </div>
                                                           </div>
                                                         </div>

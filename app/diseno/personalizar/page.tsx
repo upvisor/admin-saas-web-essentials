@@ -492,19 +492,19 @@ export default function Page () {
                           <div key={index}>
                             {
                                 design.content === 'Carrusel'
-                                  ? <Slider design={design} edit={edit} pages={pages} setPages={setPages} index={index} ind={i} />
+                                  ? <Slider design={design} edit={edit} pages={pages} setPages={setPages} index={index} ind={i} categories={categories} productsOrder={productsOrder} />
                                   : design.content === 'Categorias'
                                     ? <Categories edit={edit} categories={categories} pages={pages} setPages={setPages} setMouse={setMouse} design={design} index={index} mouse={mouse} i={i} />
                                     : design.content === 'Bloque 1'
-                                      ? <Bloque1 edit={edit} pages={pages} setPages={setPages} design={design} index={index} i={i} />
+                                      ? <Bloque1 edit={edit} pages={pages} setPages={setPages} design={design} index={index} i={i} categories={categories} productsOrder={productsOrder} />
                                       : design.content === 'Bloque 2'
-                                        ? <Bloque2 edit={edit} design={design} pages={pages} setPages={setPages} index={index} i={i} />
+                                        ? <Bloque2 edit={edit} design={design} pages={pages} setPages={setPages} index={index} i={i} categories={categories} productsOrder={productsOrder} />
                                         : design.content === 'Bloque 3'
-                                          ? <Bloque3 edit={edit} design={design} index={index} pages={pages} setPages={setPages} i={i} />
+                                          ? <Bloque3 edit={edit} design={design} index={index} pages={pages} setPages={setPages} i={i} categories={categories} productsOrder={productsOrder} />
                                           : design.content === 'Bloque 4'
-                                            ? <Bloque4 edit={edit} design={design} pages={pages} setPages={setPages} index={index} i={i} />
+                                            ? <Bloque4 edit={edit} design={design} pages={pages} setPages={setPages} index={index} i={i} categories={categories} productsOrder={productsOrder} />
                                             : design.content === 'Bloque 5'
-                                              ? <Bloque5 edit={edit} design={design} pages={pages} setPages={setPages} index={index} i={i} />
+                                              ? <Bloque5 edit={edit} design={design} pages={pages} setPages={setPages} index={index} i={i} categories={categories} productsOrder={productsOrder} />
                                               : design.content === 'Productos'
                                                 ? <Products edit={edit} order={order} setOrder={setOrder} productsOrder={productsOrder} setPages={setPages} design={design} categories={categories} pages={pages} index={index} i={i} />
                                                 : design.content === 'Contacto'

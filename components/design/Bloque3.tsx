@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import Image from 'next/image'
-import { IPage } from '@/interfaces'
+import { ICategory, IPage, IProduct } from '@/interfaces'
 
 interface Props {
     edit: any
@@ -10,9 +10,11 @@ interface Props {
     pages: IPage[]
     setPages: any
     i: number
+    categories: ICategory[]
+    productsOrder: IProduct[] | undefined
 }
 
-export const Bloque3: React.FC<Props> = ({ edit, design, index, pages, setPages, i }) => {
+export const Bloque3: React.FC<Props> = ({ edit, design, index, pages, setPages, i, categories, productsOrder }) => {
   return (
     <div className="w-full flex py-24 px-2">
                                             <div className="text-center m-auto max-w-[1600px] w-full flex flex-col gap-4">
@@ -50,11 +52,28 @@ export const Bloque3: React.FC<Props> = ({ edit, design, index, pages, setPages,
                                                             setPages(oldPages)
                                                           }} className='font-medium text-sm lg:text-[16px] bg-main rounded border border-neutral-500' />
                                                         </div>
-                                                        <input type='text' placeholder='Link boton' value={design.info.buttonLink} onChange={(e: any) => {
+                                                        <select value={design.info.buttonLink} onChange={(e: any) => {
                                                           const oldPages = [...pages]
                                                           oldPages[i].design[index].info.buttonLink = e.target.value
                                                           setPages(oldPages)
-                                                        }} className='font-medium text-sm lg:text-[16px] p-1.5 rounded border' />
+                                                        }} className='rounded border w-full'>
+                                                          <option>Seleccionar pagina</option>
+                                                          {
+                                                             pages.map(page => (
+                                                              <option key={page.slug}>/{page.slug}</option>
+                                                            ))
+                                                          }
+                                                          {
+                                                            categories.map(category => (
+                                                              <option key={category._id}>/tienda/{category.slug}</option>
+                                                            ))
+                                                          }
+                                                          {
+                                                            productsOrder?.map(product => (
+                                                              <option key={product._id}>/tienda/{product.category.slug}/{product.slug}</option>
+                                                            ))
+                                                          }
+                                                        </select>
                                                       </div>
                                                       {
                                                         design.info?.image?.url && design.info.image.url !== ''

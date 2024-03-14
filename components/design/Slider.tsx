@@ -6,17 +6,20 @@ import "swiper/css/pagination"
 import styles from "./Slider.module.css"
 import { Navigation, Pagination } from "swiper/modules"
 import axios from 'axios'
+import { ICategory, IPage, IProduct } from '@/interfaces'
 
 interface Props {
     design: any
     edit: any
-    pages: any
+    pages: IPage[]
     setPages: any
     index: number
     ind: number
+    categories: ICategory[]
+    productsOrder: IProduct[] | undefined
 }
 
-export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, ind }) => {
+export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, ind, categories, productsOrder }) => {
   return (
     <div>
                                       <Swiper
@@ -75,13 +78,28 @@ export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, 
                                                                   }
                                                                 }} />
                                                               </div>
-                                                              <input type='text' placeholder='Link boton' className='p-1.5 border rounded' value={banner.buttonLink} onChange={(e: any) => {
+                                                              <select value={banner.buttonLink} onChange={(e: any) => {
                                                                 const oldPages = [...pages]
-                                                                if (oldPages[ind].design[index].info.banner?.length) {
-                                                                  oldPages[ind].design[index].info.banner![i].buttonLink = e.target.value
-                                                                  setPages(oldPages)
+                                                                oldPages[ind].design[index].info.banner![i].buttonLink = e.target.value
+                                                                setPages(oldPages)
+                                                              }} className='rounded'>
+                                                                <option>Seleccionar pagina</option>
+                                                                {
+                                                                  pages.map(page => (
+                                                                    <option key={page.slug}>/{page.slug}</option>
+                                                                  ))
                                                                 }
-                                                              }} />
+                                                                {
+                                                                  categories.map(category => (
+                                                                    <option key={category._id}>/tienda/{category.slug}</option>
+                                                                  ))
+                                                                }
+                                                                {
+                                                                  productsOrder?.map(product => (
+                                                                    <option key={product._id}>/tienda/{product.category.slug}/{product.slug}</option>
+                                                                  ))
+                                                                }
+                                                              </select>
                                                             </div>
                                                             <input type='file' className='m-auto text-white text-sm block w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/40 file:text-white hover:file:bg-main/20' onChange={async (e: any) => {
                                                               const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/product-image-upload`, { image: e.target.files[0] }, {

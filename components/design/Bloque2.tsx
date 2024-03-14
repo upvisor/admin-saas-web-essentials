@@ -1,17 +1,20 @@
 import axios from 'axios'
 import React from 'react'
 import Image from 'next/image'
+import { ICategory, IPage, IProduct } from '@/interfaces'
 
 interface Props {
     edit: any
     design: any
-    pages: any
+    pages: IPage[]
     setPages: any
     index: number
     i: number
+    categories: ICategory[]
+    productsOrder: IProduct[] | undefined
 }
 
-export const Bloque2: React.FC<Props> = ({ edit, design, pages, setPages, index, i }) => {
+export const Bloque2: React.FC<Props> = ({ edit, design, pages, setPages, index, i, categories, productsOrder }) => {
   return (
     <div className="w-full flex py-24 px-2">
                                           <div className="w-full flex max-w-[1600px] m-auto">
@@ -73,11 +76,28 @@ export const Bloque2: React.FC<Props> = ({ edit, design, pages, setPages, index,
                                                             setPages(oldPages)
                                                           }} className='font-medium text-sm lg:text-[16px] bg-main rounded border border-neutral-500' />
                                                         </div>
-                                                        <input type='text' placeholder='Link boton' value={design.info.buttonLink} onChange={(e: any) => {
+                                                        <select value={design.info.buttonLink} onChange={(e: any) => {
                                                           const oldPages = [...pages]
                                                           oldPages[i].design[index].info.buttonLink = e.target.value
                                                           setPages(oldPages)
-                                                        }} className='font-medium text-sm lg:text-[16px] p-1.5 rounded border' />
+                                                        }} className='rounded border w-full'>
+                                                          <option>Seleccionar pagina</option>
+                                                          {
+                                                             pages.map(page => (
+                                                              <option key={page.slug}>/{page.slug}</option>
+                                                            ))
+                                                          }
+                                                          {
+                                                            categories.map(category => (
+                                                              <option key={category._id}>/tienda/{category.slug}</option>
+                                                            ))
+                                                          }
+                                                          {
+                                                            productsOrder?.map(product => (
+                                                              <option key={product._id}>/tienda/{product.category.slug}/{product.slug}</option>
+                                                            ))
+                                                          }
+                                                        </select>
                                                       </div>
                                                     </div>
                                                   </>
