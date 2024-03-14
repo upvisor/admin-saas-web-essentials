@@ -9,6 +9,12 @@ import Image from 'next/image'
 import { Bloque1, Bloque2, Bloque3, Bloque4, Bloque5, Bloque6, Categories, Contact, Layout, Products, Slider, Subscription } from '@/components/design'
 import { Spinner2 } from '@/components/ui'
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
+import { Swiper, SwiperSlide } from "swiper/react"
+import "swiper/css"
+import "swiper/css/pagination"
+import styles from  "./Slider.module.css"
+import { Pagination } from "swiper/modules"
+import { NumberFormat } from '@/utils'
 
 export default function Page () {
 
@@ -160,6 +166,20 @@ export default function Page () {
     const nuevoArray = [...pages]
     nuevoArray.splice(index, 1)
     setPages(nuevoArray)
+  }
+
+  const moveBlock = (pageIndex: number, blockIndex: number, direction: 'up' | 'down') => {
+    const updatedPages = [...pages]
+    const blocks = updatedPages[pageIndex].design
+    const temp = blocks[blockIndex]
+    if (direction === 'up' && blockIndex > 0) {
+      blocks[blockIndex] = blocks[blockIndex - 1]
+      blocks[blockIndex - 1] = temp
+    } else if (direction === 'down' && blockIndex < blocks.length - 1) {
+      blocks[blockIndex] = blocks[blockIndex + 1]
+      blocks[blockIndex + 1] = temp
+    }
+    setPages(updatedPages)
   }
 
   return (
@@ -339,6 +359,30 @@ export default function Page () {
               <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703535992/Upvisor/Bloque_6_odkcmf.png' />
               <p className="m-auto">Bloque 6</p>
             </div>
+            <div onClick={() => {
+              const oldPages = [...pages]
+              oldPages[indexPage].design.push({ content: 'Categorias 2', info: {} })
+              setPages(oldPages)
+              setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+              setTimeout(() => {
+                setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+              }, 200)
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
+              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710351770/Upvisor/asd_mpwht8.png' />
+              <p className="m-auto">Categorias 2</p>
+            </div>
+            <div onClick={() => {
+              const oldPages = [...pages]
+              oldPages[indexPage].design.push({ content: 'Carrusel productos', info: {} })
+              setPages(oldPages)
+              setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+              setTimeout(() => {
+                setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+              }, 200)
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
+              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710383750/Upvisor/asssss_nwh16c.png' />
+              <p className="m-auto">Carrusel productos</p>
+            </div>
           </div>
         </div>
       </div>
@@ -469,9 +513,58 @@ export default function Page () {
                                                     ? <Subscription edit={edit} pages={pages} setPages={setPages} index={index} design={design} i={i} />
                                                     : design.content === 'Bloque 6'
                                                       ? <Bloque6 edit={edit} pages={pages} setPages={setPages} design={design} index={index} i={i} />
-                                                      : 'Error'
+                                                      : design.content === 'Categorias 2'
+                                                        ? (
+                                                          <div className="w-full flex px-4 overflow-y-auto">
+                                                            <div className="max-w-[1600px] m-auto flex gap-4">
+                                                              <Link className={`hover:border-black transition-colors duration-200 py-1 px-4 border`} href='/tienda'>Todos los productos</Link>
+                                                              {
+                                                                categories.map(category => (
+                                                                  <Link key={category._id} className={`hover:border-black py-1 px-4 border transition-colors duration-200`} href={`/tienda/${category.slug}`}>{ category.category }</Link>
+                                                                ))
+                                                              }
+                                                            </div>
+                                                          </div>
+                                                        )
+                                                        : design.content === 'Carrusel productos'
+                                                          ? (
+                                                            <div className='flex w-full p-4'>
+                                                              <div className='m-auto w-full max-w-[1600px] relative items-center'>
+                                                                <h2>{ design.info.title }</h2>
+                                                                <Swiper
+                                                                  className={styles.mySwiper}
+                                                                  slidesPerView={window.innerWidth > 1100 ? 4 : window.innerWidth > 850 ? 3 : 2}
+                                                                  pagination={{
+                                                                    clickable: true,
+                                                                  }}
+                                                                  modules={[Pagination]}
+                                                                >
+                                                                  {
+                                                                    productsOrder?.map(product => (
+                                                                      <SwiperSlide key={product._id} className='m-auto'>
+                                                                        <div className="flex flex-col gap-1 m-auto w-40 lg:w-60">
+                                                                          <Link className="w-fit" href=''><Image className="w-40 lg:w-60 rounded-lg" src={product.images[0].url} alt={`Imagen producto ${product.name}`} width={500} height={500} /></Link>
+                                                                          <Link href={`/tienda/${product.category.slug}/${product.slug}`}><p className="font-medium text-sm lg:text-[16px]">{product.name}</p></Link>
+                                                                          <div className="flex gap-2">
+                                                                            <p className="text-sm lg:text-[16px]">${NumberFormat(product.price)}</p>
+                                                                            {
+                                                                              product.beforePrice
+                                                                                ? <p className="text-xs lg:text-sm line-through">${NumberFormat(product.beforePrice)}</p>
+                                                                                : ''
+                                                                            }
+                                                                          </div>
+                                                                        </div>
+                                                                        <div className='h-8' />
+                                                                      </SwiperSlide>
+                                                                    ))
+                                                                  }
+                                                                </Swiper>
+                                                              </div>
+                                                            </div>
+                                                          )
+                                                          : 'Error'
                                 }
-                                <div className=' m-auto mt-2 mb-6 flex gap-4'>
+                                <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>
                                   <p className='my-auto font-medium'>{design.content}</p>
                                   {
                                     edit === design.content
@@ -483,6 +576,8 @@ export default function Page () {
                                     oldPages[i].design.splice(index, 1)
                                     setPages(oldPages)
                                   }} className='p-1.5 border border-red-600 bg-red-600 text-white rounded transition-colors duration-200 hover:bg-transparent hover:text-red-600'>Eliminar</button>
+                                  <button onClick={() => moveBlock(i, index, 'up')}><SlArrowUp className='text-lg' /></button>
+                                  <button onClick={() => moveBlock(i, index, 'down')}><SlArrowDown className='text-lg' /></button>
                                 </div>
                           </div>
                         ))
