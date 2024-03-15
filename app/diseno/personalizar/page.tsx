@@ -36,7 +36,7 @@ export default function Page () {
       header: true,
       design: [
         { content: 'Bloque 6', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', image: { public_id: '', url: '' } } },
-        { content: 'Productos', info: { title: '' } },
+        { content: 'Productos', info: {} },
         { content: 'Suscripción', info: { title: 'Suscribete a nuestra lista' } }
       ]
     },
@@ -373,7 +373,7 @@ export default function Page () {
             </div>
             <div onClick={() => {
               const oldPages = [...pages]
-              oldPages[indexPage].design.push({ content: 'Carrusel productos', info: {} })
+              oldPages[indexPage].design.push({ content: 'Carrusel productos', info: { title: 'Lorem ipsum', products: 'Todos' } })
               setPages(oldPages)
               setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
               setTimeout(() => {
@@ -529,36 +529,94 @@ export default function Page () {
                                                         : design.content === 'Carrusel productos'
                                                           ? (
                                                             <div className='flex w-full p-4'>
-                                                              <div className='m-auto w-full max-w-[1600px] relative items-center'>
-                                                                <h2>{ design.info.title }</h2>
-                                                                <Swiper
-                                                                  className={styles.mySwiper}
-                                                                  slidesPerView={window.innerWidth > 1100 ? 4 : window.innerWidth > 850 ? 3 : 2}
-                                                                  pagination={{
-                                                                    clickable: true,
-                                                                  }}
-                                                                  modules={[Pagination]}
-                                                                >
-                                                                  {
-                                                                    productsOrder?.map(product => (
-                                                                      <SwiperSlide key={product._id} className='m-auto'>
-                                                                        <div className="flex flex-col gap-1 m-auto w-40 lg:w-60">
-                                                                          <Link className="w-fit" href=''><Image className="w-40 lg:w-60 rounded-lg" src={product.images[0].url} alt={`Imagen producto ${product.name}`} width={500} height={500} /></Link>
-                                                                          <Link href={`/tienda/${product.category.slug}/${product.slug}`}><p className="font-medium text-sm lg:text-[16px]">{product.name}</p></Link>
-                                                                          <div className="flex gap-2">
-                                                                            <p className="text-sm lg:text-[16px]">${NumberFormat(product.price)}</p>
-                                                                            {
-                                                                              product.beforePrice
-                                                                                ? <p className="text-xs lg:text-sm line-through">${NumberFormat(product.beforePrice)}</p>
-                                                                                : ''
-                                                                            }
-                                                                          </div>
-                                                                        </div>
-                                                                        <div className='h-8' />
-                                                                      </SwiperSlide>
-                                                                    ))
-                                                                  }
-                                                                </Swiper>
+                                                              <div className='m-auto w-full max-w-[1600px] relative flex flex-col gap-2'>
+                                                              {
+                                                                edit === 'Carrusel productos'
+                                                                  ? (
+                                                                    <>
+                                                                      <input type='text' placeholder='Titulo' className='text-[20px] font-medium lg:text-[24px] border p-1.5 rounded w-[800px]' value={design.info.title} onChange={(e: any) => {
+                                                                        const oldPages = [...pages]
+                                                                        oldPages[i].design[index].info.title = e.target.value
+                                                                        setPages(oldPages)
+                                                                      }} />
+                                                                      <Swiper
+                                                                        className={`${styles.mySwiper} w-full`}
+                                                                        slidesPerView={window.innerWidth > 1100 ? 4 : window.innerWidth > 850 ? 3 : 2}
+                                                                        pagination={{
+                                                                          clickable: true,
+                                                                        }}
+                                                                        modules={[Pagination]}
+                                                                      >
+                                                                        {
+                                                                          productsOrder?.map(product => (
+                                                                            <SwiperSlide key={product._id} className='m-auto'>
+                                                                              <div className="flex flex-col gap-1 m-auto w-40 lg:w-60">
+                                                                                <Link className="w-fit" href=''><Image className="w-40 lg:w-60 rounded-lg" src={product.images[0].url} alt={`Imagen producto ${product.name}`} width={500} height={500} /></Link>
+                                                                                <Link href={`/tienda/${product.category.slug}/${product.slug}`}><p className="font-medium text-sm lg:text-[16px]">{product.name}</p></Link>
+                                                                                <div className="flex gap-2">
+                                                                                  <p className="text-sm lg:text-[16px]">${NumberFormat(product.price)}</p>
+                                                                                  {
+                                                                                    product.beforePrice
+                                                                                      ? <p className="text-xs lg:text-sm line-through">${NumberFormat(product.beforePrice)}</p>
+                                                                                      : ''
+                                                                                  }
+                                                                                </div>
+                                                                              </div>
+                                                                              <div className='h-8' />
+                                                                            </SwiperSlide>
+                                                                          ))
+                                                                        }
+                                                                      </Swiper>
+                                                                      <select onChange={(e: any) => {
+                                                                        const oldPages = [...pages]
+                                                                        oldPages[i].design[index].info.products = e.target.value
+                                                                        setPages(oldPages)
+                                                                      }} value={design.info.products} className='p-1.5 rounded border text-sm focus:outline-none w-full focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600'>
+                                                                        <option>Seleccionar productos</option>
+                                                                        <option>Todos</option>
+                                                                        <option>Productos en oferta</option>
+                                                                        {
+                                                                          categories.map(category => (
+                                                                            <option key={category._id}>{category.category}</option>
+                                                                          ))
+                                                                        }
+                                                                      </select>
+                                                                    </>
+                                                                  )
+                                                                  : (
+                                                                    <>
+                                                                      <h2 className="text-[20px] font-medium lg:text-[24px]">{ design.info.title }</h2>
+                                                                      <Swiper
+                                                                        className={`${styles.mySwiper} w-full`}
+                                                                        slidesPerView={window.innerWidth > 1100 ? 4 : window.innerWidth > 850 ? 3 : 2}
+                                                                        pagination={{
+                                                                          clickable: true,
+                                                                        }}
+                                                                        modules={[Pagination]}
+                                                                      >
+                                                                        {
+                                                                          productsOrder?.map(product => (
+                                                                            <SwiperSlide key={product._id} className='m-auto'>
+                                                                              <div className="flex flex-col gap-1 m-auto w-40 lg:w-60">
+                                                                                <Link className="w-fit" href=''><Image className="w-40 lg:w-60 rounded-lg" src={product.images[0].url} alt={`Imagen producto ${product.name}`} width={500} height={500} /></Link>
+                                                                                <Link href={`/tienda/${product.category.slug}/${product.slug}`}><p className="font-medium text-sm lg:text-[16px]">{product.name}</p></Link>
+                                                                                <div className="flex gap-2">
+                                                                                  <p className="text-sm lg:text-[16px]">${NumberFormat(product.price)}</p>
+                                                                                  {
+                                                                                    product.beforePrice
+                                                                                      ? <p className="text-xs lg:text-sm line-through">${NumberFormat(product.beforePrice)}</p>
+                                                                                      : ''
+                                                                                  }
+                                                                                </div>
+                                                                              </div>
+                                                                              <div className='h-8' />
+                                                                            </SwiperSlide>
+                                                                          ))
+                                                                        }
+                                                                      </Swiper>
+                                                                    </>
+                                                                  )
+                                                              }
                                                               </div>
                                                             </div>
                                                           )
