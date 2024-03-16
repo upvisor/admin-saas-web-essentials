@@ -1,6 +1,6 @@
 import React from 'react'
 import { ProductCard } from '.'
-import { ICategory, IPage, IProduct } from '@/interfaces'
+import { ICategory, ICategoryPage, IPage, IProduct } from '@/interfaces'
 
 interface Props {
     edit: any
@@ -10,12 +10,13 @@ interface Props {
     setPages: any
     design: any
     categories: ICategory[]
-    pages: IPage[]
+    pages: IPage[] | ICategoryPage[]
     index: number
     i: number
+    editInfo?: boolean
 }
 
-export const Products: React.FC<Props> = ({ edit, order, setOrder, productsOrder, setPages, design, categories, pages, index, i }) => {
+export const Products: React.FC<Props> = ({ edit, order, setOrder, productsOrder, setPages, design, categories, pages, index, i, editInfo }) => {
   return (
     <div className='px-2'>
                                                   <div className="w-full flex">

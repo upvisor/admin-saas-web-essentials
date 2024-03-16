@@ -1,9 +1,29 @@
+export interface Design {
+    header: IHeader
+    pages: IPage[]
+    productPage: IProductPage
+    categoryPage: ICategoryPage[]
+}
+
+export interface IHeader {
+    topStrip: string
+}
+
 export interface IPage {
     page: string
     slug: string
     header: boolean
     metaTitle?: string
     metaDescription?: string
+    design: IDesign[]
+}
+
+export interface IProductPage {
+    title: string
+    text: string
+}
+
+export interface ICategoryPage {
     design: IDesign[]
 }
 

@@ -1,20 +1,21 @@
 import React from 'react'
 import Image from 'next/image'
 import axios from 'axios'
-import { ICategory, IPage, IProduct } from '@/interfaces'
+import { ICategory, ICategoryPage, IPage, IProduct } from '@/interfaces'
 
 interface Props {
     edit: any
     design: any
-    pages: IPage[]
+    pages: IPage[] | ICategoryPage[]
     setPages: any
     index: number
     i: number
     categories: ICategory[]
     productsOrder: IProduct[] | undefined
+    pageNeed: IPage[]
 }
 
-export const Bloque5: React.FC<Props> = ({ edit, design, pages, setPages, index, i, categories, productsOrder }) => {
+export const Bloque5: React.FC<Props> = ({ edit, design, pages, setPages, index, i, categories, productsOrder, pageNeed }) => {
   return (
     <div className="w-full flex py-24 px-2">
                                                 <div className="w-full text-center max-w-[1600px] m-auto flex flex-col gap-4">
@@ -76,7 +77,7 @@ export const Bloque5: React.FC<Props> = ({ edit, design, pages, setPages, index,
                                                               }} className='rounded border w-full'>
                                                                 <option>Seleccionar pagina</option>
                                                                 {
-                                                                  pages.map(page => (
+                                                                  pageNeed.map(page => (
                                                                     <option key={page.slug}>/{page.slug}</option>
                                                                   ))
                                                                 }
@@ -119,7 +120,7 @@ export const Bloque5: React.FC<Props> = ({ edit, design, pages, setPages, index,
                                                               }} className='rounded border w-full'>
                                                                 <option>Seleccionar pagina</option>
                                                                 {
-                                                                  pages.map(page => (
+                                                                  pageNeed.map(page => (
                                                                     <option key={page.slug}>/{page.slug}</option>
                                                                   ))
                                                                 }

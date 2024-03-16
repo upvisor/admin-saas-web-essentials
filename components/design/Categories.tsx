@@ -1,11 +1,11 @@
-import { ICategory, IPage } from '@/interfaces'
+import { ICategory, ICategoryPage, IPage } from '@/interfaces'
 import React from 'react'
 import Image from 'next/image'
 
 interface Props {
     edit: any
     categories: ICategory[]
-    pages: IPage[]
+    pages: IPage[] | ICategoryPage[]
     setPages: any
     setMouse: any
     design: any

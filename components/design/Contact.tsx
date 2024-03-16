@@ -1,10 +1,10 @@
-import { IPage } from '@/interfaces'
+import { ICategoryPage, IPage } from '@/interfaces'
 import React from 'react'
 
 interface Props {
     edit: any
     design: any
-    pages: IPage[]
+    pages: IPage[] | ICategoryPage[]
     setPages: any
     index: number
     i: number

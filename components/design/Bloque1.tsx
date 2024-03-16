@@ -1,20 +1,21 @@
 import axios from 'axios'
 import React from 'react'
 import Image from 'next/image'
-import { ICategory, IPage, IProduct } from '@/interfaces'
+import { ICategory, ICategoryPage, IPage, IProduct } from '@/interfaces'
 
 interface Props {
     edit: any
-    pages: IPage[]
+    pages: IPage[] | ICategoryPage[]
     setPages: any
     design: any
     index: number
     i: number
     categories: ICategory[]
     productsOrder: IProduct[] | undefined
+    pageNeed: IPage[]
 }
 
-export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index, i, categories, productsOrder }) => {
+export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index, i, categories, productsOrder, pageNeed }) => {
   return (
     <div className="w-full flex py-24 px-2">
                                         <div className="w-full flex max-w-[1600px] m-auto gap-8">
@@ -64,7 +65,7 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                                                       }} className='rounded border'>
                                                         <option>Seleccionar pagina</option>
                                                         {
-                                                          pages.map(page => (
+                                                          pageNeed.map(page => (
                                                             <option key={page.slug}>/{page.slug}</option>
                                                           ))
                                                         }

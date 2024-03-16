@@ -6,20 +6,21 @@ import "swiper/css/pagination"
 import styles from "./Slider.module.css"
 import { Navigation, Pagination } from "swiper/modules"
 import axios from 'axios'
-import { ICategory, IPage, IProduct } from '@/interfaces'
+import { ICategory, ICategoryPage, IPage, IProduct } from '@/interfaces'
 
 interface Props {
     design: any
     edit: any
-    pages: IPage[]
+    pages: IPage[] | ICategoryPage[]
     setPages: any
     index: number
     ind: number
     categories: ICategory[]
     productsOrder: IProduct[] | undefined
+    pageNeed: IPage[]
 }
 
-export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, ind, categories, productsOrder }) => {
+export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, ind, categories, productsOrder, pageNeed }) => {
   return (
     <div>
                                       <Swiper
@@ -85,7 +86,7 @@ export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, 
                                                               }} className='rounded'>
                                                                 <option>Seleccionar pagina</option>
                                                                 {
-                                                                  pages.map(page => (
+                                                                  pageNeed.map(page => (
                                                                     <option key={page.slug}>/{page.slug}</option>
                                                                   ))
                                                                 }
