@@ -21,6 +21,8 @@ export interface IPage {
 export interface IProductPage {
     title: string
     text: string
+    reviews: boolean
+    design: IDesign[]
 }
 
 export interface ICategoryPage {

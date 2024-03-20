@@ -1,12 +1,12 @@
 "use client"
-import { ICategory, ICategoryPage, IPage, IProduct, IStoreData } from '@/interfaces'
+import { ICategory, ICategoryPage, IPage, IProduct, IProductPage, IStoreData } from '@/interfaces'
 import axios from 'axios'
 import Head from 'next/head'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import Image from 'next/image'
-import { Bloque1, Bloque2, Bloque3, Bloque4, Bloque5, Bloque6, Categories, Contact, Layout, Products, Slider, Subscription } from '@/components/design'
+import { Bloque1, Bloque2, Bloque3, Bloque4, Bloque5, Bloque6, Categories, Contact, Layout, PageProduct, Products, Slider, Subscription } from '@/components/design'
 import { Spinner2 } from '@/components/ui'
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -53,7 +53,10 @@ export default function Page () {
     }
   ])
   const [header, setHeader] = useState({ topStrip: 'Lorem ipsum dolor sit amet consectetur' })
-  const [productPage, setProductPage] = useState({ title: 'Lorem ipsum', text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' })
+  const [productPage, setProductPage] = useState<IProductPage[]>([{ reviews: true, title: '', text: '', design: [
+    { content: 'Carrusel productos', info: { title: 'Lorem ipsum', products: 'Todos' } },
+    { content: 'Suscripción', info: { title: 'Suscribete a nuestra lista' } }
+  ] }])
   const [categoryPage, setCategoryPage] = useState<ICategoryPage[]>([{ 
     design: [
       { content: 'Bloque 6', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', image: { public_id: '', url: '' } } },
@@ -95,6 +98,8 @@ export default function Page () {
     if (res.data.pages) {
       setPages(res.data.pages)
       setHeader(res.data.header)
+      setProductPage(res.data.productPage)
+      setCategoryPage(res.data.categoryPage)
     }
   }
 
@@ -658,6 +663,31 @@ export default function Page () {
                     <button onClick={() => setPart('')} className='flex gap-2 pt-1 pb-1 pl-2 pr-2 rounded transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl my-auto' /><p className='my-auto'>Volver</p></button>
                   </div>
                   <h2 className='text-lg font-medium'>Pagina de producto</h2>
+                  <div className='flex gap-2'>
+                    <input type='checkbox' checked={productPage[0].reviews} onChange={(e: any) => {
+                      const beforeProductPage = [...productPage]
+                      beforeProductPage[0].reviews = e.target.checked
+                      setProductPage(beforeProductPage)
+                    }} />
+                    <p>Activar reseñas</p>
+                  </div>
+                  <p className='font-medium'>Agregar zona informativa</p>
+                  <div className='flex flex-col gap-2'>
+                    <p>titulo</p>
+                    <input type='text' placeholder='Titulo' value={productPage[0].title} onChange={(e: any) => {
+                      const beforeProductPage = [...productPage]
+                      beforeProductPage[0].title = e.target.value
+                      setProductPage(beforeProductPage)
+                    }} className='border p-1.5 rounded text-sm focus:outline-none focus:border-main' />
+                  </div>
+                  <div className='flex flex-col gap-2'>
+                    <p>Descripción</p>
+                    <textarea  placeholder='Descripción' value={productPage[0].text} onChange={(e: any) => {
+                      const beforeProductPage = [...productPage]
+                      beforeProductPage[0].text = e.target.value
+                      setProductPage(beforeProductPage)
+                    }} className='border p-1.5 rounded text-sm h-20 focus:outline-none focus:border-main' />
+                  </div>
                 </div>
               )
               : ''
@@ -888,9 +918,193 @@ export default function Page () {
         }
         {
           part === 'Pagina de producto'
-            ? (
-              <></>
-            )
+            ? productPage.map((page, i) => (
+              <div key={i} className='overflow-auto' style={{ width: 'calc(100% - 350px)' }}>
+                <Layout edit={edit} setEdit={setEdit} setHeader={setHeader} header={header} setPart={setPart} setNavCategoriesOpacity={setNavCategoriesOpacity} setMouseEnter={setMouseEnter} navCategoriesOpacity={navCategoriesOpacity} categories={categories} pages={pages}>
+                  <PageProduct productsOrder={productsOrder} productPage={productPage} />
+                  {
+                      page.design.length
+                        ? page.design.map((design, index) => (
+                          <div key={index}>
+                            {
+                                design.content === 'Carrusel'
+                                  ? <Slider design={design} edit={edit} pages={productPage} setPages={setProductPage} index={index} ind={i} categories={categories} productsOrder={productsOrder} pageNeed={pages} />
+                                  : design.content === 'Categorias'
+                                    ? <Categories edit={edit} categories={categories} pages={productPage} setPages={setProductPage} setMouse={setMouse} design={design} index={index} mouse={mouse} i={i} />
+                                    : design.content === 'Bloque 1'
+                                      ? <Bloque1 edit={edit} pages={productPage} setPages={setProductPage} design={design} index={index} i={i} categories={categories} productsOrder={productsOrder} pageNeed={pages} />
+                                      : design.content === 'Bloque 2'
+                                        ? <Bloque2 edit={edit} design={design} pages={productPage} setPages={setProductPage} index={index} i={i} categories={categories} productsOrder={productsOrder} pageNeed={pages} />
+                                        : design.content === 'Bloque 3'
+                                          ? <Bloque3 edit={edit} design={design} index={index} pages={pages} setPages={setProductPage} i={i} categories={categories} productsOrder={productsOrder} pageNeed={pages} />
+                                          : design.content === 'Bloque 4'
+                                            ? <Bloque4 edit={edit} design={design} pages={productPage} setPages={setProductPage} index={index} i={i} categories={categories} productsOrder={productsOrder} pageNeed={pages} />
+                                            : design.content === 'Bloque 5'
+                                              ? <Bloque5 edit={edit} design={design} pages={productPage} setPages={setProductPage} index={index} i={i} categories={categories} productsOrder={productsOrder} pageNeed={pages} />
+                                              : design.content === 'Productos'
+                                                ? <Products edit={edit} order={order} setOrder={setOrder} productsOrder={productsOrder} setPages={setProductPage} design={design} categories={categories} pages={productPage} index={index} i={i} />
+                                                : design.content === 'Contacto'
+                                                  ? <Contact edit={edit} design={design} pages={productPage} setPages={setProductPage} index={index} i={i} />
+                                                  : design.content === 'Suscripción'
+                                                    ? <Subscription edit={edit} pages={productPage} setPages={setProductPage} index={index} design={design} i={i} />
+                                                    : design.content === 'Bloque 6'
+                                                      ? (
+                                                        <div className="w-full flex text-center" style={{ backgroundImage: `url(${design.info.image?.url})` }}>
+                                                          <div className="w-full max-w-[1280px] m-auto py-28 flex flex-col gap-2">
+                                                            <h1 className={`text-[25px] font-medium lg:text-[32px]`}>Nombre de la categoria</h1>
+                                                            <p className={`text-sm lg:text-[16px]`}>Descripción de la categoria</p>
+                                                          </div>
+                                                        </div>
+                                                      )
+                                                      : design.content === 'Categorias 2'
+                                                        ? (
+                                                          <div className="w-full flex px-4 overflow-y-auto">
+                                                            <div className="max-w-[1600px] m-auto flex gap-4">
+                                                              <Link className={`hover:border-black transition-colors duration-200 py-1 px-4 border`} href='/tienda'>Todos los productos</Link>
+                                                              {
+                                                                categories.map(category => (
+                                                                  <Link key={category._id} className={`hover:border-black py-1 px-4 border transition-colors duration-200`} href={`/tienda/${category.slug}`}>{ category.category }</Link>
+                                                                ))
+                                                              }
+                                                            </div>
+                                                          </div>
+                                                        )
+                                                        : design.content === 'Carrusel productos'
+                                                          ? (
+                                                            <div className='flex w-full p-4'>
+                                                              <div className='m-auto w-full max-w-[1600px] relative flex flex-col gap-2'>
+                                                              {
+                                                                edit === 'Carrusel productos'
+                                                                  ? (
+                                                                    <>
+                                                                      <input type='text' placeholder='Titulo' className='text-[20px] font-medium lg:text-[24px] border p-1.5 rounded w-[800px]' value={design.info.title} onChange={(e: any) => {
+                                                                        const oldPages = [...productPage]
+                                                                        oldPages[i].design[index].info.title = e.target.value
+                                                                        setProductPage(oldPages)
+                                                                      }} />
+                                                                      <Swiper
+                                                                        className={`${styles.mySwiper} w-full`}
+                                                                        slidesPerView={window.innerWidth > 1100 ? 4 : window.innerWidth > 850 ? 3 : 2}
+                                                                        pagination={{
+                                                                          clickable: true,
+                                                                        }}
+                                                                        modules={[Pagination]}
+                                                                      >
+                                                                        {
+                                                                          productsOrder?.map(product => (
+                                                                            <SwiperSlide key={product._id} className='m-auto'>
+                                                                              <div className="flex flex-col gap-1 m-auto w-40 lg:w-60">
+                                                                                <Link className="w-fit" href=''><Image className="w-40 lg:w-60 rounded-lg" src={product.images[0].url} alt={`Imagen producto ${product.name}`} width={500} height={500} /></Link>
+                                                                                <Link href={`/tienda/${product.category.slug}/${product.slug}`}><p className="font-medium text-sm lg:text-[16px]">{product.name}</p></Link>
+                                                                                <div className="flex gap-2">
+                                                                                  <p className="text-sm lg:text-[16px]">${NumberFormat(product.price)}</p>
+                                                                                  {
+                                                                                    product.beforePrice
+                                                                                      ? <p className="text-xs lg:text-sm line-through">${NumberFormat(product.beforePrice)}</p>
+                                                                                      : ''
+                                                                                  }
+                                                                                </div>
+                                                                              </div>
+                                                                              <div className='h-8' />
+                                                                            </SwiperSlide>
+                                                                          ))
+                                                                        }
+                                                                      </Swiper>
+                                                                      <select onChange={(e: any) => {
+                                                                        const oldPages = [...productPage]
+                                                                        oldPages[i].design[index].info.products = e.target.value
+                                                                        setProductPage(oldPages)
+                                                                      }} value={design.info.products} className='p-1.5 rounded border text-sm focus:outline-none w-full focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600'>
+                                                                        <option>Seleccionar productos</option>
+                                                                        <option>Productos con que contengan algun tag</option>
+                                                                        <option>Todos</option>
+                                                                        <option>Productos en oferta</option>
+                                                                        {
+                                                                          categories.map(category => (
+                                                                            <option key={category._id}>{category.category}</option>
+                                                                          ))
+                                                                        }
+                                                                      </select>
+                                                                    </>
+                                                                  )
+                                                                  : (
+                                                                    <>
+                                                                      <h2 className="text-[20px] font-medium lg:text-[24px]">{ design.info.title }</h2>
+                                                                      <Swiper
+                                                                        className={`${styles.mySwiper} w-full`}
+                                                                        slidesPerView={window.innerWidth > 1100 ? 4 : window.innerWidth > 850 ? 3 : 2}
+                                                                        pagination={{
+                                                                          clickable: true,
+                                                                        }}
+                                                                        modules={[Pagination]}
+                                                                      >
+                                                                        {
+                                                                          productsOrder?.map(product => (
+                                                                            <SwiperSlide key={product._id} className='m-auto'>
+                                                                              <div className="flex flex-col gap-1 m-auto w-40 lg:w-60">
+                                                                                <Link className="w-fit" href=''><Image className="w-40 lg:w-60 rounded-lg" src={product.images[0].url} alt={`Imagen producto ${product.name}`} width={500} height={500} /></Link>
+                                                                                <Link href={`/tienda/${product.category.slug}/${product.slug}`}><p className="font-medium text-sm lg:text-[16px]">{product.name}</p></Link>
+                                                                                <div className="flex gap-2">
+                                                                                  <p className="text-sm lg:text-[16px]">${NumberFormat(product.price)}</p>
+                                                                                  {
+                                                                                    product.beforePrice
+                                                                                      ? <p className="text-xs lg:text-sm line-through">${NumberFormat(product.beforePrice)}</p>
+                                                                                      : ''
+                                                                                  }
+                                                                                </div>
+                                                                              </div>
+                                                                              <div className='h-8' />
+                                                                            </SwiperSlide>
+                                                                          ))
+                                                                        }
+                                                                      </Swiper>
+                                                                    </>
+                                                                  )
+                                                              }
+                                                              </div>
+                                                            </div>
+                                                          )
+                                                          : 'Error'
+                                }
+                                <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>
+                                  <p className='my-auto font-medium'>{design.content}</p>
+                                  {
+                                    design.content === 'Productos' || design.content === 'Bloque 6'
+                                      ? ''
+                                      : edit === design.content
+                                        ? <button className='py-1.5 px-6 border border-main bg-main text-white rounded transition-colors duration-200 hover:bg-transparent hover:text-main' onClick={() => setEdit('')}>Guardar</button>
+                                        : <button className='py-1.5 px-6 border border-main bg-main text-white rounded transition-colors duration-200 hover:bg-transparent hover:text-main' onClick={() => setEdit(design.content)}>Editar</button>
+                                  }
+                                  {
+                                    design.content === 'Productos' || design.content === 'Bloque 6'
+                                      ? ''
+                                      : (
+                                        <button onClick={() => {
+                                          const oldCategoryPage = [...categoryPage]
+                                          oldCategoryPage[i].design.splice(index, 1)
+                                          setCategoryPage(oldCategoryPage)
+                                        }} className='p-1.5 border border-red-600 bg-red-600 text-white rounded transition-colors duration-200 hover:bg-transparent hover:text-red-600'>Eliminar</button>
+                                      )
+                                  }
+                                  <button onClick={() => moveBlock(i, index, 'up')}><SlArrowUp className='text-lg' /></button>
+                                  <button onClick={() => moveBlock(i, index, 'down')}><SlArrowDown className='text-lg' /></button>
+                                </div>
+                          </div>
+                        ))
+                        : (
+                          <div className='py-10 flex'>
+                            <button onClick={() => {
+                              setPopupCategory({ ...popupCategory, view: 'flex', opacity: 'opacity-0' })
+                              setTimeout(() => {
+                                setPopupCategory({ ...popupCategory, view: 'flex', opacity: 'opacity-1' })
+                              }, 10)
+                            }} className='m-auto bg-main border border-main transition-colors duration-200 rounded text-white px-8 py-2 hover:bg-transparent hover:text-main'>Agregar bloque de contenido</button>
+                          </div>
+                        )
+                    }
+                </Layout>
+              </div>
+            ))
             : ''
         }
         {
