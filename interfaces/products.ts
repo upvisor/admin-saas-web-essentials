@@ -52,13 +52,21 @@ export interface IProductOffer {
 
 export interface ITypeVariation {
   nameVariation: string
+  formatVariation: string
+  nameVariations: { variation: string, colorVariation?: string }[]
   nameSubVariation?: string
+  formatSubVariation?: string
+  nameSubVariations?: { subVariation: string, colorSubVariation?: string }[]
+  nameSubVariation2?: string
+  formatSubVariation2?: string
+  nameSubVariations2?: { subVariation2: string, colorSubVariation2?: string }[]
   variations: IVariation[]
 }
 
 export interface IVariation {
   variation: string
   subVariation?: string
+  subVariation2?: string
   stock: number
   image?: { public_id: string, url: string }
   sku?: string

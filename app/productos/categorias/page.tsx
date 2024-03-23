@@ -110,7 +110,12 @@ export default function Page () {
                           categories.map((category: any) => (
                             <tr key={category._id} className='border-b cursor-pointer transition-colors duration-150 w-full dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700'>
                               <td className='flex gap-2 p-2' onClick={() => router.push(`/productos/categorias/${category.slug}`)}>
-                                <img className='w-20' src={category.image?.url} alt={category.category} />
+                                {
+                                  category.image?.url && category.image.url !== ''
+                                    ? <img className='w-20' src={category.image?.url} alt={category.category} />
+                                    : <div className='w-20 h-20' />
+                                }
+                                
                                 <div className='mt-auto mb-auto w-full'>
                                   <p>{category.category}</p>
                                 </div>

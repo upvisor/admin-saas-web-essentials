@@ -23,7 +23,7 @@ export default function Page () {
     tags: [],
     titleSeo: '',
     descriptionSeo: '',
-    variations: { nameVariation: '', variations: [{ variation: '', stock: 0 }] },
+    variations: { nameVariation: '', formatVariation: 'Imagen', nameVariations: [{ variation: '' }], variations: [] },
     informations: [{ title: '', description: '', image: { public_id: '', url: '' }, align: 'Izquierda' }]
   })
   const [categories, setCategories] = useState<ICategory[]>()

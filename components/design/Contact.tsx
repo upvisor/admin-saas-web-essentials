@@ -54,11 +54,11 @@ export const Contact: React.FC<Props> = ({ edit, design, pages, setPages, index,
                                                                   oldPages[i].design[index].info.title = e.target.value
                                                                   setPages(oldPages)
                                                                 }} className='p-1.5 rounded border text-[25px] font-medium md:text-[32px]' />
-                                                                <input type='text' placeholder='Descripción' value={design.info.description} onChange={(e: any) => {
+                                                                <textarea placeholder='Descripción' value={design.info.description} onChange={(e: any) => {
                                                                   const oldPages = [...pages]
                                                                   oldPages[i].design[index].info.description = e.target.value
                                                                   setPages(oldPages)
-                                                                }} className='p-1.5 rounded border text-sm lg:text-[16px]' />
+                                                                }} className='p-1.5 h-20 rounded border text-sm lg:text-[16px]' />
                                                               </div>
                                                               <div className="w-1/2">
                                                                 <div className="shadow-lg p-8 flex flex-col gap-4">
