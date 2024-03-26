@@ -92,7 +92,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                 <div className='flex flex-col gap-4 p-4 rounded bg-gray-50'>
                   {
                     information.variations?.nameVariations.map((variation, i) => (
-                      <div key={variation.variation} className='flex gap-2'>
+                      <div key={i} className='flex gap-2'>
                         <div className='flex flex-col gap-2 w-96'>
                           <p className='text-sm'>{information.variations?.nameVariation} {i + 1}</p>
                           <input type='text' placeholder='Manga corta' value={variation.variation} onChange={(e: any) => {
@@ -121,7 +121,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                   <button onClick={(e: any) => {
                     e.preventDefault()
                     const info = {...information}
-                    info.variations?.nameVariations.push({ variation: '' })
+                    info.variations?.nameVariations.push({ variation: '', colorVariation: '#000000' })
                     setInformation(info)
                   }} className='bg-main border border-main text-white w-fit py-1.5 px-6 rounded text-sm transition-colors duration-200 hover:bg-transparent hover:text-main'>Agregar variación</button>
                 </div>
@@ -160,7 +160,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                       <div className='flex flex-col gap-4 p-4 rounded bg-gray-50'>
                         {
                           information.variations?.nameSubVariations?.map((variation, i) => (
-                            <div key={variation.subVariation} className='flex gap-2'>
+                            <div key={i} className='flex gap-2'>
                               <div className='flex flex-col gap-2'>
                                 <p className='text-sm'>{information.variations?.nameSubVariation} {i + 1}</p>
                                 <input type='text' placeholder='Manga corta' value={variation.subVariation} onChange={(e: any) => {
@@ -189,7 +189,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                         <button onClick={(e: any) => {
                           e.preventDefault()
                           const info = {...information}
-                          info.variations?.nameSubVariations!.push({ subVariation: '' })
+                          info.variations?.nameSubVariations!.push({ subVariation: '', colorSubVariation: '#000000' })
                           setInformation(info)
                         }} className='bg-main border border-main text-white w-fit py-1.5 px-6 rounded text-sm transition-colors duration-200 hover:bg-transparent hover:text-main'>Agregar variación</button>
                       </div>
@@ -203,7 +203,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                       <button onClick={(e: any) => {
                         e.preventDefault()
                         let mod = information.variations
-                        mod!.nameSubVariations2 = [{ subVariation2: '' }]
+                        mod!.nameSubVariations2 = [{ subVariation2: '', colorSubVariation2: '#000000' }]
                         mod!.nameSubVariation2 = ''
                         setInformation({ ...information, variations: mod })
                       }} className='bg-main border border-main text-white w-fit py-1.5 px-6 rounded text-sm transition-colors duration-200 hover:bg-transparent hover:text-main'>Crear segunda subvariación</button> 
@@ -215,7 +215,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                 <button onClick={(e: any) => {
                   e.preventDefault()
                   let mod = information.variations
-                  mod!.nameSubVariations = [{ subVariation: '' }]
+                  mod!.nameSubVariations = [{ subVariation: '', colorSubVariation: '#000000' }]
                   mod!.nameSubVariation = ''
                   setInformation({ ...information, variations: mod })
                 }} className='bg-main border border-main text-white w-fit py-1.5 px-6 rounded text-sm transition-colors duration-200 hover:bg-transparent hover:text-main'>Crear subvariación</button>
@@ -253,7 +253,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                         <div className='flex flex-col gap-4 p-4 rounded bg-gray-50'>
                           {
                             information.variations?.nameSubVariations2?.map((variation, i) => (
-                              <div key={variation.subVariation2} className='flex gap-2'>
+                              <div key={i} className='flex gap-2'>
                                 <div className='flex flex-col gap-2'>
                                   <p className='text-sm'>{information.variations?.nameSubVariation2} {i + 1}</p>
                                   <input type='text' placeholder='Manga corta' value={variation.subVariation2} onChange={(e: any) => {
@@ -282,7 +282,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                           <button onClick={(e: any) => {
                             e.preventDefault()
                             const info = {...information}
-                            info.variations?.nameSubVariations2!.push({ subVariation2: '' })
+                            info.variations?.nameSubVariations2!.push({ subVariation2: '', colorSubVariation2: '#000000' })
                             setInformation(info)
                           }} className='bg-main border border-main text-white w-fit py-1.5 px-6 rounded text-sm transition-colors duration-200 hover:bg-transparent hover:text-main'>Agregar variación</button>
                         </div>
