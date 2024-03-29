@@ -89,7 +89,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
           {
             information.variations?.nameVariation !== ''
               ? (
-                <div className='flex flex-col gap-4 p-4 rounded bg-gray-50'>
+                <div className='flex flex-col gap-4 p-4 rounded bg-gray-50 dark:bg-neutral-700'>
                   {
                     information.variations?.nameVariations.map((variation, i) => (
                       <div key={i} className='flex gap-2'>
@@ -99,7 +99,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                             let mod = information.variations
                             mod!.nameVariations[i].variation = e.target.value
                             setInformation({ ...information, variations: mod })
-                          }} className='p-1.5 rounded border text-sm' />
+                          }} className='text-sm p-1.5 w-96 border rounded focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
                         </div>
                         {
                           information.variations?.formatVariation === 'Color'
@@ -157,7 +157,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                 {
                   information.variations?.nameSubVariation !== ''
                     ? (
-                      <div className='flex flex-col gap-4 p-4 rounded bg-gray-50'>
+                      <div className='flex flex-col gap-4 p-4 rounded bg-gray-50 dark:bg-neutral-700'>
                         {
                           information.variations?.nameSubVariations?.map((variation, i) => (
                             <div key={i} className='flex gap-2'>
@@ -167,7 +167,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                                   let mod = information.variations
                                   mod!.nameSubVariations![i].subVariation = e.target.value
                                   setInformation({ ...information, variations: mod })
-                                }} className='p-1.5 w-96 rounded border text-sm' />
+                                }} className='text-sm p-1.5 w-96 border rounded focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
                               </div>
                               {
                                 information.variations?.formatSubVariation === 'Color'
@@ -250,7 +250,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                   {
                     information.variations?.nameSubVariation2 !== ''
                       ? (
-                        <div className='flex flex-col gap-4 p-4 rounded bg-gray-50'>
+                        <div className='flex flex-col gap-4 p-4 rounded bg-gray-50 dark:bg-neutral-700'>
                           {
                             information.variations?.nameSubVariations2?.map((variation, i) => (
                               <div key={i} className='flex gap-2'>
@@ -260,7 +260,7 @@ export const StockVariations: React.FC<Props> = ({information, setInformation}) 
                                     let mod = information.variations
                                     mod!.nameSubVariations2![i].subVariation2 = e.target.value
                                     setInformation({ ...information, variations: mod })
-                                  }} className='p-1.5 w-96 rounded border text-sm' />
+                                  }} className='text-sm p-1.5 w-96 border rounded focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
                                 </div>
                                 {
                                   information.variations?.formatSubVariation2 === 'Color'
