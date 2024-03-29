@@ -59,7 +59,9 @@ export default function Page ({ params }: { params: { slug: string } }) {
                                   {
                                     product.variation?.variation
                                       ? product.variation?.subVariation
-                                        ? <p className='text-sm'>Variante: {product.variation.variation} / {product.variation.subVariation}</p>
+                                        ? product.variation.subVariation2
+                                          ? <p className='text-sm'>Variante: {product.variation.variation} / {product.variation.subVariation} / {product.variation.subVariation2}</p>
+                                          : <p className='text-sm'>Variante: {product.variation.variation} / {product.variation.subVariation}</p>
                                         : <p className='text-sm'>Variante: {product.variation.variation}</p>
                                       : ''
                                   }
@@ -73,7 +75,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
                         }
                         <div className='flex gap-2 justify-between mb-2'>
                           <p className='text-sm'>Subtotal</p>
-                          <p className='text-sm'>${NumberFormat(sell?.cart?.reduce((bef, curr) => curr.quantityOffers?.length ? offer(curr) : bef + curr.price * curr.quantity, 0)!)}</p>
+                          <p className='text-sm'>${NumberFormat(sell?.cart?.reduce((bef, curr) => curr.quantityOffers?.length ? bef + offer(curr) : bef + curr.price * curr.quantity, 0)!)}</p>
                         </div>
                         <div className='flex gap-2 justify-between mb-2'>
                           <p className='text-sm'>Envío</p>
