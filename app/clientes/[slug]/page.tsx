@@ -22,9 +22,9 @@ export default function Page ({ params }: { params: { slug: string } }) {
   const router = useRouter()
 
   const getClientData = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clients/${params.slug}`)
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-email/${params.slug}`)
     setClientData(response.data)
-    const sells = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/sells-client/${response.data.email}`)
+    const sells = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/sells-client/${params.slug}`)
     setClientSells(sells.data)
   }
 
@@ -97,7 +97,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
                     <div className='flex gap-4 flex-col w-2/3'>
                       <div className='bg-white border flex flex-col gap-4 border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
                         <h2 className='font-medium'>Pedidos</h2>
-                        <div className='flex flex-col gap-2'>
+                        <div className='flex flex-col gap-2 overflow-y-auto max-h-96'>
                           {
                             clientSells
                               ? clientSells.length

@@ -30,7 +30,7 @@ export default function Page () {
       <Head>
         <title>Ventas</title>
       </Head>
-      <div className='p-6 w-full min-h-full overflow-y-auto bg-[#f6f6f7] dark:bg-neutral-900'>
+      <div className='p-6 w-full h-full overflow-y-auto bg-[#f6f6f7] dark:bg-neutral-900'>
         <div className='flex justify-between w-full max-w-1280 m-auto mb-4'>
           <h1 className='text-xl font-medium'>Ventas</h1>
           <Link className='pt-1.5 pb-1.5 h-fit pl-7 pr-7 rounded bg-main border border-main text-white hover:bg-transparent hover:text-main transition-colors duration-200' href='/ventas/nueva-venta'>Nueva venta</Link>
@@ -74,7 +74,7 @@ export default function Page () {
                               <p>{sell.region}</p>
                             </td>
                             <td className='p-2'>
-                              <p>${NumberFormat(sell.shipping)}</p>
+                              <p>{sell.shippingMethod}</p>
                             </td>
                             <td className='p-2'>
                               <p>{sell.state}</p>
