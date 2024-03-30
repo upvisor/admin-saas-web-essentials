@@ -24,6 +24,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
   const [account, setAccount] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [storeData, setStoreData] = useState<IStoreData>()
   const [loading, setLoading] = useState(true)
+  const [notification, setNotification] = useState(false)
 
   const notificationsRef = useRef(notifications)
 
@@ -55,6 +56,11 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
   const getNotifications = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/notifications/ultimate`)
+    if (response.data.find((notification: any) => notification.view === false)) {
+      setNotification(true)
+    } else {
+      setNotification(false)
+    }
     setNotifications(response.data)
   }
 
@@ -68,9 +74,9 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     socket.on('message', async (message) => {
+      setNotification(true)
       if (message.message) {
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {title: 'Nuevo mensaje: Chat web', description: message.message, url: '/mensajes', view: false})
-        getNotifications()
       }
     })
 
@@ -81,8 +87,8 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     socket.on('whatsapp', async (message) => {
+      setNotification(true)
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {title: 'Nuevo mensaje: WhatsApp', description: message.message, url: '/mensajes/whatsapp', view: false})
-      getNotifications()
     })
 
     return () => {
@@ -92,8 +98,8 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     socket.on('messenger', async (message) => {
+      setNotification(true)
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {title: 'Nuevo mensaje: Messenger', description: message.message, url: '/mensajes/messenger', view: false})
-      getNotifications()
     })
 
     return () => {
@@ -103,8 +109,8 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     socket.on('instagram', async (message) => {
+      setNotification(true)
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {title: 'Nuevo mensaje: Instagram', description: message.message, url: '/mensajes/instagram', view: false})
-      getNotifications()
     })
 
     return () => {
@@ -114,7 +120,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     socket.on('newNotification', async () => {
-      getNotifications()
+      setNotification(true)
     })
   }, [])
 
@@ -169,6 +175,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
                     <button onClick={(e: any) => {
                       e.preventDefault()
                       if (notificationsView.view === 'hidden') {
+                        getNotifications()
                         setNotificationsView({ ...notificationsView, view: 'flex', opacity: 'opacity-0' })
                         setTimeout(() => {
                           setNotificationsView({ ...notificationsView, view: 'flex', opacity: 'opacity-1' })
@@ -179,7 +186,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
                           setNotificationsView({ ...notificationsView, view: 'hidden', opacity: 'opacity-0' })
                         }, 200)
                       }
-                    }}><IoIosNotificationsOutline className='m-auto text-2xl' /></button>
+                    }}><IoIosNotificationsOutline className='m-auto text-2xl' />{notification ? <div className='w-2 h-2 bg-main rounded-full absolute ml-4 -mt-6' /> : ''}</button>
                     <button onClick={() => {
                       if (account.view === 'hidden') {
                         setAccount({ ...account, view: 'flex', opacity: 'opacity-0' })
@@ -234,7 +241,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
                             notifications.map(notification => {
                               const createdAt = new Date(notification.createdAt!)
                               return (
-                                <Link className='hover:bg-neutral-100 p-2 rounded-md flex gap-4 justify-between dark:hover:bg-neutral-700' href={notification.url} key={notification.description} onClick={async () => {
+                                <Link className='hover:bg-neutral-100 transition-colors duration-150 p-2 rounded-md flex gap-4 justify-between dark:hover:bg-neutral-700' href={notification.url} key={notification.description} onClick={async () => {
                                   await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/notifications/${notification._id}`)
                                   getNotifications()
                                 }}>

@@ -91,7 +91,7 @@ export default function Page () {
                           setChatId(chat.senderId)
                           await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/chat/${chat.senderId}`)
                           getChats()
-                        }} key={i} className='bg-white w-full text-left h-20 p-2 rounded-xl flex gap-4 justify-between dark:bg-neutral-700/60 hover:bg-neutral-200/40 dark:hover:bg-neutral-700'>
+                        }} key={i} className='bg-white w-full transition-colors duration-150 text-left h-20 p-2 rounded-xl flex gap-4 justify-between dark:bg-neutral-700/60 hover:bg-neutral-200/40 dark:hover:bg-neutral-700'>
                           <div className='mt-auto mb-auto'>
                             <p>{chat.senderId}</p>
                             <p className='text-sm text-neutral-600 dark:text-neutral-400'>{createdAt.getDay()}/{createdAt.getMonth() + 1} {createdAt.getHours()}:{createdAt.getMinutes() < 10 ? `0${createdAt.getMinutes()}` : createdAt.getMinutes()}</p>

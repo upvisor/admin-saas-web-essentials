@@ -210,15 +210,15 @@ export default function Page () {
           }, 200)
         }
       }} className={`${popupPage.view} ${popupPage.opacity} transition-opacity duration-200 w-full h-full top-0 left-0 bg-black/50 fixed z-50`}>
-        <div onMouseEnter={() => setPopupPage({ ...popupPage, mouse: true })} onMouseLeave={() => setPopupPage({ ...popupPage, mouse: false })} className='p-6 bg-white m-auto rounded-md w-[500px] flex flex-col gap-4'>
+        <div onMouseEnter={() => setPopupPage({ ...popupPage, mouse: true })} onMouseLeave={() => setPopupPage({ ...popupPage, mouse: false })} className='p-6 bg-white m-auto rounded-md w-[500px] flex flex-col gap-4 dark:bg-neutral-800'>
           <h2 className='font-medium text-lg'>Nueva pagina</h2>
           <div className='flex flex-col gap-2'>
             <p>Nombre de la pagina</p>
-            <input type='text' placeholder='Nombre' value={newPage.page} onChange={(e: any) => setNewPage({ ...newPage, page: e.target.value })} className='border p-1.5 rounded text-sm focus:outline-none focus:border-main' />
+            <input type='text' placeholder='Nombre' value={newPage.page} onChange={(e: any) => setNewPage({ ...newPage, page: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
           </div>
           <div className='flex flex-col gap-2'>
             <p>Slug</p>
-            <input type='text' placeholder='Slug' value={newPage.slug} onChange={(e: any) => setNewPage({ ...newPage, slug: e.target.value })} className='border p-1.5 rounded text-sm focus:outline-none focus:border-main' />
+            <input type='text' placeholder='Slug' value={newPage.slug} onChange={(e: any) => setNewPage({ ...newPage, slug: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
           </div>
           <button onClick={async () => {
             setLoading(true)
@@ -242,7 +242,7 @@ export default function Page () {
           }, 200)
         }
       }} className={`${popup.view} ${popup.opacity} transition-opacity duration-200 w-full h-full top-0 left-0 bg-black/50 fixed z-50`}>
-        <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className='p-6 bg-white h-[550px] m-auto rounded-md w-[800px] flex flex-col gap-4'>
+        <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className='p-6 bg-white h-[550px] m-auto rounded-md w-[800px] flex flex-col gap-4 dark:bg-neutral-800'>
           <h2 className='font-medium text-lg'>Bloques de contenidos</h2>
           <div className='flex flex-wrap gap-4 overflow-y-auto'>
             <div onClick={() => {
@@ -412,7 +412,7 @@ export default function Page () {
           }, 200)
         }
       }} className={`${popupCategory.view} ${popupCategory.opacity} transition-opacity duration-200 w-full h-full top-0 left-0 bg-black/50 fixed z-50`}>
-        <div onMouseEnter={() => setPopupCategory({ ...popupCategory, mouse: true })} onMouseLeave={() => setPopupCategory({ ...popupCategory, mouse: false })} className='p-6 bg-white h-[550px] m-auto rounded-md w-[800px] flex flex-col gap-4'>
+        <div onMouseEnter={() => setPopupCategory({ ...popupCategory, mouse: true })} onMouseLeave={() => setPopupCategory({ ...popupCategory, mouse: false })} className='p-6 bg-white h-[550px] m-auto rounded-md w-[800px] flex flex-col gap-4 dark:bg-neutral-800'>
           <h2 className='font-medium text-lg'>Bloques de contenidos</h2>
           <div className='flex flex-wrap gap-4 overflow-y-auto'>
             <div onClick={() => {
@@ -643,7 +643,7 @@ export default function Page () {
                         const oldPages = [...pages]
                         oldPages[i].metaTitle = e.target.value
                         setPages(oldPages)
-                      }} className='border p-1.5 rounded text-sm focus:outline-none focus:border-main' />
+                      }} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
                     </div>
                     <div className='flex flex-col gap-2'>
                       <p className='text-sm'>Meta descripción</p>
@@ -651,7 +651,7 @@ export default function Page () {
                         const oldPages = [...pages]
                         oldPages[i].metaDescription = e.target.value
                         setPages(oldPages)
-                      }} className='border p-1.5 rounded text-sm h-20 focus:outline-none focus:border-main' />
+                      }} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
                     </div>
                   </div>
                 )
@@ -681,7 +681,7 @@ export default function Page () {
                       const beforeProductPage = [...productPage]
                       beforeProductPage[0].title = e.target.value
                       setProductPage(beforeProductPage)
-                    }} className='border p-1.5 rounded text-sm focus:outline-none focus:border-main' />
+                    }} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
                   </div>
                   <div className='flex flex-col gap-2'>
                     <p>Descripción</p>
@@ -689,7 +689,7 @@ export default function Page () {
                       const beforeProductPage = [...productPage]
                       beforeProductPage[0].text = e.target.value
                       setProductPage(beforeProductPage)
-                    }} className='border p-1.5 rounded text-sm h-20 focus:outline-none focus:border-main' />
+                    }} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
                   </div>
                 </div>
               )
@@ -707,7 +707,7 @@ export default function Page () {
               )
               : ''
           }
-          <div className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t'>
+          <div className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t dark:border-neutral-700 dark:bg-neutral-800'>
             <button onClick={async () => {
               setLoading(true)
               await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/design`, { header: header, pages: pages, productPage: productPage, categoryPage: categoryPage, color: color })
