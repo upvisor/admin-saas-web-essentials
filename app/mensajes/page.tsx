@@ -28,11 +28,11 @@ export default function Page () {
     getChats()
   }, [])
 
-  useEffect(() => {
-    const interval = setInterval(getChats, 5000)
-
-    return () => clearInterval(interval)
-  }, [])
+  // useEffect(() => {
+  //   const interval = setInterval(getChats, 5000)
+// 
+  //   return () => clearInterval(interval)
+  // }, [])
 
   useEffect(() => {
     chatIdRef.current = chatId
@@ -54,6 +54,7 @@ export default function Page () {
 
   useEffect(() => {
     socket.on('message', async (message) => {
+      getChats()
       if (chatIdRef.current === message.senderId) {
         setMessages(messagesRef.current.concat([{ senderId: message.senderId, message: message.message, agent: true, adminView: true, userView: true, createdAt: message.createdAt }]))
       }

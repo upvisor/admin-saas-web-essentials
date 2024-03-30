@@ -65,6 +65,7 @@ export default function Page () {
       { content: 'Suscripción', info: { title: 'Suscribete a nuestra lista' } }
     ] 
   }])
+  const [color, setColor] = useState('#000000')
   const [loading, setLoading] = useState(false)
   const [storeData, setStoreData] = useState<IStoreData>()
   const [tags, setTags] = useState([])
@@ -583,43 +584,45 @@ export default function Page () {
           {
             part === ''
               ? (
-                <div className='flex flex-col gap-2 p-4'>
+                <div className='flex flex-col gap-4 p-4'>
                   <div className='border-b pb-4 dark:border-neutral-700'>
                     <Link href='/diseno' className='flex gap-2 pt-1 pb-1 pl-2 pr-2 rounded transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl my-auto' /><p className='my-auto'>Volver</p></Link>
                   </div>
                   <h2 className='text-lg font-medium'>Paginas</h2>
-                  {
-                    pages.map((page, index) => (
-                      <div key={page.slug} className='flex gap-4'>
-                        <button onClick={() => setPart(page.page)} className='text-left w-full'>{page.page}</button>
-                        <div className='flex gap-4'>
-                          <div className='flex gap-2'>
-                            <input type='checkbox' checked={page.header} onChange={(e: any) => {
-                              const newPages = [...pages]
-                              newPages[index].header = e.target.checked
-                              setPages(newPages)
-                            }} />
-                            <p className='my-auto'>Header</p>
+                  <div className='flex flex-col gap-2'>
+                    {
+                      pages.map((page, index) => (
+                        <div key={page.slug} className='flex gap-4'>
+                          <button onClick={() => setPart(page.page)} className='text-left w-full'>{page.page}</button>
+                          <div className='flex gap-4'>
+                            <div className='flex gap-2'>
+                              <input type='checkbox' checked={page.header} onChange={(e: any) => {
+                                const newPages = [...pages]
+                                newPages[index].header = e.target.checked
+                                setPages(newPages)
+                              }} />
+                              <p className='my-auto'>Header</p>
+                            </div>
+                            <button onClick={() => handleMoveUp(index)}><SlArrowUp className='text-lg' /></button>
+                            <button onClick={() => handleMoveDown(index)}><SlArrowDown className='text-lg' /></button>
+                            <button onClick={() => handleRemove(index)}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
                           </div>
-                          <button onClick={() => handleMoveUp(index)}><SlArrowUp className='text-lg' /></button>
-                          <button onClick={() => handleMoveDown(index)}><SlArrowDown className='text-lg' /></button>
-                          <button onClick={() => handleRemove(index)}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
                         </div>
-                      </div>
-                    ))
-                  }
-                  <div className='flex gap-4'>
-                    <button onClick={() => setPart('Pagina de producto')} className='text-left w-full'>Pagina de producto</button>
+                      ))
+                    }
+                    <div className='flex gap-4'>
+                      <button onClick={() => setPart('Pagina de producto')} className='text-left w-full'>Pagina de producto</button>
+                    </div>
+                    <div className='flex gap-4'>
+                      <button onClick={() => setPart('Pagina de categorias')} className='text-left w-full'>Pagina de categorias</button>
+                    </div>
+                    <button onClick={() => {
+                      setPopupPage({ ...popupPage, view: 'flex', opacity: 'opacity-0' })
+                      setTimeout(() => {
+                        setPopupPage({ ...popupPage, view: 'flex', opacity: 'opacity-1' })
+                      }, 10)
+                    }} className='bg-main border border-main text-white transition-colors duration-200 rounded py-1.5 hover:bg-transparent hover:text-main'>Agregar pagina</button>
                   </div>
-                  <div className='flex gap-4'>
-                    <button onClick={() => setPart('Pagina de categorias')} className='text-left w-full'>Pagina de categorias</button>
-                  </div>
-                  <button onClick={() => {
-                    setPopupPage({ ...popupPage, view: 'flex', opacity: 'opacity-0' })
-                    setTimeout(() => {
-                      setPopupPage({ ...popupPage, view: 'flex', opacity: 'opacity-1' })
-                    }, 10)
-                  }} className='bg-main border border-main text-white transition-colors duration-200 rounded py-1.5 hover:bg-transparent hover:text-main'>Agregar pagina</button>
                 </div>
               )
               : ''
@@ -707,7 +710,7 @@ export default function Page () {
           <div className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t'>
             <button onClick={async () => {
               setLoading(true)
-              await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/design`, { header: header, pages: pages, productPage: productPage, categoryPage: categoryPage })
+              await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/design`, { header: header, pages: pages, productPage: productPage, categoryPage: categoryPage, color: color })
               setLoading(false)
             }} className='bg-main border border-main text-white transition-colors duration-200 h-10 rounded hover:bg-transparent hover:text-main'>{loading ? <Spinner2 /> : 'Guardar'}</button>
             <button>Cancelar</button>
