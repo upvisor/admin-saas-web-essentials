@@ -56,6 +56,7 @@ export default function Page () {
     socket.on('message', async (message) => {
       getChats()
       if (chatIdRef.current === message.senderId) {
+        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/chat/${message.senderId}`)
         setMessages(messagesRef.current.concat([{ senderId: message.senderId, message: message.message, agent: true, adminView: true, userView: true, createdAt: message.createdAt }]))
       }
     })
