@@ -28,12 +28,6 @@ export default function Page () {
     getChats()
   }, [])
 
-  // useEffect(() => {
-  //   const interval = setInterval(getChats, 5000)
-// 
-  //   return () => clearInterval(interval)
-  // }, [])
-
   useEffect(() => {
     chatIdRef.current = chatId
   }, [chatId])
