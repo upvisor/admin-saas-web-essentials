@@ -95,7 +95,7 @@ export default function Page () {
                           setSelectedMessengerId(messenger.messengerId)
                           await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/messenger/${messenger.messengerId}`)
                           getMessages()
-                        }} key={messenger.messengerId} className='bg-white w-full text-left transition-colors duration-150 h-20 p-2 flex gap-2 justify-between rounded-xl dark:bg-neutral-700/60 hover:bg-neutral-200/40 dark:hover:bg-neutral-700'>
+                        }} key={messenger.messengerId} className={`${messenger.messengerId === selectedMessengerId ? 'bg-main/50' : 'bg-white dark:bg-neutral-700/60'} w-full text-left transition-colors duration-150 h-20 p-2 flex gap-2 justify-between rounded-xl hover:bg-neutral-200/40 dark:hover:bg-neutral-700`}>
                           <div className='mt-auto mb-auto'>
                             <p>{messenger.messengerId}</p>
                             <p className='text-sm text-neutral-600 dark:text-neutral-400'>{createdAt.getDay()}/{createdAt.getMonth() + 1} {createdAt.getHours()}:{createdAt.getMinutes() < 10 ? `0${createdAt.getMinutes()}` : createdAt.getMinutes()}</p>
