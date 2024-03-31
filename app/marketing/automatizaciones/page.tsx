@@ -54,7 +54,7 @@ export default function Page () {
             }, 200)
           }
         }} className={`${popup.view} ${popup.opacity} transition-opacity duration-200 right-0 fixed w-full z-50 flex -top-[49px] bg-black/20 dark:bg-black/40`} style={{ height: 'calc(100vh + 49px)' }}>
-          <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className='w-[500px] p-6 flex flex-col gap-2 rounded-md shadow-md bg-white m-auto'>
+          <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className='w-[500px] p-6 flex flex-col gap-2 rounded-md shadow-md bg-white m-auto border border-white dark:bg-neutral-800 dark:border-neutral-700'>
             <p>Estas seguro que deseas eliminar la campaña: <strong>{automatizationSelect.automatization}</strong></p>
             <div className='flex gap-6'>
               <button onClick={deleteAutomatization} className='bg-red-600 h-9 w-36 rounded border border-red-600 text-white transition-colors duration-200 hover:bg-transparent hover:text-red-600'>{loadingDelete ? <Spinner2 /> : 'Eliminar'}</button>
