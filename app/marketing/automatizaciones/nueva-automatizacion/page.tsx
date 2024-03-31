@@ -52,7 +52,7 @@ export default function Page () {
   const getStoreData = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/store-data`)
     if (response.data) {
-      setStoreData(response.data[0])
+      setStoreData(response.data)
     }
   }
 

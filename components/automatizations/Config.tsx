@@ -1,12 +1,14 @@
+import { IStoreData } from '@/interfaces'
 import Link from 'next/link'
 import React, { ChangeEvent } from 'react'
+import Image from 'next/image'
 
 interface Props {
     setTempEmail: any
     automatization: any
     tempEmail: any
     setAutomatization: any
-    storeData: any
+    storeData: IStoreData | undefined
 }
 
 export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmail, setAutomatization, storeData }) => {
@@ -52,7 +54,7 @@ export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmai
                         </div>
                       </div>
                       <div className='flex flex-col h-fit gap-4 p-4 bg-white w-[600px] dark:bg-neutral-800'>
-                        <img className='w-40 mx-auto' src='https://res.cloudinary.com/blasspod/image/upload/v1692831635/blaspod/swiq7waalipkcq2dsucq.png' />
+                        <Image className='w-40 mx-auto' src={storeData?.logo.url!} alt={`Logo tienda ${storeData?.name}`} width={160} height={50} />
                         <h1 className='text-center mx-auto text-3xl font-medium'>{tempEmail.title}</h1>
                         <p className='text-center mx-auto'>{tempEmail.paragraph}</p>
                         {
