@@ -16,7 +16,7 @@ export const Email: React.FC<Props> = ({ email, storeData }) => {
       <p className='m-auto text-center'>{email.paragraph}</p>
       {
         email.buttonText
-          ? <Link href={email.url} className='py-2 px-7 bg-main rounded w-fit m-auto text-white'>{email.buttonText}</Link>
+          ? <button className='py-2 px-7 bg-main rounded w-fit m-auto text-white'>{email.buttonText}</button>
           : ''
       }
       <div className='border-t pt-6 px-6 flex gap-4 justify-between dark:border-neutral-700'>

@@ -59,7 +59,7 @@ export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmai
                         <p className='text-center mx-auto'>{tempEmail.paragraph}</p>
                         {
                           tempEmail.buttonText !== ''
-                            ? <Link className='py-2 px-7 bg-main rounded w-fit m-auto text-white' href={tempEmail.url}>{tempEmail.buttonText}</Link>
+                            ? <button className='py-2 px-7 bg-main rounded w-fit m-auto text-white'>{tempEmail.buttonText}</button>
                             : ''
                         }
                         <div className='border-t pt-6 px-6 flex gap-4 justify-between dark:border-neutral-700'>
