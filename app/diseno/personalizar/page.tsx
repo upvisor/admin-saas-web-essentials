@@ -253,8 +253,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703355526/Upvisor/Slider_z5ek7i.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703355526/Upvisor/Slider_z5ek7i.png' />
               <p className="m-auto">Carrusel</p>
             </div>
             <div onClick={() => {
@@ -265,8 +265,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="cursor-pointer" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1707670358/Upvisor/Categorias_myqwu1.jpg' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="cursor-pointer border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1707670358/Upvisor/Categorias_myqwu1.jpg' />
               <p className="m-auto">Categorias</p>
             </div>
             <div onClick={() => {
@@ -277,8 +277,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_1_rinnyz.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_1_rinnyz.png' />
               <p className="m-auto">Bloque 1</p>
             </div>
             <div onClick={() => {
@@ -289,8 +289,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_2_qtaawq.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_2_qtaawq.png' />
               <p className="m-auto">Bloque 2</p>
             </div>
             <div onClick={() => {
@@ -301,8 +301,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_3_uo4yeh.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_3_uo4yeh.png' />
               <p className="m-auto">Bloque 3</p>
             </div>
             <div onClick={() => {
@@ -313,8 +313,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703355515/Upvisor/Bloque_4_g86xcz.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703355515/Upvisor/Bloque_4_g86xcz.png' />
               <p className="m-auto">Bloque 4</p>
             </div>
             <div onClick={() => {
@@ -325,8 +325,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_5_fjap4h.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_5_fjap4h.png' />
               <p className="m-auto">Bloque 5</p>
             </div>
             <div onClick={() => {
@@ -337,8 +337,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703533528/Upvisor/Productos_d1z6zm.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703533528/Upvisor/Productos_d1z6zm.png' />
               <p className="m-auto">Productos</p>
             </div>
             <div onClick={() => {
@@ -349,8 +349,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703534929/Upvisor/Contacto_m5sexm.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703534929/Upvisor/Contacto_m5sexm.png' />
               <p className="m-auto">Contacto</p>
             </div>
             <div onClick={() => {
@@ -361,8 +361,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703535400/Upvisor/Suscripci%C3%B3n_y46tv6.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703535400/Upvisor/Suscripci%C3%B3n_y46tv6.png' />
               <p className="m-auto">Suscripción</p>
             </div>
             <div onClick={() => {
@@ -373,8 +373,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703535992/Upvisor/Bloque_6_odkcmf.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703535992/Upvisor/Bloque_6_odkcmf.png' />
               <p className="m-auto">Bloque 6</p>
             </div>
             <div onClick={() => {
@@ -385,8 +385,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710351770/Upvisor/asd_mpwht8.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710351770/Upvisor/asd_mpwht8.png' />
               <p className="m-auto">Categorias 2</p>
             </div>
             <div onClick={() => {
@@ -397,8 +397,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710383750/Upvisor/asssss_nwh16c.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710383750/Upvisor/asssss_nwh16c.png' />
               <p className="m-auto">Carrusel productos</p>
             </div>
           </div>
@@ -417,16 +417,14 @@ export default function Page () {
           <div className='flex flex-wrap gap-4 overflow-y-auto'>
             <div onClick={() => {
               const oldCategoryPage = [...categoryPage]
-              console.log(oldCategoryPage)
               oldCategoryPage[0].design.push({ content: 'Carrusel', info: { banner: [{ title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: { public_id: '', url: 'https://res.cloudinary.com/blasspod/image/upload/v1703351801/Upvisor/31314_pxhw9n.jpg' } }] } })
-              console.log(oldCategoryPage)
               setCategoryPage(oldCategoryPage)
               setPopupCategory({ ...popupCategory, view: 'flex', opacity: 'opacity-0' })
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703355526/Upvisor/Slider_z5ek7i.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703355526/Upvisor/Slider_z5ek7i.png' />
               <p className="m-auto">Carrusel</p>
             </div>
             <div onClick={() => {
@@ -437,8 +435,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="cursor-pointer" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1707670358/Upvisor/Categorias_myqwu1.jpg' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="cursor-pointer border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1707670358/Upvisor/Categorias_myqwu1.jpg' />
               <p className="m-auto">Categorias</p>
             </div>
             <div onClick={() => {
@@ -449,8 +447,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_1_rinnyz.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_1_rinnyz.png' />
               <p className="m-auto">Bloque 1</p>
             </div>
             <div onClick={() => {
@@ -461,8 +459,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_2_qtaawq.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_2_qtaawq.png' />
               <p className="m-auto">Bloque 2</p>
             </div>
             <div onClick={() => {
@@ -473,8 +471,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_3_uo4yeh.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_3_uo4yeh.png' />
               <p className="m-auto">Bloque 3</p>
             </div>
             <div onClick={() => {
@@ -485,8 +483,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703355515/Upvisor/Bloque_4_g86xcz.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703355515/Upvisor/Bloque_4_g86xcz.png' />
               <p className="m-auto">Bloque 4</p>
             </div>
             <div onClick={() => {
@@ -497,8 +495,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_5_fjap4h.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703356278/Upvisor/Bloque_5_fjap4h.png' />
               <p className="m-auto">Bloque 5</p>
             </div>
             <div onClick={() => {
@@ -509,8 +507,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703533528/Upvisor/Productos_d1z6zm.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703533528/Upvisor/Productos_d1z6zm.png' />
               <p className="m-auto">Productos</p>
             </div>
             <div onClick={() => {
@@ -521,8 +519,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703534929/Upvisor/Contacto_m5sexm.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703534929/Upvisor/Contacto_m5sexm.png' />
               <p className="m-auto">Contacto</p>
             </div>
             <div onClick={() => {
@@ -533,8 +531,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703535400/Upvisor/Suscripci%C3%B3n_y46tv6.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703535400/Upvisor/Suscripci%C3%B3n_y46tv6.png' />
               <p className="m-auto">Suscripción</p>
             </div>
             <div onClick={() => {
@@ -545,8 +543,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703535992/Upvisor/Bloque_6_odkcmf.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1703535992/Upvisor/Bloque_6_odkcmf.png' />
               <p className="m-auto">Bloque 6</p>
             </div>
             <div onClick={() => {
@@ -557,8 +555,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710351770/Upvisor/asd_mpwht8.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710351770/Upvisor/asd_mpwht8.png' />
               <p className="m-auto">Categorias 2</p>
             </div>
             <div onClick={() => {
@@ -569,8 +567,8 @@ export default function Page () {
               setTimeout(() => {
                 setPopupCategory({ ...popupCategory, view: 'hidden', opacity: 'opacity-0' })
               }, 200)
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30`}>
-              <Image className="border" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710383750/Upvisor/asssss_nwh16c.png' />
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://res.cloudinary.com/blasspod/image/upload/v1710383750/Upvisor/asssss_nwh16c.png' />
               <p className="m-auto">Carrusel productos</p>
             </div>
           </div>
@@ -729,8 +727,8 @@ export default function Page () {
           pages.map((page, i) => {
             if (part === page.page) {
               return (
-                <div key={page.slug} className='overflow-y-auto' style={{ width: 'calc(100% - 350px' }}>
-                  <Layout edit={edit} setEdit={setEdit} setHeader={setHeader} header={header} setPart={setPart} setNavCategoriesOpacity={setNavCategoriesOpacity} setMouseEnter={setMouseEnter} navCategoriesOpacity={navCategoriesOpacity} categories={categories} pages={pages}>
+                <div key={page.slug} className='overflow-y-auto bg-white text-black' style={{ width: 'calc(100% - 350px' }}>
+                  <Layout edit={edit} setEdit={setEdit} setHeader={setHeader} header={header} setPart={setPart} setNavCategoriesOpacity={setNavCategoriesOpacity} setMouseEnter={setMouseEnter} navCategoriesOpacity={navCategoriesOpacity} categories={categories} pages={pages} storeData={storeData}>
                   <div className='flex flex-col gap-4'>
                     {
                       page.design.length
@@ -922,8 +920,8 @@ export default function Page () {
         {
           part === 'Pagina de producto'
             ? productPage.map((page, i) => (
-              <div key={i} className='overflow-auto' style={{ width: 'calc(100% - 350px)' }}>
-                <Layout edit={edit} setEdit={setEdit} setHeader={setHeader} header={header} setPart={setPart} setNavCategoriesOpacity={setNavCategoriesOpacity} setMouseEnter={setMouseEnter} navCategoriesOpacity={navCategoriesOpacity} categories={categories} pages={pages}>
+              <div key={i} className='overflow-auto bg-white text-black' style={{ width: 'calc(100% - 350px)' }}>
+                <Layout edit={edit} setEdit={setEdit} setHeader={setHeader} header={header} setPart={setPart} setNavCategoriesOpacity={setNavCategoriesOpacity} setMouseEnter={setMouseEnter} navCategoriesOpacity={navCategoriesOpacity} categories={categories} pages={pages} storeData={storeData}>
                   <PageProduct productsOrder={productsOrder} productPage={productPage} />
                   {
                       page.design.length
@@ -1113,8 +1111,8 @@ export default function Page () {
         {
           part === 'Pagina de categorias'
             ? categoryPage.map((page, i) => (
-                <div key={i} className='overflow-y-auto' style={{ width: 'calc(100% - 350px' }}>
-                  <Layout edit={edit} setEdit={setEdit} setHeader={setHeader} header={header} setPart={setPart} setNavCategoriesOpacity={setNavCategoriesOpacity} setMouseEnter={setMouseEnter} navCategoriesOpacity={navCategoriesOpacity} categories={categories} pages={pages}>
+                <div key={i} className='overflow-y-auto bg-white text-black' style={{ width: 'calc(100% - 350px' }}>
+                  <Layout edit={edit} setEdit={setEdit} setHeader={setHeader} header={header} setPart={setPart} setNavCategoriesOpacity={setNavCategoriesOpacity} setMouseEnter={setMouseEnter} navCategoriesOpacity={navCategoriesOpacity} categories={categories} pages={pages} storeData={storeData}>
                   <div className='flex flex-col gap-4'>
                     {
                       page.design.length

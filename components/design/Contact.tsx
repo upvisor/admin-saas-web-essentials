@@ -27,19 +27,19 @@ export const Contact: React.FC<Props> = ({ edit, design, pages, setPages, index,
                                                                   <h2 className='text-[20px] font-medium lg:text-[24px]'>{design.info.titleForm}</h2>
                                                                   <div className="flex flex-col gap-2">
                                                                     <p>Nombre</p>
-                                                                    <input type="text" placeholder="Nombre" className="p-1.5 w-full rounded-md border transition-colors duration-100 focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:bg-neutral-800 dark:border-neutral-700" />
+                                                                    <input type="text" placeholder="Nombre" className="p-1.5 w-full rounded-md border transition-colors duration-100 bg-white focus:outline-none focus:border-main focus:ring-1 focus:ring-main" />
                                                                   </div>
                                                                   <div className="flex flex-col gap-2">
                                                                     <p>Email</p>
-                                                                    <input type="text" placeholder="Email" className="p-1.5 w-full rounded-md border transition-colors duration-100 focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:bg-neutral-800 dark:border-neutral-700" />
+                                                                    <input type="text" placeholder="Email" className="p-1.5 w-full rounded-md border transition-colors duration-100 bg-white focus:outline-none focus:border-main focus:ring-1 focus:ring-main" />
                                                                   </div>
                                                                   <div className="flex flex-col gap-2">
                                                                     <p>Telefono</p>
-                                                                    <input type="text" placeholder="Telefono" className="p-1.5 w-full rounded-md border transition-colors duration-100 focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:bg-neutral-800 dark:border-neutral-700" />
+                                                                    <input type="text" placeholder="Telefono" className="p-1.5 w-full rounded-md border transition-colors duration-100 bg-white focus:outline-none focus:border-main focus:ring-1 focus:ring-main" />
                                                                   </div>
                                                                   <div className="flex flex-col gap-2">
                                                                     <p>Mensaje</p>
-                                                                    <textarea placeholder="Mensaje" className="p-1.5 w-full rounded-md border transition-colors duration-100 focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:bg-neutral-800 dark:border-neutral-700 h-36" />
+                                                                    <textarea placeholder="Mensaje" className="p-1.5 w-full rounded-md border transition-colors duration-100 bg-white focus:outline-none focus:border-main focus:ring-1 focus:ring-main h-36" />
                                                                   </div>
                                                                   <button className='bg-[#f6531a] border border-[#f6531a] w-fit transition-colors duration-200 text-white py-1.5 px-6 hover:bg-transparent rounded-md hover:text-[#f6531a]'>Enviar</button>
                                                                 </div>

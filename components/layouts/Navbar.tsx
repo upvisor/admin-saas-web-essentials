@@ -140,7 +140,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <div className={`${loading ? 'flex' : 'hidden'} fixed w-full h-full z-50 bg-white`}>
+      <div className={`${loading ? 'flex' : 'hidden'} fixed w-full h-full z-50 bg-white dark:bg-neutral-900`}>
         <div className='w-fit h-fit m-auto'>
           <Spinner />
         </div>

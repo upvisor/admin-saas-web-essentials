@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react'
 import Image from 'next/image'
-import { ICategory, IPage } from '@/interfaces'
+import { ICategory, IPage, IStoreData } from '@/interfaces'
 import Link from 'next/link'
 
 interface Props {
@@ -14,9 +14,10 @@ interface Props {
     navCategoriesOpacity: string
     categories: ICategory[]
     pages: IPage[]
+    storeData: IStoreData | undefined
 }
 
-export const Layout: React.FC<PropsWithChildren<Props>> = ({ children, edit, setEdit, setHeader, header, setPart, setNavCategoriesOpacity, setMouseEnter, navCategoriesOpacity, categories, pages }) => {
+export const Layout: React.FC<PropsWithChildren<Props>> = ({ children, edit, setEdit, setHeader, header, setPart, setNavCategoriesOpacity, setMouseEnter, navCategoriesOpacity, categories, pages, storeData }) => {
 
   const [cartView, setCartView] = useState('hidden')
   const [cartPosition, setCartPosition] = useState('-mt-[395px]')
@@ -31,10 +32,14 @@ export const Layout: React.FC<PropsWithChildren<Props>> = ({ children, edit, set
                       : <input onChange={(e: any) => setHeader({ ...header, topStrip: e.target.value })} type='text' placeholder='Texto superior' value={header.topStrip} className='bg-transparent border border-neutral-500 p-1.5 rounded m-auto w-[800px] text-center' />
                   }
                 </div>
-                <div style={{ top: '-0.5px' }} className="w-full sticky bg-white flex z-40">
+                <div style={{ top: '-0.5px' }} className="w-full sticky text-black bg-white flex z-40">
                   <div className="w-full border-b bg-white">
                     <div className='flex gap-4 bg-white px-2 justify-between m-auto max-w-[1280px] w-full'>
-                      <p className="text-3xl font-bold my-auto">TIENDA</p>
+                    {
+                      storeData?.logo && storeData?.logo.url !== ''
+                        ? <Link href='/'><Image className='w-auto h-[52px] py-1' src={`${storeData.logo.url}`} alt='Logo' width={155} height={53.72} /></Link>
+                        : <Link href='/'><div className='h-[52px] w-1 flex'><p className='m-auto text-2xl font-medium text-black'>TIENDA</p></div></Link>
+                    }
                       {
                         edit !== 'Header'
                           ? <button onClick={() => setEdit('Header')} className='bg-main border border-main text-white transition-colors duration-200 rounded px-6 py-1.5 h-fit m-auto hover:bg-transparent hover:text-main'>Editar</button>
@@ -104,10 +109,10 @@ export const Layout: React.FC<PropsWithChildren<Props>> = ({ children, edit, set
                     <div className='flex gap-4 m-auto p-4'>
                       {
                         categories.map(category => (
-                          <div key={category._id} className='bg-white flex gap-4 w-64 justify-center dark:bg-neutral-900 dark:border-neutral-800'>
+                          <div key={category._id} className='bg-white flex gap-4 w-64 justify-center dark:border-neutral-800'>
                             <div>
                               <Image className='w-64 rounded-md h-auto mb-2 cursor-pointer' src={category.image!.url} width={256} height={256} alt='Categoria' />
-                              <button className='m-auto tracking-wide font-medium text-[#1c1b1b] dark:text-white'>{category.category}</button>
+                              <button className='m-auto tracking-wide font-medium text-[#1c1b1b]'>{category.category}</button>
                             </div>
                           </div>
                         ))

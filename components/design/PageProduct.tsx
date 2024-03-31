@@ -1,4 +1,4 @@
-import { IProduct, IProductPage } from '@/interfaces'
+import { IProduct, IProductPage, IVariation } from '@/interfaces'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
@@ -9,6 +9,7 @@ import styles from "./OtherProductSlider.module.css"
 import { Navigation, Pagination } from "swiper/modules"
 import { NumberFormat } from '@/utils'
 import { ShippingPrice } from '.'
+import { offer } from '@/utils/QuantityOffer'
 
 export const PageProduct = ({ productsOrder, productPage }: { productsOrder: IProduct[] | undefined, productPage: IProductPage[] }) => {
   return (
@@ -59,49 +60,180 @@ export const PageProduct = ({ productsOrder, productPage }: { productsOrder: IPr
                     }
                     
                     <div className='flex gap-2 mb-2'>
-                      <span className='text-[16px] font-medium dark:text-white'>${ productsOrder![0].price ? NumberFormat(productsOrder![0].price) : '' }</span>
+                      <span className='text-[16px] font-medium'>${ productsOrder![0].price ? NumberFormat(productsOrder![0].price) : '' }</span>
                       {
                         productsOrder![0].beforePrice
-                          ? <span className='text-sm line-through dark:text-neutral-400'>${ NumberFormat(productsOrder![0].beforePrice) }</span>
+                          ? <span className='text-sm line-through'>${ NumberFormat(productsOrder![0].beforePrice) }</span>
                           : ''
                       }
                     </div>
-                      <span className='mb-2 text-[14px] block dark:text-neutral-400'><span className='font-medium dark:text-white'>Stock:</span> { productsOrder![0].stock } { productsOrder![0].stock === 1 ? 'unidad' : 'unidades' }</span>
+                    {
+                      productsOrder![0].variations?.variations.length && productsOrder![0].variations.variations[0].variation !== ''
+                        ? (
+                          <div className='flex flex-col gap-2'>
+                            <div className='flex gap-2'>
+                              <span className='text-sm font-medium'>{productsOrder![0].variations?.nameVariation}:</span>
+                            </div>
+                            {
+                              productsOrder![0].variations?.nameVariations.length
+                                ? (
+                                  <div className='flex gap-2'>
+                                    {
+                                      productsOrder![0].variations?.nameVariations.map(variation => {
+                                        let find = productsOrder![0].variations?.variations.find(vari => vari.variation === variation.variation)
+                                        return (
+                                          <div key={variation?.variation}>
+                                            {
+                                              productsOrder![0].variations?.formatVariation === 'Imagen'
+                                                ? (
+                                                  <Image src={find!.image!.url} alt='Imagen variación' width={80} height={80} className={`w-20 h-20 transition-colors duration-150 border rounded-lg p-1 cursor-pointer hover:border-main`} />
+                                                )
+                                                : productsOrder![0].variations?.formatVariation === 'Color'
+                                                  ? (
+                                                    <div className={`w-10 h-10 rounded-full border p-1 cursor-pointer transition-colors duration-150 hover:border-main dark:border-neutral-700`}>
+                                                      <div className={`m-auto w-full h-full rounded-full`} style={{ backgroundColor: `${variation.colorVariation}` }} />
+                                                    </div>
+                                                  )
+                                                  : productsOrder![0].variations?.formatVariation === 'Texto'
+                                                    ? <div className={`py-1.5 px-4 rounded-full border transition-colors duration-150 hover:border-main cursor-pointer dark:border-neutral-700`}>{variation.variation}</div>
+                                                    : ''
+                                            }
+                                            
+                                          </div>
+                                        )
+                                      })
+                                    }  
+                                  </div>
+                                )
+                                : ''
+                            }
+                            {
+                              productsOrder![0]?.variations?.nameSubVariation
+                                ? (
+                                  <div className='flex gap-2'>
+                                    <span className='text-sm font-medium'>{productsOrder![0].variations.nameSubVariation}:</span>
+                                  </div>
+                                )
+                                : ''
+                            }
+                            {
+                              productsOrder![0].variations?.nameSubVariations?.length
+                                ? (
+                                  <div className='flex gap-2'>
+                                    {
+                                      productsOrder![0].variations?.nameSubVariations?.map(variation => {
+                                        let find = productsOrder![0].variations?.variations.find(vari => vari.subVariation === variation.subVariation)
+                                        return (
+                                          <div key={variation?.subVariation}>
+                                            {
+                                              productsOrder![0].variations?.formatSubVariation === 'Imagen'
+                                                ? (
+                                                  <Image src={find!.image!.url} alt='Imagen variación' width={80} height={80} className={`w-20 h-20 transition-colors duration-150 border rounded-lg p-1 cursor-pointer hover:border-button`} />
+                                                )
+                                                : productsOrder![0].variations?.formatSubVariation === 'Color'
+                                                  ? (
+                                                    <div className={`w-10 h-10 rounded-full border p-1 cursor-pointer transition-colors duration-150 hover:border-main`}>
+                                                      <div className={`m-auto w-full h-full rounded-full`} style={{ backgroundColor: `${variation.colorSubVariation}` }} />
+                                                    </div>
+                                                  )
+                                                  : productsOrder![0].variations?.formatSubVariation === 'Texto'
+                                                    ? <div className={`py-1.5 px-4 rounded-full border transition-colors duration-150 hover:border-main cursor-pointer`}>{variation.subVariation}</div>
+                                                    : ''
+                                            }
+                                            
+                                          </div>
+                                        )
+                                      })
+                                    }  
+                                  </div>
+                                )
+                                : ''
+                            }
+                            {
+                              productsOrder![0].variations?.nameSubVariation2
+                                ? (
+                                  <div className='flex gap-2'>
+                                    <span className='text-sm font-medium'>{productsOrder![0].variations.nameSubVariation2}:</span>
+                                  </div>
+                                )
+                                : ''
+                            }
+                            {
+                              productsOrder![0].variations?.nameSubVariations2?.length
+                                ? (
+                                  <div className='flex gap-2'>
+                                    {
+                                      productsOrder![0].variations?.nameSubVariations2?.map(variation => {
+                                        let find = productsOrder![0].variations?.variations.find(vari => vari.subVariation2 === variation.subVariation2)
+                                        return (
+                                          <div key={variation?.subVariation2}>
+                                            {
+                                              productsOrder![0].variations?.formatSubVariation2 === 'Imagen'
+                                                ? (
+                                                  <Image src={find!.image!.url} alt='Imagen variación' width={80} height={80} className={`w-20 h-20 transition-colors duration-150 border rounded-lg p-1 cursor-pointer hover:border-button`} />
+                                                )
+                                                : productsOrder![0].variations?.formatSubVariation2 === 'Color'
+                                                  ? (
+                                                    <div className={`w-10 h-10 rounded-full border p-1 cursor-pointer transition-colors duration-150 hover:border-main`}>
+                                                      <div className={`m-auto w-full h-full rounded-full`} style={{ backgroundColor: `${variation.colorSubVariation2}` }} />
+                                                    </div>
+                                                  )
+                                                  : productsOrder![0].variations?.formatSubVariation2 === 'Texto'
+                                                    ? <div className={`py-1.5 px-4 rounded-full border transition-colors duration-150 hover:border-main cursor-pointer`}>{variation.subVariation2}</div>
+                                                    : ''
+                                            }
+                                            
+                                          </div>
+                                        )
+                                      })
+                                    }  
+                                  </div>
+                                )
+                                : ''
+                            }
+                          </div>
+                        )
+                        : ''
+                    }
+                      <span className='mb-2 mt-2 text-[14px] block'><span className='font-medium'>Stock:</span> { productsOrder![0].stock } { productsOrder![0].stock === 1 ? 'unidad' : 'unidades' }</span>
                       {
                         productsOrder![0].quantityOffers?.length && productsOrder![0].quantityOffers[0].descount
                           ? (
-                            <div className='mb-2 bg-[#f5f5f7] p-3 rounded-md w-fit'>
-                              <p className='text-sm mb-2'>Descuentos por cantidad</p>
-                              <div className='flex gap-2'>
-                                {
+                            <div className='flex flex-col gap-2'>
+                              {
                                   productsOrder![0].quantityOffers.map(offer => (
-                                    <div key={offer._id} className=' rounded w-20 flex flex-col'>
-                                      <p className='text-sm m-auto'>{offer.quantity}+</p>
-                                      <p className='text-sm m-auto'>${NumberFormat(Math.round((productsOrder![0].price / 100) * (100 - offer.descount)))}</p>
+                                    <div key={offer._id} className={`flex gap-4 justify-between p-3 border transition-colors duration-150 bg-gray-50 cursor-pointer hover:border-main`}>
+                                      <div className='flex flex-col gap-2'>
+                                        <p>{offer.quantity} unidades</p>
+                                        <p className='py-1 px-3 text-sm rounded-full bg-main text-white'>Ahorra {offer.descount}%</p>
+                                      </div>
+                                      <p className='my-auto'>${NumberFormat(Math.round(((productsOrder![0].price * offer.quantity) / 100) * (100 - offer.descount)))}</p>
                                     </div>
-                                  ))
-                                }
-                              </div>
+                                  )
+                                )
+                              }
                             </div>
                           )
                           : ''
                       }
-                      <div className='flex gap-2'>
-                        <div className='border rounded-md border-[#0071e3] w-fit flex bg-white dark:bg-transparent'>
-                          <button className='pl-3 pr-3 text-[#0071e3] text-sm'>-</button>
+                      <div className='flex flex-col gap-2 mt-2 border-b pb-4'>
+                        <div className='border rounded-md border-[#0071e3] w-fit h-[45px] flex bg-white dark:bg-transparent'>
+                          <button className='pl-4 pr-6 text-[#0071e3] text-sm'>-</button>
                           <span className='mt-auto mb-auto text-[#0071e3] w-4 text-center text-sm'>1</span>
-                          <button className='pl-3 pr-3 text-[#0071e3] text-sm'>+</button>
+                          <button className='pl-6 pr-4 text-[#0071e3] text-sm'>+</button>
                         </div>
-                        <button className='py-2 h-fit w-56 rounded-md transition-all duration-200 border border-[#0071e3] bg-[#0071e3] text-white hover:bg-transparent hover:text-[#0071e3]'>Añadir al carrito</button>
+                        <button className='py-3 w-full min-w-64 h-fit rounded-md transition-all duration-200 border border-main bg-main text-white hover:bg-transparent hover:text-main'>
+                          Añadir al carrito - ${NumberFormat(productsOrder![0].price)}
+                        </button>
                       </div>
-                    <div className='mt-4 border-b pb-4 dark:border-neutral-800'>
+                    <div className='mt-4 border-b pb-4'>
                       <button className='flex gap-2 w-full justify-between'>
-                        <h5 className='text-[16px] font-medium md:text-[18px] dark:text-white'>Descripción</h5>
+                        <h5 className='text-[16px] font-medium md:text-[18px]'>Descripción</h5>
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" className={` -rotate-90 transition-all duration-150 ml-auto text-lg w-4 text-neutral-500`} xmlns="http://www.w3.org/2000/svg"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg>
                       </button>
                       <div style={{ overflow: 'hidden', transition: 'max-height 0.3s' }} className={`transition-all duration-200 flex flex-col gap-2 mt-2`}>
                         {productsOrder![0].description.split('/').map(des => {
-                          return <p className='text-[#444444] mb-1 text-sm dark:text-neutral-400 md:text-[16px]' key={des}>{des}</p>
+                          return <p className='text-[#444444] mb-1 text-sm md:text-[16px]' key={des}>{des}</p>
                         })}
                       </div>
                     </div>
