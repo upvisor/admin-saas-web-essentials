@@ -5,6 +5,7 @@ import { Navbar } from '@/components/layouts'
 import { ThemeProvider } from 'next-themes'
 import { LeftMenu } from '@/components/ui'
 import localFont from 'next/font/local'
+import { Chat } from '@/components/chat'
 
 const myFont = localFont({
   src: './fonts/Montserrat-VariableFont_wght.ttf',
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body>
         <SessionProvider>
           <ThemeProvider attribute='class'>
+            <Chat />
             <Navbar>
               <LeftMenu>
                 {children}
