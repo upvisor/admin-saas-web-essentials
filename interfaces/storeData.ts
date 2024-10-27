@@ -8,8 +8,8 @@ export interface IStoreData {
     region?: string
     city?: string
     schedule?: ISchedule
-    logo: { public_id: string, url: string }
-    logoWhite: { public_id: string, url: string }
+    logo?: string
+    logoWhite: string
     instagram?: string
     facebook?: string
     tiktok?: string

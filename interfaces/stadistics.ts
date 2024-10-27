@@ -1,7 +1,12 @@
+import { IClient } from "./clients"
+import { IMeeting } from "./meeting"
+
 export interface IStadistics {
-    totalSell: string
-    viewContents: string
-    addCarts: string
-    informations: string
-    sells: string
+    pages: any[]
+    sessions: any[]
+    leads: any[]
+    meetings: IMeeting[]
+    checkouts: any[]
+    pays: any[]
+    clients: IClient[]
 }

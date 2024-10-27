@@ -1,5 +1,6 @@
 "use client"
-import { Spinner } from '@/components/ui'
+import { ButtonLink, Spinner, Table } from '@/components/ui'
+import { IClient } from '@/interfaces'
 import axios from 'axios'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -9,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 export default function Page () {
 
   const [loading, setLoading] = useState(true)
-  const [clients, setClients] = useState([])
+  const [clients, setClients] = useState<IClient[]>([])
 
   const router = useRouter()
 
@@ -29,13 +30,13 @@ export default function Page () {
       <Head>
         <title>Clientes</title>
       </Head>
-      <div className='w-full h-full bg-[#f6f6f7] dark:bg-neutral-900'>
-        <div className='p-6 w-full flex flex-col gap-4 overflow-y-auto'>
-          <div className='flex justify-between w-full max-w-1280 m-auto'>
-            <h1 className='text-xl font-medium'>Clientes</h1>
-            <Link className='pt-1.5 pb-1.5 h-fit pl-7 pr-7 rounded bg-main border border-main transition-colors duration-200 text-white hover:bg-transparent hover:text-main' href='/clientes/nuevo-cliente'>Agregar cliente</Link>
+      <div className='w-full h-full bg-bg flex flex-col gap-6 dark:bg-neutral-900'>
+        <div className='p-6 w-full flex flex-col gap-6 overflow-y-auto'>
+          <div className='flex justify-between w-full max-w-[1280px] mx-auto'>
+            <h1 className='text-2xl font-medium my-auto'>Clientes</h1>
+            <ButtonLink href='/clientes/nuevo-cliente'>Agregar cliente</ButtonLink>
           </div>
-          <div className='w-full max-w-1280 m-auto'>
+          <div className='w-full max-w-[1280px] mx-auto'>
             {
               loading
                 ? (
@@ -47,38 +48,23 @@ export default function Page () {
                 )
                 : clients.length
                   ? (
-                    <table className='shadow-md w-full border dark:border-neutral-600'>
-                      <thead className='bg-white border-b w-full dark:bg-neutral-800 dark:border-neutral-600'>
-                        <th className='text-left p-2 font-medium'>Email</th>
-                        <th className='text-left p-2 font-medium'>Nombre</th>
-                        <th className='text-left p-2 font-medium'>Telefono</th>
-                        <th className='text-left p-2 font-medium'>Región</th>
-                        <th className='text-left p-2 font-medium'>Ciudad</th>
-                      </thead>
-                      <tbody className='bg-white w-full dark:bg-neutral-800 dark:border-neutral-600'>
-                        {
-                          clients.map((client: any) => (
-                            <tr onClick={() => router.push(`/clientes/${client.email}`)} className='border-b cursor-pointer w-full transition-colors duration-150 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700' key={client._id}>
-                              <td className='p-2'>
-                                <p>{client.email}</p>
-                              </td>
-                              <td className='p-2'>
-                                <p>{client.firstName} {client.lastName}</p>
-                              </td>
-                              <td className='p-2'>
-                                <p>{client.phone}</p>
-                              </td>
-                              <td className='p-2'>
-                                <p>{client.region}</p>
-                              </td>
-                              <td className='p-2'>
-                                <p>{client.city}</p>
-                              </td>
-                            </tr>
-                          ))
-                        }
-                      </tbody>
-                    </table>
+                    <Table th={['Email', 'Nombre', 'Teléfono']}>
+                      {
+                        clients.map((client, index) => (
+                          <tr onClick={() => router.push(`/clientes/${client.email}`)} className={`${index + 1 < clients.length ? 'border-b border-border' : ''} bg-white cursor-pointer w-full transition-colors duration-150 dark:bg-neutral-800 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700`} key={client._id}>
+                            <td className='p-3'>
+                              <p>{client.email}</p>
+                            </td>
+                            <td className='p-3'>
+                              <p>{client.firstName} {client.lastName}</p>
+                            </td>
+                            <td className='p-3'>
+                              <p>{client.phone}</p>
+                            </td>
+                          </tr>
+                        ))
+                      }
+                    </Table>
                   )
                   : <p>Aun no tienes clientes</p>
             }

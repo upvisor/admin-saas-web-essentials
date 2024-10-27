@@ -1,5 +1,6 @@
 "use client"
-import { Spinner } from '@/components/ui'
+import { Button, Input, Select, Spinner } from '@/components/ui'
+import { IClient, IFunnel, IService } from '@/interfaces'
 import { IStadistics } from '@/interfaces/stadistics'
 import { NumberFormat } from '@/utils'
 import axios from 'axios'
@@ -14,6 +15,11 @@ export default function Page () {
     dateLast: undefined
   })
   const [loading, setLoading] = useState(true)
+  const [funnels, setFunnels] = useState<IFunnel[]>([])
+  const [selectFunnel, setSelectFunnel] = useState('')
+  const [selectService, setSelectService] = useState('')
+  const [services, setServices] = useState<IService[]>([])
+  const [clients, setClients] = useState<IClient[]>([])
 
   const getStadistics = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/stadistics`)
@@ -25,15 +31,44 @@ export default function Page () {
     getStadistics()
   }, [])
 
+  const getFunnels = async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnels`)
+    setFunnels(res.data)
+  }
+
+  useEffect(() => {
+    getFunnels()
+  }, [])
+
+  const getServices = async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/services`)
+    setServices(res.data)
+  }
+
+  useEffect(() => {
+    getServices()
+  }, [])
+
+  const getClients = async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clients`)
+    setClients(res.data)
+  }
+
+  useEffect(() => {
+    getClients()
+  }, [])
+
   const inputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFilter({ ...filter, [e.target.name]: e.target.value })
   }
 
   const handleFilter = async () => {
-    setLoading(true)
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/stadistics`, filter)
-    setStadistics(response.data)
-    setLoading(false)
+    if (!loading) {
+      setLoading(true)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/stadistics`, filter)
+      setStadistics(response.data)
+      setLoading(false)
+    }
   }
 
   return (
@@ -41,23 +76,23 @@ export default function Page () {
       <Head>
         <title>Estadisticas</title>
       </Head>
-        <div className='p-6 bg-[#f6f6f7] w-full min-h-full overflow-y-auto dark:bg-neutral-900'>
-          <div className='flex flex-col gap-4 w-full max-w-1280 m-auto mb-4'>
-            <h1 className='text-xl font-medium'>Estadisticas</h1>
+        <div className='p-6 bg-bg flex flex-col gap-6 w-full h-full overflow-y-auto dark:bg-neutral-900'>
+          <div className='flex flex-col gap-4 w-full max-w-[1280px] mx-auto'>
+            <h1 className='text-2xl font-medium'>Estadisticas</h1>
             <p>Estadisticas de la tienda</p>
             <div className='flex gap-2'>
               <div className='flex flex-col gap-2'>
                 <p className='text-sm'>Desde</p>
-                <input type='date' onChange={inputChange} name='dateInitial' className='w-fit p-1.5 border rounded text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                <Input type='date' change={inputChange} name='dateInitial' />
               </div>
               <div className='flex flex-col gap-2'>
                 <p className='text-sm'>Hasta</p>
-                <input type='date' onChange={inputChange} name='dateLast' className='w-fit p-1.5 border rounded text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                <Input type='date' change={inputChange} name='dateLast' />
               </div>
-              <button onClick={handleFilter} className='pt-1.5 pb-1.5 h-fit pl-7 pr-7 mt-auto rounded bg-main border border-main text-white transition-colors duration-200 hover:bg-transparent hover:text-main'>Filtrar</button>
+              <Button action={handleFilter} config='mt-auto'>Filtrar</Button>
             </div>
           </div>
-          <div className='flex gap-4 w-full flex-wrap max-w-1280 m-auto mb-4'>
+          <div className='flex gap-6 w-full flex-wrap max-w-[1280px] mx-auto'>
             {
               loading
                 ? (
@@ -67,28 +102,293 @@ export default function Page () {
                     </div>
                   </div>
                 )
-                : stadistics?.totalSell || stadistics?.addCarts || stadistics?.informations || stadistics?.sells || stadistics?.viewContents
+                : stadistics?.checkouts.length || stadistics?.clients.length || stadistics?.leads.length || stadistics?.pages.length || stadistics?.pays.length || stadistics?.sessions.length
                   ? (
                     <>
-                      <div className='p-6 w-1/4 flex flex-col gap-2 border bg-white rounded-md dark:bg-neutral-800 dark:border-neutral-700'>
-                        <p>Total vendido</p>
-                        <p className='text-xl'>${NumberFormat(Number(stadistics.totalSell))}</p>
+                      <div className='grid grid-cols-4 gap-4 w-full max-w-[1280px]'>
+                        <div className='col-span-4 p-6 w-full flex flex-col gap-3 border border-black/5  bg-white rounded-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-card dark:shadow-card-dark'>
+                          <p className='font-medium'>Tasa de conversion</p>
+                          <div className='grid grid-cols-2 md:grid-cols-5 divide-x divide-black/5 dark:divide-neutral-700'>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.length) / Number(stadistics.pages.length)) * 100) ? Math.round((Number(stadistics.pays.length) / Number(stadistics.pages.length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Paginas visitadas</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.length) / Number(stadistics.sessions.length)) * 100) ? Math.round((Number(stadistics.pays.length) / Number(stadistics.sessions.length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Sesiones</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.length) / Number(stadistics.leads.length)) * 100) ? Math.round((Number(stadistics.pays.length) / Number(stadistics.leads.length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Registros completados</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.length) / Number(stadistics.meetings.length)) * 100) ? Math.round((Number(stadistics.pays.length) / Number(stadistics.meetings.length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Llamadas agendadas</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.length) / Number(stadistics.checkouts.length)) * 100) ? Math.round((Number(stadistics.pays.length) / Number(stadistics.checkouts.length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Checkout</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Total vendido</p>
+                          <p className='text-2xl font-medium m-auto'>${NumberFormat(Number(stadistics.pays.reduce((prev, curr) => prev + Number(curr.price), 0)))}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Ventas</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.pays.length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Checkout</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.checkouts.length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Llamadas agendadas</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.meetings.length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Registros completados</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.leads.length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Sesiones totales</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.sessions.length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Paginas visitadas</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.pages.length}</p>
+                        </div>
                       </div>
-                      <div className='p-6 w-1/4 flex flex-col gap-2 border bg-white rounded-md dark:bg-neutral-800 dark:border-neutral-700'>
-                        <p>Ventas</p>
-                        <p className='text-xl'>{stadistics.sells}</p>
+                      <p className='text-lg font-medium my-auto'>Embudos</p>
+                      <Select change={(e: any) => setSelectFunnel(e.target.value)} config='w-fit'>
+                        <option value=''>Todos</option>
+                        {
+                          funnels.map(funnel => <option key={funnel._id} value={funnel._id}>{funnel.funnel}</option>)
+                        }
+                      </Select>
+                      {
+                        selectFunnel !== ''
+                          ? (
+                            <div className='col-span-4 p-6 w-full flex flex-col gap-3 border border-black/5 bg-white rounded-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-card dark:shadow-card-dark'>
+                              <p className='font-medium'>Tasa de conversion</p>
+                              <div className={`overflow-y-auto grid grid-cols-${funnels.find(funnel => funnel._id === selectFunnel)?.steps.length} divide-x divide-black/5 dark:divide-neutral-700`}>
+                                {
+                                  funnels.find(funnel => funnel._id === selectFunnel)?.steps.map((step, index, steps) => (
+                                    <div key={step._id} className='flex flex-col gap-2 justify-between min-w-28'>
+                                      <p className='text-center my-auto'>{step.step}</p>
+                                      <p className='text-2xl font-medium mx-auto text-center'>
+                                        {
+                                          clients.filter(client => 
+                                            client.funnels?.some(funnel => 
+                                              funnel.funnel === selectFunnel && 
+                                              steps.findIndex(s => s._id === funnel.step) >= index
+                                            )
+                                          ).length
+                                        }
+                                      </p>
+                                      <p className='text-center text-lg font-medium'>
+                                        {
+                                          // Obtener el porcentaje en función de los clientes en el último paso
+                                          (clients.filter(client => 
+                                            client.funnels?.some(funnel => 
+                                              funnel.funnel === selectFunnel && 
+                                              funnel.step === steps.slice(-1)[0]._id
+                                            )
+                                          ).length || 1) > 0
+                                          ? (
+                                            (clients.filter(client => 
+                                              client.funnels?.some(funnel => 
+                                                funnel.funnel === selectFunnel && 
+                                                steps.findIndex(s => s._id === funnel.step) >= index
+                                              )
+                                            ).length / clients.filter(client => 
+                                              client.funnels?.some(funnel => 
+                                                funnel.funnel === selectFunnel && 
+                                                funnel.step === steps.slice(-1)[0]._id
+                                              )
+                                            ).length * 100
+                                          ) + '%')
+                                          : '0%'
+                                        }
+                                      </p>
+                                    </div>
+                                  ))
+                                }
+                              </div>
+                            </div>
+                          )
+                          : ''
+                      }
+                      <div className='grid grid-cols-4 gap-4 w-full max-w-[1280px]'>
+                        <div className='col-span-4 p-6 w-full flex flex-col gap-3 border border-black/5 bg-white rounded-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-card dark:shadow-card-dark'>
+                          <p className='font-medium'>Tasa de conversion</p>
+                          <div className='grid grid-cols-2 md:grid-cols-5 divide-x divide-black/5 dark:divide-neutral-700'>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.pages.filter(page => selectFunnel ? page.funnel === selectFunnel : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.pages.filter(page => selectFunnel ? page.funnel === selectFunnel : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Paginas visitadas</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.sessions.filter(session => selectFunnel ? session.funnel === selectFunnel : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.sessions.filter(session => selectFunnel ? session.funnel === selectFunnel : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Sesiones</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.leads.filter(lead => selectFunnel ? lead.funnel === selectFunnel : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.leads.filter(lead => selectFunnel ? lead.funnel === selectFunnel : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Registros completados</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.meetings.filter(meeting => selectFunnel ? meeting.funnel === selectFunnel : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.meetings.filter(meeting => selectFunnel ? meeting.funnel === selectFunnel : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Llamadas agendadas</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.checkouts.filter(checkout => selectFunnel ? checkout.funnel === selectFunnel : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length) / Number(stadistics.checkouts.filter(checkout => selectFunnel ? checkout.funnel === selectFunnel : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Checkout</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Total vendido</p>
+                          <p className='text-2xl font-medium m-auto'>${NumberFormat(Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).reduce((prev, curr) => prev + Number(curr.price), 0)))}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Ventas</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Checkout</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.checkouts.filter(checkout => selectFunnel ? checkout.funnel === selectFunnel : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Llamadas agendadas</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.meetings.filter(meeting => selectFunnel ? meeting.funnel === selectFunnel : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Registros completados</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.leads.filter(lead => selectFunnel ? lead.funnel === selectFunnel : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Sesiones totales</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.sessions.filter(session => selectFunnel ? session.funnel === selectFunnel : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Paginas visitadas</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.pages.filter(page => selectFunnel ? page.funnel === selectFunnel : true).length}</p>
+                        </div>
                       </div>
-                      <div className='p-6 w-1/4 flex flex-col gap-2 border bg-white rounded-md dark:bg-neutral-800 dark:border-neutral-700'>
-                        <p>Productos visitados</p>
-                        <p className='text-xl'>{stadistics.viewContents}</p>
-                      </div>
-                      <div className='p-6 w-1/4 flex flex-col gap-2 border bg-white rounded-md dark:bg-neutral-800 dark:border-neutral-700'>
-                        <p>Añadidos al carrito</p>
-                        <p className='text-xl'>{stadistics.addCarts}</p>
-                      </div>
-                      <div className='p-6 w-1/4 flex flex-col gap-2 border bg-white rounded-md dark:bg-neutral-800 dark:border-neutral-700'>
-                        <p>Añadir información</p>
-                        <p className='text-xl'>{stadistics.informations}</p>
+                      <p className='text-lg font-medium my-auto'>Servicios</p>
+                      <Select change={(e: any) => setSelectService(e.target.value)} config='w-fit'>
+                        <option value=''>Todos</option>
+                        {
+                          services.map(service => <option key={service._id} value={service._id}>{service.name}</option>)
+                        }
+                      </Select>
+                      {
+                        selectService !== ''
+                          ? (
+                            <div className='col-span-4 p-6 w-full flex flex-col gap-3 border border-black/5 bg-white rounded-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-card dark:shadow-card-dark'>
+                              <p className='font-medium'>Tasa de conversion</p>
+                              <div className={`overflow-y-auto grid grid-cols-${services.find(service => service._id === selectService)?.steps.length} divide-x divide-black/5 dark:divide-neutral-700`}>
+                                {
+                                  services.find(service => service._id === selectService)?.steps.map((step, index, steps) => (
+                                    <div key={step._id} className='flex flex-col gap-2 justify-between min-w-28'>
+                                      <p className='text-center my-auto'>{step.step}</p>
+                                      <p className='text-2xl font-medium mx-auto text-center'>
+                                        {
+                                          clients.filter(client => 
+                                            client.services?.some(service => 
+                                              service.service === selectService && 
+                                              steps.findIndex(s => s._id === service.step) >= index
+                                            )
+                                          ).length
+                                        }
+                                      </p>
+                                      <p className='text-center text-lg font-medium'>
+                                        {
+                                          // Obtener el porcentaje en función de los clientes en el último paso
+                                          (clients.filter(client => 
+                                            client.services?.some(service => 
+                                              service.service === selectService && 
+                                              service.step === steps.slice(-1)[0]._id
+                                            )
+                                          ).length || 1) > 0
+                                          ? (
+                                            (clients.filter(client => 
+                                              client.services?.some(service => 
+                                                service.service === selectService && 
+                                                steps.findIndex(s => s._id === service.step) >= index
+                                              )
+                                            ).length / clients.filter(client => 
+                                              client.services?.some(service => 
+                                                service.service === selectService && 
+                                                service.step === steps.slice(-1)[0]._id
+                                              )
+                                            ).length * 100
+                                          ) + '%')
+                                          : '0%'
+                                        }
+                                      </p>
+                                    </div>
+                                  ))
+                                }
+                              </div>
+                            </div>
+                          )
+                          : ''
+                      }
+                      <div className='grid grid-cols-4 gap-4 w-full max-w-[1280px]'>
+                        <div className='col-span-4 p-6 w-full flex flex-col gap-3 border border-black/5  bg-white rounded-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-card dark:shadow-card-dark'>
+                          <p className='font-medium'>Tasa de conversion</p>
+                          <div className='grid grid-cols-2 md:grid-cols-5 divide-x divide-black/5 dark:divide-neutral-700'>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.pages.filter(page => selectService ? page.service === selectService : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.pages.filter(page => selectService ? page.service === selectService : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Paginas visitadas</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.sessions.filter(session => selectService ? session.service === selectService : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.sessions.filter(session => selectService ? session.service === selectService : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Sesiones</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.leads.filter(lead => selectService ? lead.service === selectService : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.leads.filter(lead => selectService ? lead.service === selectService : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Registros completados</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.meetings.filter(meeting => selectService ? meeting.service === selectService : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.meetings.filter(meeting => selectService ? meeting.service === selectService : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Llamadas agendadas</p>
+                            </div>
+                            <div className='flex flex-col gap-2 justify-between'>
+                              <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.checkouts.filter(checkout => selectService ? checkout.service === selectService : true).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length) / Number(stadistics.checkouts.filter(checkout => selectService ? checkout.service === selectService : true).length)) * 100) : 0}%</p>
+                              <p className='mx-auto text-center'>Checkout</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Total vendido</p>
+                          <p className='text-2xl font-medium m-auto'>${NumberFormat(Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).reduce((prev, curr) => prev + Number(curr.price), 0)))}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Ventas</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.pays.filter(pay => selectService ? pay.service === selectService : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Checkout</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.checkouts.filter(checkout => selectService ? checkout.service === selectService : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Llamadas agendadas</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.meetings.filter(meeting => selectService ? meeting.service === selectService : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Registros completados</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.leads.filter(lead => selectService ? lead.service === selectService : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Sesiones totales</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.sessions.filter(session => selectService ? session.service === selectService : true).length}</p>
+                        </div>
+                        <div className='p-6 col-span-1 h-[150px] flex flex-col gap-3 border border-black/5 bg-white rounded-xl shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
+                          <p className='font-medium'>Paginas visitadas</p>
+                          <p className='text-2xl font-medium m-auto'>{stadistics.pages.filter(page => selectService ? page.service === selectService : true).length}</p>
+                        </div>
                       </div>
                     </>
                   )

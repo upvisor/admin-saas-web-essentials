@@ -1,6 +1,6 @@
 export interface ITag {
-    _id?: String
-    tag: String
+    _id?: string
+    tag: string
     createdAt?: Date
     updatedAt?: Date
 }

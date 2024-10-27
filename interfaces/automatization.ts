@@ -1,6 +1,7 @@
 export interface IAutomatization {
     _id?: string
-    address: string
+    startType: string
+    startValue: string
     name: string
     automatization: IEmailAutomatization[]
 }
@@ -10,6 +11,7 @@ export interface IEmailAutomatization {
     title: string
     paragraph: string
     buttonText: string
+    condition?: string[]
     url: string
     number?: number
     time?: string

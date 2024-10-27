@@ -10,6 +10,7 @@ import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { io } from 'socket.io-client'
 import { Spinner } from '../ui'
+import Image from 'next/image'
 
 const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
 
@@ -37,25 +38,26 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
     } else if (session !== undefined) {
       setLoading(false)
     }
-  }, [session])
+  }, [session, router])
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  const getStoreData = async () => {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/store-data`)
-    if (res.data) {
-      setStoreData(res.data)
-    }
-  }
-
   useEffect(() => {
+    const getStoreData = async () => {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/store-data`)
+      if (res.data) {
+        setStoreData(res.data)
+      }
+    }
+
     getStoreData()
   }, [])
 
   const getNotifications = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/notifications/ultimate`)
+    setNotifications([])
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/notifications`)
     if (response.data.find((notification: any) => notification.view === false)) {
       setNotification(true)
     } else {
@@ -82,39 +84,6 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
     return () => {
       socket.off('message', message => console.log(message))
-    }
-  }, [])
-
-  useEffect(() => {
-    socket.on('whatsapp', async (message) => {
-      setNotification(true)
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {title: 'Nuevo mensaje: WhatsApp', description: message.message, url: '/mensajes/whatsapp', view: false})
-    })
-
-    return () => {
-      socket.off('whatsapp', message => console.log(message))
-    }
-  }, [])
-
-  useEffect(() => {
-    socket.on('messenger', async (message) => {
-      setNotification(true)
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {title: 'Nuevo mensaje: Messenger', description: message.message, url: '/mensajes/messenger', view: false})
-    })
-
-    return () => {
-      socket.off('messenger', message => console.log(message))
-    }
-  }, [])
-
-  useEffect(() => {
-    socket.on('instagram', async (message) => {
-      setNotification(true)
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {title: 'Nuevo mensaje: Instagram', description: message.message, url: '/mensajes/instagram', view: false})
-    })
-
-    return () => {
-      socket.off('instagram', message => console.log(message))
     }
   }, [])
 
@@ -149,24 +118,24 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
         pathname !== '/ingresar'
           ? (
             <>
-              <div className='w-full px-2 py-1 bg-white border-b z-40 dark:border-neutral-800 dark:bg-neutral-900'>
+              <div className='w-full px-2 py-1 bg-white border-b border-border z-40 dark:border-neutral-800 dark:bg-neutral-900'>
                 <div className='w-full m-auto flex justify-between'>
                   <div className='flex gap-2'>
                     {
                       !mounted
                         ? <Link href='/'><div className='h-10 w-1'><p>TIENDA</p></div></Link>
-                        : storeData?.logo && storeData.logo.url !== ''
+                        : storeData?.logo && storeData.logo !== ''
                           ? theme === 'system'
                             ? systemTheme === 'dark'
-                              ? storeData.logoWhite && storeData.logoWhite.url !== ''
-                                ? <Link href='/'><img className='h-10' src={storeData.logoWhite.url} /></Link>
+                              ? storeData.logoWhite && storeData.logoWhite !== ''
+                                ? <Link href='/'><Image className='h-10 object-contain w-fit' alt={`Logo ${storeData.name} estilo blanco`} src={storeData.logoWhite} width={200} height={150} /></Link>
                                 : <Link href='/'><div className='h-10 w-1 flex'><p className='text-3xl m-auto font-semibold'>TIENDA</p></div></Link>
-                              : <Link href='/'><img className='h-10' src={storeData.logo.url} /></Link>
+                              : <Link href='/'><Image className='h-10 object-contain w-fit' alt={`Logo ${storeData.name}`} src={storeData.logo} width={200} height={150} /></Link>
                             : theme === 'dark'
-                              ? storeData.logoWhite && storeData.logoWhite.url !== ''
-                                ? <Link href='/'><img className='h-10' src={storeData.logoWhite.url} /></Link>
+                              ? storeData.logoWhite && storeData.logoWhite !== ''
+                                ? <Link href='/'><Image className='h-10 object-contain w-fit' alt={`Logo ${storeData.name} estilo blanco`} src={storeData.logoWhite} width={200} height={150} /></Link>
                                 : <Link href='/'><div className='h-10 w-1 flex'><p className='text-3xl m-auto font-semibold'>TIENDA</p></div></Link>
-                              : <Link href='/'><img className='h-10' src={storeData.logo.url} /></Link>
+                              : <Link href='/'><Image className='h-10 object-contain w-fit' alt={`Logo ${storeData.name}`} src={storeData.logo} width={200} height={150} /></Link>
                           : <Link href='/'><div className='h-10 w-1 flex'><p className='text-3xl m-auto font-semibold'>TIENDA</p></div></Link>
                     }
                   </div>
@@ -211,7 +180,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
                   }, 200)
                 }
               }} className={`${account.opacity} ${account.view} transition-opacity duration-200 fixed z-50 w-full h-full mt-[1px]`}>
-                <div onMouseEnter={() => setAccount({ ...account, mouse: true })} onMouseLeave={() => setAccount({ ...account, mouse: false })} className='p-6 w-64 bg-white rounded-md h-fit shadow-md ml-auto dark:bg-neutral-800'>
+                <div onMouseEnter={() => setAccount({ ...account, mouse: true })} onMouseLeave={() => setAccount({ ...account, mouse: false })} className={`${account.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 border border-black/5 p-6 w-64 bg-white rounded-xl h-fit ml-auto dark:bg-neutral-800`} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
                 <button onClick={async (e: any) => {
                   e.preventDefault()
                   setAccount({ ...account, view: 'flex', opacity: 'opacity-0' })
@@ -231,7 +200,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
                   }, 200)
                 }
               }} style={{ height: 'calc(100% - 56px)' }}>
-                <div onMouseEnter={() => setNotificationsView({ ...notificationsView, mouse: true })} onMouseLeave={() => setNotificationsView({ ...notificationsView, mouse: false })} className='mt-[1px] mr-2 p-4 h-fit max-h-[500px] ml-auto rounded-md shadow-md bg-white z-50 w-[350px] dark:bg-neutral-800' style={{ overflow: 'overlay' }}>
+                <div onMouseEnter={() => setNotificationsView({ ...notificationsView, mouse: true })} onMouseLeave={() => setNotificationsView({ ...notificationsView, mouse: false })} className={`${notificationsView.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 border border-black/5 mt-[1px] mr-2 p-4 h-fit max-h-[500px] ml-auto rounded-xl bg-white z-50 w-[350px] dark:bg-neutral-800`} style={{ overflow: 'overlay', boxShadow: '0px 3px 10px 3px #11111108' }}>
                   <p className='mb-4 text-lg border-b pb-2 mt-2 ml-2 mr-2 dark:border-neutral-600'>Notificaciones</p>
                   {
                     notifications.length
@@ -241,25 +210,37 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
                             notifications.map(notification => {
                               const createdAt = new Date(notification.createdAt!)
                               return (
-                                <Link className='hover:bg-neutral-100 transition-colors duration-150 p-2 rounded-md flex gap-4 justify-between dark:hover:bg-neutral-700' href={notification.url} key={notification.description} onClick={async () => {
+                                <button className='hover:bg-neutral-100 transition-colors duration-150 p-2 rounded-md flex gap-4 justify-between dark:hover:bg-neutral-700' key={notification.description} onClick={async () => {
                                   await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/notifications/${notification._id}`)
                                   getNotifications()
+                                  setNotificationsView({ ...notificationsView, view: 'flex', opacity: 'opacity-0' })
+                                  setTimeout(() => {
+                                    setNotificationsView({ ...notificationsView, view: 'hidden', opacity: 'opacity-0' })
+                                  }, 200)
+                                  router.push(notification.url)
                                 }}>
                                   <div className='mt-auto mb-auto'>
                                     <p>{notification.title}</p>
                                     <p>{notification.description}</p>
-                                    <p className='text-sm text-neutral-600 dark:text-neutral-400'>{createdAt.getDay()}/{createdAt.getMonth() + 1} {createdAt.getHours()}:{createdAt.getMinutes() < 10 ? `0${createdAt.getMinutes()}` : createdAt.getMinutes()}</p>
+                                    <p className='text-sm text-neutral-600 dark:text-neutral-400'>{createdAt.getDate()}/{createdAt.getMonth() + 1}/{createdAt.getFullYear()} {createdAt.getHours()}:{createdAt.getMinutes() < 10 ? `0${createdAt.getMinutes()}` : createdAt.getMinutes()}</p>
                                   </div>
                                   {
                                     notification.view
                                       ? ''
                                       : <div className='w-3 h-3 rounded-full bg-main mt-auto mb-auto' />
                                   }
-                                </Link>
+                                </button>
                               )
                             })
                           }
-                          <Link href='/notificaciones' className='text-main text-center hover:bg-neutral-100 p-2 rounded-md dark:hover:bg-neutral-700'>Ver todos</Link>
+                          <button onClick={() => {
+                            getNotifications()
+                            setNotificationsView({ ...notificationsView, view: 'flex', opacity: 'opacity-0' })
+                            setTimeout(() => {
+                              setNotificationsView({ ...notificationsView, view: 'hidden', opacity: 'opacity-0' })
+                            }, 200)
+                            router.push('/notificaciones')
+                          }} className='text-main text-center hover:bg-neutral-100 p-2 rounded-md dark:hover:bg-neutral-700'>Ver todos</button>
                         </div>
                       )
                       : <p>No hay notificaciones</p>

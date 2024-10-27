@@ -1,30 +1,46 @@
 import React, { ChangeEvent } from 'react'
+import { Input, Select } from '../ui'
 
 interface Props {
     setEmail: any
     email: any
     clientTags: any
+    clientData: any
+    setClientData: any
 }
 
-export const Segment: React.FC<Props> = ({ setEmail, email, clientTags }) => {
+export const Segment: React.FC<Props> = ({ setEmail, email, clientTags, clientData, setClientData }) => {
   return (
-    <div className='bg-white p-4 w-full flex flex-col gap-2 rounded-md shadow-md dark:bg-neutral-800'>
-      <div className='flex'>
-        <p className='text-sm mt-auto mb-auto w-20'>Para:</p>
-        <select onChange={(e: ChangeEvent<HTMLSelectElement>) => setEmail({ ...email, address: e.target.value })} value={email.address} className='p-1.5 rounded border text-sm focus:outline-none w-full focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600'>
+    <div className='bg-white p-5 w-full flex flex-col gap-2 rounded-xl border border-black/5 dark:bg-neutral-800 dark:border-neutral-700' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+      <div className='flex gap-2'>
+        <p className='text-sm mt-auto mb-auto w-20 min-w-20'>Para:</p>
+        <Select change={(e: ChangeEvent<HTMLSelectElement>) => setEmail({ ...email, address: e.target.value })} value={email.address}>
           <option>Todos los suscriptores</option>
           {
             clientTags.length
               ? clientTags.map((clientTag: any) => (
-                        <option key={clientTag.tag}>{clientTag.tag}</option>
+                <option key={clientTag.tag}>{clientTag.tag}</option>
               ))
               : ''
           }
-        </select>
+        </Select>
       </div>
-      <div className='flex'>
-        <p className='text-sm mt-auto mb-auto w-20'>Asunto:</p>
-        <input type='text' placeholder='Asunto' onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail({...email, affair: e.target.value})} value={email.affair} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+      <div className='flex gap-2'>
+        <p className='text-sm mt-auto mb-auto w-20 min-w-20'>Asunto:</p>
+        <Select change={(e: any) => {
+          e.preventDefault()
+          setEmail({...email, affair: email.affair + e.target.value})
+        }} value='' config='w-fit'>
+          <option value=''>Agregar dato cliente</option>
+          {
+            clientData.length
+              ? clientData.map((data: any) => (
+                <option key={data.data} value={'{' + data.data + '}'}>{data.name}</option>
+              ))
+              : ''
+          }
+        </Select>
+        <Input placeholder='Asunto' change={(e: ChangeEvent<HTMLInputElement>) => setEmail({...email, affair: e.target.value})} value={email.affair} />
       </div>
     </div>
   )

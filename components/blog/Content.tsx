@@ -1,6 +1,7 @@
 import React from 'react'
 import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
+import { Card, Input, Textarea } from '../ui'
 
 const ReactQuillComponent = dynamic(() => import("react-quill"), { ssr: false })
 
@@ -13,14 +14,14 @@ interface Props {
 
 export const Content: React.FC<Props> = ({ setContentData, contentData, setContent, content }) => {
   return (
-    <div className='bg-white border flex flex-col gap-4 border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
+    <Card title='Información'>
       <div className='flex flex-col gap-2'>
         <p className='text-sm'>Titulo</p>
-        <input type='text' placeholder='Titulo del post' onChange={(e: any) => setContentData({ ...contentData, title: e.target.value })} value={contentData.title} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+        <Input placeholder='Titulo del post' change={(e: any) => setContentData({ ...contentData, title: e.target.value })} value={contentData.title} />
       </div>
       <div className='flex flex-col gap-2'>
         <p className='text-sm'>Descripción</p>
-        <textarea placeholder='Descripción del post' onChange={(e: any) => setContentData({ ...contentData, description: e.target.value })} value={contentData.description} className='p-1.5 rounded border h-24 text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+        <Textarea placeholder='Descripción del post' change={(e: any) => setContentData({ ...contentData, description: e.target.value })} value={contentData.description} />
       </div>
       <div className='flex flex-col gap-2'>
         <p className='text-sm'>Contenido</p>
@@ -39,6 +40,6 @@ export const Content: React.FC<Props> = ({ setContentData, contentData, setConte
           }} theme="snow" value={content} onChange={setContent} />
         </div>
       </div>
-    </div>
+    </Card>
   )
 }

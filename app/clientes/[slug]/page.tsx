@@ -1,6 +1,6 @@
 "use client"
-import { Spinner, Spinner2 } from '@/components/ui'
-import { IClient, ISell } from '@/interfaces'
+import { Button, Button2, Button2Red, ButtonSubmit, ButtonSubmit2, Card, Input, Spinner, Spinner2, Textarea } from '@/components/ui'
+import { IClient, IFunnel, IMeeting, IService } from '@/interfaces'
 import { NumberFormat } from '@/utils'
 import axios from 'axios'
 import Head from 'next/head'
@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
+import { SlArrowDown } from 'react-icons/sl'
 
 export default function Page ({ params }: { params: { slug: string } }) {
 
@@ -15,27 +16,52 @@ export default function Page ({ params }: { params: { slug: string } }) {
   const [tags, setTags] = useState([])
   const [loadingClientTag, setLoadingClientTag] = useState(false)
   const [newClientTag, setNewClientTag] = useState('')
-  const [clientSells, setClientSells] = useState<ISell[]>()
   const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [loading, setLoading] = useState(false)
-  const [edit, setEdit] = useState(false)
   const [loadingEdit, setLoadingEdit] = useState(false)
   const [popupEmail, setPopupEmail] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [email, setEmail] = useState({ subject: '', email: '' })
   const [loadingEmail, setLoadingEmail] = useState(false)
+  const [meetings, setMeetings] = useState<IMeeting[]>([])
+  const [funnels, setFunnels] = useState<IFunnel[]>()
+  const [data, setData] = useState([])
+  const [dataView, setDataView] = useState(false)
+  const [services, setServices] = useState<IService[]>([])
+  const [popupPrice, setPopupPrice] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
+  const [price, setPrice] = useState('')
+  const [loadingPrice, setLoadingPrice] = useState(false)
+  const [service, setService] = useState<IService>()
 
   const router = useRouter()
 
-  const getClientData = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-email/${params.slug}`)
-    setClientData(response.data)
-    const sells = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/sells-client/${params.slug}`)
-    setClientSells(sells.data)
-  }
-
   useEffect(() => {
-    getClientData()
-  }, [])
+    const getClientData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-email/${params.slug}`);
+        setClientData(response.data);
+        
+        // Usar Promise.all para esperar que todas las llamadas se completen
+        const funnelsFind = await Promise.all(
+          response.data.funnels.map(async (funnel: any) => {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnel/${funnel.funnel}`);
+            return res.data;
+          })
+        );
+        
+        setFunnels(funnelsFind);
+  
+        const respon = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/services`);
+        const filter = respon.data.filter((service: IService) => 
+          response.data.services.some((serv: any) => serv.service === service._id)
+        );
+        setServices(filter);
+      } catch (error) {
+        console.error("Error fetching client data:", error);
+      }
+    };
+  
+    getClientData();
+  }, [params.slug]);
 
   const getClientTags = async () => {
     const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-tag`)
@@ -46,11 +72,31 @@ export default function Page ({ params }: { params: { slug: string } }) {
     getClientTags()
   }, [])
 
-  const deleteClient = async () => {
-    setLoading(true)
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/client/${clientData?._id}`)
-    router.push('/clientes')
-    setLoading(false)
+  const getMeetings = async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/meetings/${params.slug}`)
+    setMeetings(res.data)
+  }
+
+  useEffect(() => {
+    getMeetings()
+  }, [])
+
+  const getData = async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-data`)
+    setData(res.data)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  const deleteClient = async (e: any) => {
+    if (!loading) {
+      setLoading(true)
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/client/${clientData?._id}`)
+      router.push('/clientes')
+      setLoading(false)
+    }
   }
 
   return (
@@ -58,6 +104,41 @@ export default function Page ({ params }: { params: { slug: string } }) {
       <Head>
         <title>Cliente: {clientData?._id}</title>
       </Head>
+      <div onClick={() => {
+        if (!popupPrice.mouse) {
+          setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-0' })
+          setTimeout(() => {
+            setPopupPrice({ ...popupPrice, view: 'hidden', opacity: 'opacity-0' })
+          }, 200)
+        }
+      }} className={`${popupPrice.view} ${popupPrice.opacity} transition-opacity duration-200 w-full h-full top-0 left-0 z-50 right-0 fixed flex bg-black/20 dark:bg-black/40`}>
+        <div onMouseEnter={() => setPopupPrice({ ...popupPrice, mouse: true })} onMouseLeave={() => setPopupPrice({ ...popupPrice, mouse: false })} className={`${popupPrice.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 w-[500px] p-6 flex flex-col gap-2 rounded-xl border bg-white m-auto dark:bg-neutral-800 dark:border-neutral-700`} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+          <p>Asignar precio</p>
+          <Input change={(e: any) => setPrice(e.target.value)} placeholder='Precio' value={price} />
+          <div className='flex gap-6'>
+            <ButtonSubmit action={async (e: any) => {
+              e.preventDefault()
+              if (!loadingPrice) {
+                setLoadingPrice(true)
+                const oldServices = [...clientData?.services!]
+                oldServices.find(servi => servi.service === service?._id)!.price = price
+                await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/clients/${clientData?._id}`, { services: oldServices })
+                setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-0' })
+                setTimeout(() => {
+                  setPopupPrice({ ...popupPrice, view: 'hidden', opacity: 'opacity-0' })
+                }, 200)
+                setLoadingPrice(false)
+              }
+            }} color='main' submitLoading={loadingPrice} textButton='Asignar precio' config='w-44' />
+            <button onClick={() => {
+              setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-0' })
+              setTimeout(() => {
+                setPopupPrice({ ...popupPrice, view: 'hidden', opacity: 'opacity-0' })
+              }, 200)
+            }}>Cancelar</button>
+          </div>
+        </div>
+      </div>
       {
         clientData?.email
           ? (
@@ -69,10 +150,10 @@ export default function Page ({ params }: { params: { slug: string } }) {
                 }, 200)
               }
             }} className={`${popup.view} ${popup.opacity} transition-opacity duration-200 w-full h-full top-0 left-0 z-50 right-0 fixed flex bg-black/20 dark:bg-black/40`}>
-              <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className='w-[500px] p-8 flex flex-col gap-2 rounded-md shadow-md border border-white bg-white m-auto dark:bg-neutral-800 dark:border-neutral-700'>
-                <p>Estas seguro que deseas eliminar el cliente <strong>{clientData!.email}</strong></p>
+              <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className={`${popup.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 w-[500px] p-6 flex flex-col gap-2 rounded-xl border bg-white m-auto dark:bg-neutral-800 dark:border-neutral-700`} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                <p>Estas seguro que deseas eliminar el cliente <span className='font-semibold'>{clientData!.email}</span></p>
                 <div className='flex gap-6'>
-                  <button onClick={deleteClient} className='bg-red-600 border border-red-600 transition-colors duration-200 h-9 w-36 rounded text-white hover:bg-transparent hover:text-red-600'>{loading ? <Spinner2 /> : 'Eliminar'}</button>
+                  <ButtonSubmit action={deleteClient} color='red-500' submitLoading={loading} textButton='Eliminar cliente' config='w-44' />
                   <button onClick={() => {
                     setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                     setTimeout(() => {
@@ -96,183 +177,208 @@ export default function Page ({ params }: { params: { slug: string } }) {
                 }, 200)
               }
             }} className={`${popupEmail.view} ${popupEmail.opacity} transition-opacity duration-200 w-full h-full top-0 left-0 z-50 right-0 fixed flex bg-black/20 dark:bg-black/40`}>
-              <div onMouseEnter={() => setPopupEmail({ ...popupEmail, mouse: true })} onMouseLeave={() => setPopupEmail({ ...popupEmail, mouse: false })} className='w-[700px] p-8 flex flex-col gap-4 rounded-md shadow-md border border-white bg-white m-auto dark:bg-neutral-800 dark:border-neutral-700'>
+              <div onMouseEnter={() => setPopupEmail({ ...popupEmail, mouse: true })} onMouseLeave={() => setPopupEmail({ ...popupEmail, mouse: false })} className={`${popupEmail.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 w-[700px] p-8 flex flex-col gap-4 rounded-xl border bg-white m-auto dark:bg-neutral-800 dark:border-neutral-700`} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
                 <h3 className='text-lg font-medium'>Enviar email</h3>
                 <div className='flex flex-col gap-2'>
                   <p>Asunto</p>
-                  <input type='text' placeholder='Asunto' value={email.subject} onChange={(e: any) => setEmail({ ...email, subject: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Input placeholder='Asunto' value={email.subject} change={(e: any) => setEmail({ ...email, subject: e.target.value })} />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p>Correo</p>
-                  <textarea placeholder='Correo' value={email.email} onChange={(e: any) => setEmail({ ...email, email: e.target.value })} className='p-1.5 h-80 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Textarea placeholder='Correo' value={email.email} change={(e: any) => setEmail({ ...email, email: e.target.value })} />
                 </div>
-                <button onClick={async (e: any) => {
+                <ButtonSubmit action={async (e: any) => {
                   e.preventDefault()
-                  setLoadingEmail(true)
-                  await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/email/${clientData.email}`, email)
-                  setPopupEmail({ ...popupEmail, view: 'flex', opacity: 'opacity-0' })
-                  setTimeout(() => {
-                    setPopupEmail({ ...popupEmail, view: 'hidden', opacity: 'opacity-0' })
-                  }, 200)
-                  setLoadingEmail(false)
-                }} className='h-9 w-40 rounded bg-main border border-main text-white transition-colors duration-200 hover:bg-transparent hover:text-main'>{loadingEmail ? <Spinner2 /> : 'Envíar correo'}</button>
+                  if (!loadingEmail) {
+                    setLoadingEmail(true)
+                    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/email/${clientData.email}`, email)
+                    setPopupEmail({ ...popupEmail, view: 'flex', opacity: 'opacity-0' })
+                    setTimeout(() => {
+                      setPopupEmail({ ...popupEmail, view: 'hidden', opacity: 'opacity-0' })
+                    }, 200)
+                    setLoadingEmail(false)
+                  }
+                }} color='main' submitLoading={loadingEmail} textButton='Envíar correo' config='w-36' />
               </div>
             </div>
           )
           : ''
       }
-      <div className='bg-[#f6f6f7] overflow-y-auto dark:bg-neutral-900 h-full'>
-        <div className='p-6 flex flex-col gap-4 w-full'>
+      <div className='bg-bg p-6 overflow-y-auto dark:bg-neutral-900 h-full'>
+        <div className='flex flex-col gap-6 w-full max-w-[1280px] m-auto'>
           {
             clientData
               ? (
                 <>
                   <div className='flex gap-3 w-full justify-between m-auto'>
-                    <div className='flex gap-3'>
-                      <Link href='/clientes' className='border rounded p-2 bg-white transition-colors duration-200 hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
-                      <h1 className='text-xl font-medium mt-auto mb-auto'>{ clientData.email }</h1>
+                    <div className='flex gap-3 my-auto'>
+                      <Link href='/clientes' className='border rounded-xl p-2 bg-white transition-colors duration-200 hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
+                      <h1 className='text-2xl font-medium mt-auto mb-auto'>{ clientData.email }</h1>
                     </div>
-                    <button onClick={(e: any) => {
+                    <Button action={(e: any) => {
                       e.preventDefault()
                       setPopupEmail({ ...popup, view: 'flex', opacity: 'opacity-0' })
                       setTimeout(() => {
                         setPopupEmail({ ...popup, view: 'flex', opacity: 'opacity-1' })
                       }, 10)
-                    }} className='py-1.5 px-6 rounded bg-main border border-main text-white transition-colors duration-200 hover:bg-transparent hover:text-main'>Enviar email</button>
+                    }}>Envíar email</Button>
                   </div>
-                  <form className='flex gap-4 w-full m-auto'>
-                    <div className='flex gap-4 flex-col w-2/3'>
-                      <div className='bg-white border flex flex-col gap-4 border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
-                        <h2 className='font-medium'>Pedidos</h2>
-                        <div className='flex flex-col gap-2 overflow-y-auto max-h-96'>
-                          {
-                            clientSells
-                              ? clientSells.length
-                                ? clientSells.map(sell => (
-                                  <div onClick={() => router.push(`/ventas/${sell._id}`)} className='flex gap-4 cursor-pointer justify-between transition-colors duration-150 hover:bg-neutral-100 pt-4 pb-4 rounded pl-2 pr-2 dark:hover:bg-neutral-700' key={sell._id}>
-                                    <p className='mt-auto mb-auto text-sm'>{sell.pay}</p>
-                                    <p className='mt-auto mb-auto text-sm'>{sell.state}</p>
-                                    <p className='mt-auto mb-auto text-sm'>{sell.shippingMethod}</p>
-                                    <p className='mt-auto mb-auto text-sm'>{sell.shippingState}</p>
-                                    <p className='mt-auto mb-auto text-sm'>${NumberFormat(sell.total)}</p>
+                  <form className='flex gap-6 w-full m-auto'>
+                    <div className='flex gap-6 flex-col w-2/3'>
+                      <Card title='Servicios'>
+                        {
+                          services.length
+                            ? services.map(service => {
+                              if (clientData.services?.find(serv => serv.service === service._id)?.step && clientData.services?.find(serv => serv.service === service._id)?.step !== '') {
+                                return (
+                                  <div key={service._id} className='flex gap-4 justify-around overflow-y-auto'>
+                                    <p className='my-auto text-center min-w-32'>{clientData.services?.find(serv => serv.service === service._id)?.payStatus}</p>
+                                    <p className='my-auto text-center min-w-32'>{service.name}</p>
+                                    {
+                                      clientData.services?.find(serv => serv.service === service._id)?.price
+                                        ? <p className='text-center my-auto min-w-32'>${NumberFormat(Number(clientData.services?.find(serv => serv.service === service._id)?.price))}</p>
+                                        : <Button2 color='main' action={(e: any) => {
+                                          e.preventDefault()
+                                          setService(service)
+                                          setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-0' })
+                                          setTimeout(() => {
+                                            setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-1' })
+                                          }, 10)
+                                        }}>Asignar precio</Button2>
+                                    }
+                                    <p className='my-auto text-center min-w-32'>{service.typeService}</p>
+                                    <p className='my-auto text-center min-w-32'>{service.typePrice}</p>
+                                    <p className='my-auto text-center min-w-32'>{service.steps.find(step => step._id === clientData.services!.find(serv => serv.service === service._id)!.step)?.step}</p>
                                   </div>
-                                ))
-                                : <p className='text-sm'>No hay ventas</p>
-                              : (
-                                <div className="flex w-full">
-                                  <div className="m-auto mt-16 mb-16">
-                                    <Spinner />
-                                  </div>
+                                )
+                              }
+                            })
+                            : <p>Este cliente no esta asociado a algun servicio</p>
+                        }
+                      </Card>
+                      <Card title='Embudo actual'>
+                        {
+                          funnels?.length
+                            ? funnels.map((funnel, index) => (
+                              <>
+                                <p>Embudo: {funnel?.funnel}</p>
+                                <p>Etapas:</p>
+                                <div className='flex gap-4 justify-around overflow-x-auto'>
+                                  {
+                                    funnel?.steps.map(step => {
+                                      if (step._id === clientData.funnels![index].step) {
+                                        return (
+                                          <div key={step._id} className='p-4 bg-main rounded-lg flex'>
+                                            <p className='text-white my-auto text-center'>{step.step}</p>
+                                          </div>
+                                        )
+                                      } else {
+                                        return (
+                                          <div key={step._id} className='p-4 flex'>
+                                            <p className='m-auto text-center'>{step.step}</p>
+                                          </div>
+                                        )
+                                      }
+                                    })
+                                  }
                                 </div>
-                              )
-                          }
-                        </div>
-                      </div>
+                              </>
+                            ))
+                            : <p>Este cliente no esta en un embudo</p>
+                        }
+                      </Card>
+                      <Card title='Llamadas'>
+                        {
+                          meetings.length
+                            ? meetings.map((meeting, index) => (
+                              <button key={meeting._id} onClick={(e: any) => {
+                                e.preventDefault()
+                                router.push(`/llamadas/${meeting._id}`)
+                              }} className={`${index + 1 < meetings.length ? 'border-b border-border' : ''} flex rounded-lg gap-4 p-4 justify-between transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700`}>
+                                <p>{meeting.meeting}</p>
+                                <p>{new Date(meeting.date).toLocaleDateString()} - {new Date(meeting.date).toLocaleTimeString()}</p>
+                              </button>
+                            ))
+                            : <p>Este cliente no ha agendado ninguna llamada</p>
+                        }
+                      </Card>
                     </div>
-                    <div className='flex gap-4 flex-col w-1/3'>
-                      <div className='bg-white flex flex-col gap-4 border border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
-                        <div className='flex gap-2 justify-between'>
-                          <h2 className='font-medium my-auto'>Datos</h2>
-                          {
-                            edit
-                              ? (
-                                <button onClick={async (e: any) => {
-                                  e.preventDefault()
-                                  setLoadingEdit(true)
-                                  await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/client/${params.slug}`, clientData)
-                                  setEdit(false)
-                                  setLoadingEdit(false)
-                                }} className='h-9 w-40 rounded bg-main border border-main text-white transition-colors duration-200 hover:bg-transparent hover:text-main'>{loadingEdit ? <Spinner2 /> : 'Guardar datos'}</button>
-                              )
-                              : (
-                                <button onClick={async (e: any) => {
-                                  e.preventDefault()
-                                  setEdit(true)
-                                }} className='h-9 w-36 rounded bg-main border border-main text-white transition-colors duration-200 hover:bg-transparent hover:text-main'>Editar datos</button>
-                              )
-                          }
+                    <div className='flex gap-6 flex-col w-1/3'>
+                      <Card title='Datos'>
+                        <div className='flex flex-col gap-2'>
+                          <p className='text-sm'>Nombre</p>
+                          <Input placeholder='Nombre' value={clientData.firstName} change={(e: any) => setClientData({ ...clientData, firstName: e.target.value })} />
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                          <p className='text-sm'>Apellido</p>
+                          <Input placeholder='Apellido' value={clientData.lastName} change={(e: any) => setClientData({ ...clientData, lastName: e.target.value })} />
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                          <p className='text-sm'>Email</p>
+                          <Input placeholder='Email' value={clientData.email} change={(e: any) => setClientData({ ...clientData, email: e.target.value })} />
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                          <p className='text-sm'>Teléfono</p>
+                          <Input placeholder='Teléfono' value={clientData.phone} change={(e: any) => setClientData({ ...clientData, phone: e.target.value })} />
                         </div>
                         {
-                          edit
+                          data?.length
                             ? (
-                              <>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Nombre</p>
-                                  <input type='text' placeholder='Nombre' value={clientData.firstName} onChange={(e: any) => setClientData({ ...clientData, firstName: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Apellido</p>
-                                  <input type='text' placeholder='Apellido' value={clientData.lastName} onChange={(e: any) => setClientData({ ...clientData, lastName: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Email</p>
-                                  <input type='text' placeholder='Email' value={clientData.email} onChange={(e: any) => setClientData({ ...clientData, email: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Teléfono</p>
-                                  <input type='text' placeholder='Teléfono' value={clientData.phone} onChange={(e: any) => setClientData({ ...clientData, phone: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                                </div>
-                              </>
+                              <div className='flex flex-col gap-4'>
+                                <button onClick={(e: any) => {
+                                  e.preventDefault()
+                                  if (dataView) {
+                                    setDataView(false)
+                                  } else {
+                                    setDataView(true)
+                                  }
+                                }} className='w-full flex gap-4 justify-between'>
+                                  <p className='font-medium my-auto'>Campos personalizados</p>
+                                  <SlArrowDown className={`${dataView ? 'rotate-180' : ''} transition-all duration-200 text-lg my-auto`} />
+                                </button>
+                                {
+                                  dataView
+                                    ? data.map((data: any) => {
+                                      if (data.data === 'firstName' || data.data === 'lastName' || data.data === 'email' || data.data === 'phone') {
+                                        return
+                                      } else {
+                                        return (
+                                          <div key={data.data} className='flex flex-col gap-2'>
+                                            <p className='text-sm'>{data.data}</p>
+                                            <Input placeholder='Teléfono' value={clientData.data!.find(dat => dat.name === data.data)?.value} change={(e: any) => {
+                                              const oldData = [...clientData.data!]
+                                              if (oldData.find(dat => dat.name === data.data)) {
+                                                oldData.find(dat => dat.name === data.data)!.value = e.target.value
+                                              } else {
+                                                oldData.push({ name: data.data, value: e.target.value })
+                                              }
+                                              setClientData({ ...clientData, data: oldData })
+                                            }} />
+                                          </div>
+                                        )
+                                      }
+                                    })
+                                    : ''
+                                }
+                              </div>
                             )
-                            : (
-                              <>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Nombre</p>
-                                  <p className='text-sm'>{clientData.firstName} {clientData.lastName}</p>
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Email</p>
-                                  <p className='text-sm'>{clientData.email}</p>
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Telefono</p>
-                                  <p className='text-sm'>{clientData.phone}</p>
-                                </div>
-                              </>
-                            )
+                            : ''
                         }
-                      </div>
-                      <div className='bg-white border flex flex-col gap-4 border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
-                        <h2 className='font-medium'>Dirección</h2>
-                        {
-                          edit
-                            ? (
-                              <>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Calle</p>
-                                  <input type='text' placeholder='Dirección' value={clientData.address} onChange={(e: any) => setClientData({ ...clientData, address: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Ciudad</p>
-                                  <input type='text' placeholder='Ciudad' value={clientData.city} onChange={(e: any) => setClientData({ ...clientData, city: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Región</p>
-                                  <input type='text' placeholder='Región' value={clientData.region} onChange={(e: any) => setClientData({ ...clientData, region: e.target.value })} className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                                </div>
-                              </>
-                            )
-                            : (
-                              <>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Calle</p>
-                                  <p className='text-sm'>{clientData.address}</p>
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                  <p className='text-sm'>Ciudad</p>
-                                  <p className='text-sm'>{clientData.city}, {clientData.region}</p>
-                                </div>
-                              </>
-                            )
-                        }
-                      </div>
-                      <div className='bg-white border flex flex-col gap-4 border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
-                        <h2 className='text-md font-medium'>Tags</h2>
+                        <ButtonSubmit2 action={async (e: any) => {
+                          e.preventDefault()
+                          if (!loadingEdit) {
+                            setLoadingEdit(true)
+                            await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/client/${params.slug}`, clientData)
+                            setLoadingEdit(false)
+                          }
+                        }} color='main' submitLoading={loadingEdit} textButton='Guardar datos' config='w-40' />
+                      </Card>
+                      <Card title='Tags'>
                         <div className='flex flex-col gap-2'>
                           <p className='text-sm'>Tags</p>
                           {
                             tags?.length
-                              ? <div className='flex gap-2'>
+                              ? <div className='flex gap-3 flex-wrap'>
                                 {
                                   tags.map((tag: any) => (
                                     <div className='flex gap-1' key={tag.tag}>
@@ -306,27 +412,29 @@ export default function Page ({ params }: { params: { slug: string } }) {
                         <div className='flex flex-col gap-2'>
                           <p className='text-sm'>Nuevo tag</p>
                           <div className='flex gap-2'>
-                            <input type='text' placeholder='Nuevo tag' onChange={(e: any) => setNewClientTag(e.target.value)} value={newClientTag} className='font-light p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
-                            <button onClick={async (e: any) => {
+                            <Input placeholder='Nuevo tag' change={(e: any) => setNewClientTag(e.target.value)} value={newClientTag} />
+                            <ButtonSubmit2 action={async (e: any) => {
                               e.preventDefault()
-                              setLoadingClientTag(true)
-                              await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/client-tag`, { tag: newClientTag })
-                              setNewClientTag('')
-                              setLoadingClientTag(false)
-                              getClientTags()
-                            }} className='bg-main border border-main transition-colors duration-200 text-white text-sm rounded h-8 w-24 hover:bg-transparent hover:text-main'>{loadingClientTag ? <Spinner2 /> : 'Crear'}</button>
+                              if (!loadingClientTag) {
+                                setLoadingClientTag(true)
+                                await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/client-tag`, { tag: newClientTag })
+                                setNewClientTag('')
+                                setLoadingClientTag(false)
+                                getClientTags()
+                              }
+                            }} color='main' submitLoading={loadingClientTag} textButton='Crear tag' config='w-32' />
                           </div>
                         </div>
-                      </div>
-                      <div className='bg-white flex flex-col gap-4 border border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
+                      </Card>
+                      <div className='flex flex-col gap-4 p-2'>
                         <h2 className='font-medium'>Eliminar cliente</h2>
-                        <button onClick={(e: any) => {
+                        <Button2Red action={(e: any) => {
                           e.preventDefault()
                           setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                           setTimeout(() => {
                             setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
                           }, 10)
-                        }} className='py-1.5 px-6 w-fit bg-red-600 border border-red-600 transition-colors duration-200 rounded text-white hover:bg-transparent hover:text-red-600'>Eliminar</button>
+                        }}>Eliminar</Button2Red>
                       </div>
                     </div>
                   </form>

@@ -34,8 +34,8 @@ export default function Page () {
       <Head>
         <title>Notificaciones</title>
       </Head>
-        <div className='p-6 bg-[#f6f6f7] h-full overflow-y-auto dark:bg-neutral-900'>
-          <div className='flex flex-col gap-2 border border-white bg-white shadow-md p-4 rounded-xl justify-between w-full max-w-[900px] m-auto mb-4 dark:bg-neutral-800 dark:border-neutral-700'>
+        <div className='p-6 bg-bg h-full overflow-y-auto dark:bg-neutral-900'>
+          <div className='flex flex-col gap-2 border border-black/5 bg-white rounded-xl p-4 justify-between w-full max-w-[900px] m-auto mb-4 shadow-card dark:shadow-card-dark dark:bg-neutral-800 dark:border-neutral-700'>
             <h1 className='text-xl p-2 font-medium'>Notificaciones</h1>
             <div className='flex flex-col gap-2'>
               {
@@ -59,7 +59,7 @@ export default function Page () {
                           <div className='flex flex-col gap-1'>
                             <p>{notification.title}</p>
                             <p>{notification.description}</p>
-                            <p className='text-sm text-neutral-600 dark:text-neutral-400'>{createdAt.getDay()}/{createdAt.getMonth() + 1} {createdAt.getHours()}:{createdAt.getMinutes() < 10 ? `0${createdAt.getMinutes()}` : createdAt.getMinutes()}</p>
+                            <p className='text-sm text-neutral-600 dark:text-neutral-400'>{createdAt.getDate()}/{createdAt.getMonth() + 1}/{createdAt.getFullYear()} {createdAt.getHours()}:{createdAt.getMinutes() < 10 ? `0${createdAt.getMinutes()}` : createdAt.getMinutes()}</p>
                           </div>
                           {
                             notification.view

@@ -1,10 +1,9 @@
 "use client"
 import { Nav } from '@/components/configuration'
-import { Spinner2 } from '@/components/ui'
-import { City, IStoreData, Region } from '@/interfaces'
+import { ButtonSubmit, Card, Input, Select } from '@/components/ui'
+import { IStoreData } from '@/interfaces'
 import axios from 'axios'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
@@ -54,16 +53,17 @@ export default function Page () {
         close: ''
       }
     },
-    logo: { public_id: '', url: '' },
-    logoWhite: { public_id: '', url: '' },
+    logo: '',
+    logoWhite: '',
     instagram: '',
     facebook: '',
     tiktok: '',
     whatsapp: ''
   })
-  const [regions, setRegions] = useState<Region[]>()
-  const [citys, setCitys] = useState<City[]>()
+  const [regions, setRegions] = useState<[]>()
+  const [citys, setCitys] = useState<[]>()
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const router = useRouter()
 
@@ -98,32 +98,36 @@ export default function Page () {
 
   const imageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/product-image-upload`, {image: e.target.files[0]}, {
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+      formData.append('name', e.target.files[0].name);
+      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/image`, formData, {
         headers: {
           accept: 'application/json',
-          'Accept-Language': 'en-US,en;q=0.8',
-          'Content-Type': 'multipart/form-data'
+          'Accept-Language': 'en-US,en;q=0.8'
         }
       })
-      setStoreData({...storeData, logo: { public_id: response.data.image.public_id, url: response.data.image.url}})
+      setStoreData({...storeData, logo: data})
     }
   }
 
   const imageChange2 = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/product-image-upload`, {image: e.target.files[0]}, {
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+      formData.append('name', e.target.files[0].name);
+      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/image`, formData, {
         headers: {
           accept: 'application/json',
-          'Accept-Language': 'en-US,en;q=0.8',
-          'Content-Type': 'multipart/form-data'
+          'Accept-Language': 'en-US,en;q=0.8'
         }
       })
-      setStoreData({...storeData, logoWhite: { public_id: response.data.image.public_id, url: response.data.image.url}})
+      setStoreData({...storeData, logoWhite: data})
     }
   }
 
   const regionChange = async (e: any) => {
-    const region = regions?.find(region => region.regionName === e.target.value)
+    const region: any = regions?.find((region: any) => region.regionName === e.target.value)
     const request = await axios.get(`https://testservices.wschilexpress.com/georeference/api/v1.0/coverage-areas?RegionCode=${region?.regionId}&type=0`, {
       headers: {
         'Cache-Control': 'no-cache',
@@ -138,10 +142,23 @@ export default function Page () {
     setStoreData({...storeData, city: e.target.value})
   }
 
-  const handleSubmit = async () => {
-    setLoading(true)
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/store-data`, storeData)
-    setLoading(false)
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    if (!loading) {
+      setLoading(true)
+      setError('')
+      if (storeData.email !== '') {
+        if (storeData._id) {
+          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/store-data/${storeData._id}`, storeData)
+        } else {
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/store-data`, storeData)
+        }
+      } else {
+        setError('Debes llenar al menos el dato de email')
+      }
+      
+      setLoading(false)
+    }
   }
 
   return (
@@ -149,34 +166,38 @@ export default function Page () {
       <Head>
         <title>Configuración</title>
       </Head>
-        <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 dark:bg-neutral-800 dark:border-neutral-700' style={{ width: 'calc(100% - 70px)' }}>
-          <div className='flex m-auto w-full'>
-            <div className='flex gap-2 ml-auto w-fit'>
-              <button onClick={handleSubmit} className='bg-main border border-main transition-colors duration-200 text-white text-sm rounded w-40 h-9 hover:bg-transparent hover:text-main'>{loading ? <Spinner2 /> : 'Guardar datos'}</button>
-              <button onClick={() => router.refresh()} className='pt-1.5 pb-1.5 text-sm rounded pl-4 pr-4 my-auto'>Descartar</button>
+        <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 dark:bg-neutral-800 dark:border-neutral-700' style={{ width: 'calc(100% - 250px)' }}>
+          <div className='flex m-auto w-full max-w-[1280px]'>
+            {
+              error !== ''
+                ? <p className='px-2 py-1 bg-red-500 text-white w-fit my-auto'>{ error }</p>
+                : ''
+            }
+            <div className='flex gap-6 ml-auto w-fit'>
+              <ButtonSubmit action={handleSubmit} color='main' submitLoading={loading} textButton='Guardar datos' config='w-40' />
+              <button onClick={() => router.refresh()} className='text-sm my-auto'>Descartar</button>
             </div>
           </div>
         </div>
-        <div className='p-6 w-full overflow-y-auto bg-[#f6f6f7] dark:bg-neutral-900 mb-16' style={{ height: 'calc(100% - 69px)' }}>
-          <div className='flex w-full max-w-1280 m-auto gap-8 mb-4'>
+        <div className='p-6 w-full flex flex-col gap-6 overflow-y-auto bg-bg dark:bg-neutral-900 mb-16' style={{ height: 'calc(100% - 73px)' }}>
+          <div className='flex w-full max-w-[1280px] mx-auto gap-6'>
             <Nav />
-            <div className='w-3/4 flex flex-col gap-4'>
+            <div className='w-3/4 flex flex-col gap-6'>
               <h2 className='text-lg font-medium mt-3 pb-3 border-b dark:border-neutral-700'>Información de la tienda</h2>
-              <div className='bg-white border flex flex-col gap-4 border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
-                <h3 className='font-medium'>Información general</h3>
+              <Card title='Información general'>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Nombre de la tienda</p>
-                  <input type='text' name='name' value={storeData.name} onChange={inputChange} placeholder='Nombre de la tienda' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Input name='name' value={storeData.name} change={inputChange} placeholder='Nombre de la tienda' />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Correo de la tienda</p>
-                  <input type='text' name='email' value={storeData.email} onChange={inputChange} placeholder='Correo de la tienda' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Input name='email' value={storeData.email} change={inputChange} placeholder='Correo de la tienda' />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>Telefono de la tienda</p>
+                  <p className='text-sm'>Teléfono de la tienda</p>
                   <div className='flex gap-2'>
                     <p className='text-sm mt-auto mb-auto'>+56</p>
-                    <input type='text' name='phone' value={storeData.phone} onChange={inputChange} placeholder='Telefono de la tienda' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                    <Input name='phone' value={storeData.phone} change={inputChange} placeholder='Teléfono de la tienda' />
                   </div>
                 </div>
                 <div className='flex flex-col gap-2'>
@@ -189,49 +210,48 @@ export default function Page () {
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Instagram de la tienda</p>
-                  <input type='text' name='instagram' value={storeData.instagram} onChange={inputChange} placeholder='Instagram' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Input name='instagram' value={storeData.instagram} change={inputChange} placeholder='Instagram' />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Facebook de la tienda</p>
-                  <input type='text' name='facebook' value={storeData.facebook} onChange={inputChange} placeholder='Facebook' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Input name='facebook' value={storeData.facebook} change={inputChange} placeholder='Facebook' />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Tik Tok de la tienda</p>
-                  <input type='text' name='tiktok' value={storeData.tiktok} onChange={inputChange} placeholder='Tik Tok' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Input name='tiktok' value={storeData.tiktok} change={inputChange} placeholder='Tik Tok' />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>WhatsApp de la tienda</p>
-                  <input type='text' name='whatsapp' value={storeData.whatsapp} onChange={inputChange} placeholder='WhatsApp' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Input name='whatsapp' value={storeData.whatsapp} change={inputChange} placeholder='WhatsApp' />
                 </div>
-              </div>
-              <div className='bg-white flex flex-col gap-4 border border-white p-4 rounded-md shadow dark:bg-neutral-800 dark:border-neutral-700'>
-                <h3 className='font-medium'>Ubicación de la tienda</h3>
+              </Card>
+              <Card title='Ubicación de la tienda'>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Dirección</p>
-                  <input type='text' name='address' value={storeData.address} onChange={inputChange} placeholder='Dirección' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Input name='address' value={storeData.address} change={inputChange} placeholder='Dirección' />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Departamento, local, etc. (opcional)</p>
-                  <input type='text' name='departament' value={storeData.departament} onChange={inputChange} placeholder='Dirección' className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                  <Input name='departament' value={storeData.departament} change={inputChange} placeholder='Detalles' />
                 </div>
                 <div className='flex gap-4'>
                   <div className='flex flex-col gap-2 w-1/2'>
                     <p className='text-sm'>Región</p>
-                    <select className='p-1.5 rounded border text-sm w-full focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' onChange={regionChange}>
+                    <Select change={regionChange}>
                       <option>Seleccionar Región</option>
                       {
-                      regions !== undefined
-                        ? regions.map(region => <option key={region.regionId}>{region.regionName}</option>)
-                        : ''
+                        regions !== undefined
+                          ? regions.map((region: any) => <option key={region.regionId}>{region.regionName}</option>)
+                          : ''
                       }
-                    </select>
+                    </Select>
                   </div>
                   <div className='flex flex-col gap-2 w-1/2'>
                     <p className='text-sm'>Ciudad</p>
-                    <select className='p-1.5 w-full rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' onChange={cityChange}>
+                    <Select change={cityChange}>
                       <option>Seleccionar Ciudad</option>
-                      {citys?.map(city => <option key={city.countyCode}>{city.countyName}</option>)}
-                    </select>
+                      {citys?.map((city: any) => <option key={city.countyCode}>{city.countyName}</option>)}
+                    </Select>
                   </div>
                 </div>
                 <div className='flex flex-col gap-2'>
@@ -248,19 +268,19 @@ export default function Page () {
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Apertura:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.monday.open} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.monday.open} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.monday.open = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Cierre:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.monday.close} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.monday.close} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.monday.close = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                     </div>
                     <div className='flex gap-2 justify-between'>
@@ -274,19 +294,19 @@ export default function Page () {
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Apertura:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.tuesday.open} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.tuesday.open} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.tuesday.open = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Cierre:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.tuesday.close} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.tuesday.close} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.tuesday.close = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                     </div>
                     <div className='flex gap-2 justify-between'>
@@ -300,19 +320,19 @@ export default function Page () {
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Apertura:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.wednesday.open} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.wednesday.open} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.wednesday.open = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Cierre:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.wednesday.close} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.wednesday.close} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.wednesday.close = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                     </div>
                     <div className='flex gap-2 justify-between'>
@@ -326,19 +346,19 @@ export default function Page () {
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Apertura:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.thursday.open} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.thursday.open} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.thursday.open = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Cierre:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.thursday.close} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.thursday.close} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.thursday.close = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                     </div>
                     <div className='flex gap-2 justify-between'>
@@ -352,19 +372,19 @@ export default function Page () {
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Apertura:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.friday.open} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.friday.open} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.friday.open = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Cierre:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.friday.close} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.friday.close} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.friday.close = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                     </div>
                     <div className='flex gap-2 justify-between'>
@@ -378,19 +398,19 @@ export default function Page () {
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Apertura:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.saturday.open} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.saturday.open} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.saturday.open = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Cierre:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.saturday.close} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.saturday.close} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.saturday.close = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                     </div>
                     <div className='flex gap-2 justify-between'>
@@ -404,24 +424,24 @@ export default function Page () {
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Apertura:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.sunday.open} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.sunday.open} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.sunday.open = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                       <div className='flex gap-2 w-2/5'>
                         <p className='text-sm my-auto'>Cierre:</p>
-                        <input type='text' placeholder='00:00' value={storeData.schedule?.sunday.close} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        <Input placeholder='00:00' value={storeData.schedule?.sunday.close} change={(e: ChangeEvent<HTMLInputElement>) => {
                           const schedule = storeData.schedule!
                           schedule.sunday.close = e.target.value
                           setStoreData({ ...storeData, schedule: schedule })
-                        }} className='p-1.5 rounded border text-sm focus:outline-none focus:border-main focus:ring-1 focus:ring-main dark:border-neutral-600' />
+                        }} />
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Card>
             </div>
           </div>
         </div>

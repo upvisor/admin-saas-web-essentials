@@ -1,8 +1,10 @@
 export interface Design {
+    _id?: string
     header: IHeader
     pages: IPage[]
     productPage: IProductPage
     categoryPage: ICategoryPage[]
+    popup: IPopupWeb
 }
 
 export interface IHeader {
@@ -10,11 +12,14 @@ export interface IHeader {
 }
 
 export interface IPage {
+    _id?: string
     page: string
     slug: string
     header: boolean
+    button?: boolean
     metaTitle?: string
     metaDescription?: string
+    image?: string
     design: IDesign[]
 }
 
@@ -29,16 +34,28 @@ export interface ICategoryPage {
     design: IDesign[]
 }
 
+export interface IPopupWeb {
+    active: boolean
+    wait: number
+    title: string
+    description?: string
+    content?: string
+}
+
 export interface IDesign {
     content: string
     info: IInfo
+    meetings?: string[]
+    meeting?: string
+    form?: string
+    service?: { service: string, plan?: string }
 }
 
 export interface IInfo {
     title?: string
     subTitle?: string
     description?: string
-    image?: { public_id: string, url: string }
+    image?: string
     titleForm?: string
     button?: string
     buttonLink?: string
@@ -53,6 +70,10 @@ export interface IInfo {
     descriptionView?: boolean
     products?: string
     banner?: IBanner[]
+    video?: string
+    typeBackground?: string
+    background?: string
+    textColor?: string
 }
 
 export interface IBanner {
@@ -60,5 +81,5 @@ export interface IBanner {
     description?: string
     button?: string
     buttonLink?: string
-    image?: { public_id: string, url: string }
+    image?: string
 }

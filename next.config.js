@@ -5,9 +5,25 @@ const nextConfig = {
       remotePatterns: [
         {
           protocol: 'https',
-          hostname: 'res.cloudinary.com',
+          hostname: 'iframe.mediadelivery.net',
           port: '',
-          pathname: '/blasspod/**'
+          pathname: '/embed/**'
+        }, {
+          protocol: 'https',
+          hostname: 'web-carmen-orellana.b-cdn.net',
+          port: '',
+          pathname: '/**'
+        }, {
+          protocol: 'https',
+          hostname: 'web-carmen.b-cdn.net',
+          port: '',
+          pathname: '/**'
+        },
+        {
+          protocol: 'https',
+          hostname: 'web-upvisor.b-cdn.net',
+          port: '',
+          pathname: '/**'
         }
       ]
     }
