@@ -186,42 +186,42 @@ export default function Page () {
               <h2 className='text-lg font-medium mt-3 pb-3 border-b dark:border-neutral-700'>Información de la tienda</h2>
               <Card title='Información general'>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>Nombre de la tienda</p>
+                  <p className='text-sm'>Nombre del negocio</p>
                   <Input name='name' value={storeData.name} change={inputChange} placeholder='Nombre de la tienda' />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>Correo de la tienda</p>
+                  <p className='text-sm'>Correo del negocio</p>
                   <Input name='email' value={storeData.email} change={inputChange} placeholder='Correo de la tienda' />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>Teléfono de la tienda</p>
+                  <p className='text-sm'>Teléfono del negocio</p>
                   <div className='flex gap-2'>
                     <p className='text-sm mt-auto mb-auto'>+56</p>
                     <Input name='phone' value={storeData.phone} change={inputChange} placeholder='Teléfono de la tienda' />
                   </div>
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>Logo de la tienda</p>
+                  <p className='text-sm'>Logo del negocio</p>
                   <input onChange={imageChange} type='file' className='text-sm block w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/10 file:text-main hover:file:bg-main/20' />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>Logo blanco de la tienda</p>
+                  <p className='text-sm'>Logo blanco del negocio</p>
                   <input onChange={imageChange2} type='file' className='text-sm block w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/10 file:text-main hover:file:bg-main/20' />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>Instagram de la tienda</p>
+                  <p className='text-sm'>Instagram del negocio</p>
                   <Input name='instagram' value={storeData.instagram} change={inputChange} placeholder='Instagram' />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>Facebook de la tienda</p>
+                  <p className='text-sm'>Facebook del negocio</p>
                   <Input name='facebook' value={storeData.facebook} change={inputChange} placeholder='Facebook' />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>Tik Tok de la tienda</p>
+                  <p className='text-sm'>Tik Tok del negocio</p>
                   <Input name='tiktok' value={storeData.tiktok} change={inputChange} placeholder='Tik Tok' />
                 </div>
                 <div className='flex flex-col gap-2'>
-                  <p className='text-sm'>WhatsApp de la tienda</p>
+                  <p className='text-sm'>WhatsApp del negocio</p>
                   <Input name='whatsapp' value={storeData.whatsapp} change={inputChange} placeholder='WhatsApp' />
                 </div>
               </Card>
