@@ -21,7 +21,7 @@ const nextConfig = {
         },
         {
           protocol: 'https',
-          hostname: 'web-upvisor.b-cdn.net',
+          hostname: 'images-upvisor.b-cdn.net',
           port: '',
           pathname: '/**'
         }
