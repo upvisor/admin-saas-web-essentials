@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React from 'react'
-import { ButtonSubmit2, Card, Input, Spinner2 } from '../ui'
+import { ButtonSubmit2, Card, Input } from '../ui'
 import { IClient } from '@/interfaces'
 
 interface Props {

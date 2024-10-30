@@ -1,5 +1,5 @@
 "use client"
-import { Button, Button2, Button2Red, ButtonSubmit, ButtonSubmit2, Card, Input, Spinner, Spinner2, Textarea } from '@/components/ui'
+import { Button, Button2, Button2Red, ButtonSubmit, ButtonSubmit2, Card, Input, Spinner, Textarea } from '@/components/ui'
 import { IClient, IFunnel, IMeeting, IService } from '@/interfaces'
 import { NumberFormat } from '@/utils'
 import axios from 'axios'

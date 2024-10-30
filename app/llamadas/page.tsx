@@ -1,6 +1,6 @@
 "use client"
 import { PopupNewCall } from "@/components/design"
-import { Button, Button2, Button2Red, ButtonLink, ButtonSubmit, Select, Spinner, Table } from "@/components/ui"
+import { Button, Button2, Button2Red, ButtonSubmit, Select, Spinner, Table } from "@/components/ui"
 import { ICall, IFunnel, IMeeting, ITag } from "@/interfaces"
 import axios from "axios"
 import Link from "next/link"

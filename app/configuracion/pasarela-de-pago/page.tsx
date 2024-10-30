@@ -1,6 +1,6 @@
 "use client"
 import { Nav } from '@/components/configuration'
-import { ButtonSubmit, Input, Spinner2 } from '@/components/ui'
+import { ButtonSubmit, Input } from '@/components/ui'
 import axios from 'axios'
 import Head from 'next/head'
 import { usePathname, useRouter } from 'next/navigation'

@@ -1,5 +1,5 @@
 "use client"
-import { Button, Input, Spinner2 } from '@/components/ui'
+import { Button, Input } from '@/components/ui'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useState } from 'react'

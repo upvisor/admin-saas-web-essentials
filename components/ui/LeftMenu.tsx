@@ -13,7 +13,9 @@ import { PiSuitcaseSimple } from 'react-icons/pi'
 import { LiaClipboardListSolid } from 'react-icons/lia'
 import { FaCogs } from 'react-icons/fa'
 
-const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
+const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`, {
+  transports: ['websocket']
+})
 
 export const LeftMenu: React.FC<PropsWithChildren> = ({ children }) => {
   

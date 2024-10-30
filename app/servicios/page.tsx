@@ -1,6 +1,6 @@
 "use client"
 import { PopupNewService } from "@/components/service"
-import { Button, Button2, ButtonLink, ButtonSubmit, Input, Select, Spinner, Table, Textarea } from "@/components/ui"
+import { Button, ButtonSubmit, Spinner, Table } from "@/components/ui"
 import { IService, ITag } from "@/interfaces"
 import axios from "axios"
 import { useRouter } from "next/navigation"
@@ -16,7 +16,6 @@ export default function Page() {
   const [title, setTitle] = useState('Nuevo servicio')
   const [error, setError] = useState('')
   const [newFunctionality, setNewFunctionality] = useState('')
-  const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [popupDelete, setPopupDelete] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [loadingDelete, setLoadingDelete] = useState(false)
   const [tags, setTags] = useState<ITag[]>([])

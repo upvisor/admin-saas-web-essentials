@@ -5,7 +5,6 @@ import { Navbar } from '@/components/layouts'
 import { ThemeProvider } from 'next-themes'
 import { LeftMenu } from '@/components/ui'
 import localFont from 'next/font/local'
-import Script from 'next/script'
 
 const myFont = localFont({
   src: './fonts/Montserrat-VariableFont_wght.ttf',

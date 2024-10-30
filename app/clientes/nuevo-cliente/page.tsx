@@ -1,6 +1,6 @@
 "use client"
-import { Address, Data, Tags } from '@/components/clients'
-import { ButtonSubmit, Spinner2 } from '@/components/ui'
+import { Data, Tags } from '@/components/clients'
+import { ButtonSubmit } from '@/components/ui'
 import { IClient } from '@/interfaces'
 import axios from 'axios'
 import Head from 'next/head'

@@ -1,10 +1,10 @@
 "use client"
-import { ButtonSubmit, Calendar, Spinner2 } from "@/components/ui";
-import { DateData } from "@/interfaces";
-import axios from "axios";
-import Link from "next/link";
-import { useState } from "react";
-import { BiArrowBack } from "react-icons/bi";
+import { ButtonSubmit, Calendar } from "@/components/ui"
+import { DateData } from "@/interfaces"
+import axios from "axios"
+import Link from "next/link"
+import { useState } from "react"
+import { BiArrowBack } from "react-icons/bi"
 
 export default function AvaliableCallsPage () {
 

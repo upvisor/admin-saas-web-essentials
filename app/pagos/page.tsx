@@ -1,5 +1,4 @@
 "use client"
-
 import { Spinner, Table } from "@/components/ui"
 import { IService } from "@/interfaces"
 import { NumberFormat } from "@/utils"

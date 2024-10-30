@@ -1,6 +1,6 @@
 "use client"
 import { PopupCancelMeeting } from "@/components/meetings"
-import { Button2, Button2Red, ButtonLink, EditMeeting, Spinner, Spinner2 } from "@/components/ui"
+import { Button2, Button2Red, ButtonLink, EditMeeting, Spinner } from "@/components/ui"
 import { IClientData, IMeeting } from "@/interfaces"
 import axios from "axios"
 import Link from "next/link"

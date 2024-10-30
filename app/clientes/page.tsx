@@ -3,7 +3,6 @@ import { ButtonLink, Spinner, Table } from '@/components/ui'
 import { IClient } from '@/interfaces'
 import axios from 'axios'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
