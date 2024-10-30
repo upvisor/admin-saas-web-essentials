@@ -6,7 +6,9 @@ import Head from 'next/head'
 import React, { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
 
-const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
+const socket = io(`${process.env.NEXT_PUBLIC_API_URL}/`, {
+  transports: ['websocket']
+})
 
 export default function Page () {
 

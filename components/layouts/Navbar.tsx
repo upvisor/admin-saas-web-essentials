@@ -12,7 +12,9 @@ import { io } from 'socket.io-client'
 import { Spinner } from '../ui'
 import Image from 'next/image'
 
-const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`)
+const socket = io(`${process.env.NEXT_PUBLIC_API_URL}/`, {
+  transports: ['websocket']
+})
 
 export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
