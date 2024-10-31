@@ -136,8 +136,10 @@ export default function CallsPage () {
                     <div className="flex gap-4">
                       <Select change={(e: any) => {
                         if (e.target.value === 'Todas las llamadas') {
+                          setNewCall({ nameMeeting: '', duration: '15 minutos', title: '', price: '', tags: [], labels: [{ data: '', name: '', text: '' }], buttonText: '', action: 'Mostrar mensaje', description: '', message: '', redirect: '' })
                           setFilteredMeetings([])
                         } else {
+                          setNewCall({ nameMeeting: '', duration: '15 minutos', title: '', price: '', tags: [], labels: [{ data: '', name: '', text: '' }], buttonText: '', action: 'Mostrar mensaje', description: '', message: '', redirect: '' })
                           const allMeetings = [...meetings]
                           const filterMeetings = allMeetings.filter(meeting => meeting.meeting === e.target.value)
                           setFilteredMeetings(filterMeetings)
