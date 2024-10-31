@@ -326,22 +326,26 @@ export default function Page () {
                   <div className='flex flex-col gap-2'>
                     {
                       services.length
-                        ? services.map((service, index) => (
-                          <div key={service._id} className='flex gap-4 justify-between'>
-                            <button onClick={(e: any) => {
-                              setPart(service.name)
-                              setSelectService(service)
-                            }} className='text-left w-full'>{service.name}</button>
-                            <button onClick={(e: any) => {
-                              e.preventDefault()
-                              setSelectService(service)
-                              setPopupDeleteFunnel({ ...popupDeleteFunnel, view: 'flex', opacity: 'opacity-0' })
-                              setTimeout(() => {
-                                setPopupDeleteFunnel({ ...popupDeleteFunnel, view: 'flex', opacity: 'opacity-1' })
-                              }, 10)
-                            }}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
-                          </div>
-                        ))
+                        ? services.map((service, index) => {
+                          if (service.steps.some(step => step.slug && step.slug !== '')) {
+                            return (
+                              <div key={service._id} className='flex gap-4 justify-between'>
+                                <button onClick={(e: any) => {
+                                  setPart(service.name)
+                                  setSelectService(service)
+                                }} className='text-left w-full'>{service.name}</button>
+                                <button onClick={(e: any) => {
+                                  e.preventDefault()
+                                  setSelectService(service)
+                                  setPopupDeleteFunnel({ ...popupDeleteFunnel, view: 'flex', opacity: 'opacity-0' })
+                                  setTimeout(() => {
+                                    setPopupDeleteFunnel({ ...popupDeleteFunnel, view: 'flex', opacity: 'opacity-1' })
+                                  }, 10)
+                                }}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
+                              </div>
+                            )
+                          }
+                        })
                         : ''
                     }
                   </div>

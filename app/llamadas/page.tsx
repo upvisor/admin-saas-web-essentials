@@ -113,7 +113,7 @@ export default function CallsPage () {
               <Button action={(e: any) => {
                 e.preventDefault()
                 setTitle('Crear llamada')
-                setNewCall({ nameMeeting: '', duration: '15 minutos', tags: [], labels: [{ data: '', name: '', text: '' }], action: 'Mostrar mensaje', description: '', message: '' })
+                setNewCall({ nameMeeting: '', duration: '15 minutos', title: '', price: '', tags: [], labels: [{ data: '', name: '', text: '' }], buttonText: '', action: 'Mostrar mensaje', description: '', message: '', redirect: '' })
                 setPopupCall({ ...popupCall, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopupCall({ ...popupCall, view: 'flex', opacity: 'opacity-1' })
