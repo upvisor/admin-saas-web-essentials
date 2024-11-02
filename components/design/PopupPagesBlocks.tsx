@@ -482,6 +482,36 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
               <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://images-upvisor.b-cdn.net/Lead%202.png' />
               <p className="m-auto">Lead 2</p>
             </div>
+            <div onClick={() => {
+              if (indexPage !== -1) {
+                const oldPages = [...pages]
+                oldPages[indexPage].design.push({ content: 'Servicios', services: [], info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
+                setPages(oldPages)
+                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                setTimeout(() => {
+                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+                }, 200)
+              } else if (indexFunnel !== -1 && indexStep !== -1) {
+                const oldFunnels = [...funnels!]
+                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Servicios', services: [], info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
+                setFunnels(oldFunnels)
+                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                setTimeout(() => {
+                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+                }, 200)
+              } else if (indexService !== -1 && indexStepService !== -1) {
+                const oldServices = [...services!]
+                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Servicios', services: [], info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
+                setServices(oldServices)
+                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                setTimeout(() => {
+                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+                }, 200)
+              }
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://images-upvisor.b-cdn.net/Lead%202.png' />
+              <p className="m-auto">Servicios</p>
+            </div>
           </div>
         </div>
       </div>
