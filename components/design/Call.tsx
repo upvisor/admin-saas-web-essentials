@@ -242,6 +242,24 @@ export const Call: React.FC<Props> = ({ edit, pages, setPages, design, index, in
                   : ''
               }
               <div className='flex flex-col gap-2'>
+                <p className='font-medium m-auto'>Color texto</p>
+                <input type='color' onChange={(e: any) => {
+                  if (inde !== undefined) {
+                    const oldFunnels = [...funnels!]
+                    oldFunnels[inde].steps[ind].design![index].info.textColor = e.target.value
+                    setFunnels(oldFunnels)
+                  } else if (indx !== undefined) {
+                    const oldServices = [...services!]
+                    oldServices[indx].steps[ind].design![index].info.textColor = e.target.value
+                    setServices(oldServices)
+                  } else {
+                    const oldPages = [...pages]
+                    oldPages[ind].design[index].info.textColor = e.target.value
+                    setPages(oldPages)
+                  }
+                }} value={design.info.textColor} className='m-auto' />
+              </div>
+              <div className='flex flex-col gap-2'>
                 <p className='font-medium m-auto'>Cual logo utilizar</p>
                 <Select change={(e: any) => {
                   if (inde !== undefined) {
@@ -272,17 +290,48 @@ export const Call: React.FC<Props> = ({ edit, pages, setPages, design, index, in
                   ? <button className='w-fit m-auto'><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></button>
                   : ''
             }
+            <div className='flex flex-col gap-4'>
+            <textarea placeholder='Titulo' value={design.info.title} onChange={(e: any) => {
+              if (inde !== undefined) {
+                const oldFunnels = [...funnels!]
+                oldFunnels[inde].steps[ind].design![index].info.title = e.target.value
+                setFunnels(oldFunnels)
+              } else if (indx !== undefined) {
+                const oldServices = [...services!]
+                oldServices[indx].steps[ind].design![index].info.title = e.target.value
+                setServices(oldServices)
+              } else {
+                const oldPages = [...pages]
+                oldPages[ind].design[index].info.title = e.target.value
+                setPages(oldPages)
+              }
+            }} className={`${responsive === '400px' ? 'text-3xl' : 'text-5xl'} font-semibold p-1.5 rounded border bg-transparent text-center`} style={{ color: design.info.textColor }} />
+            <textarea placeholder='Descripción' value={design.info.description} onChange={(e: any) => {
+              if (inde !== undefined) {
+                const oldFunnels = [...funnels!]
+                oldFunnels[inde].steps[ind].design![index].info.description = e.target.value
+                setFunnels(oldFunnels)
+              } else if (indx !== undefined) {
+                const oldServices = [...services!]
+                oldServices[indx].steps[ind].design![index].info.description = e.target.value
+                setServices(oldServices)
+              } else {
+                const oldPages = [...pages]
+                oldPages[ind].design[index].info.description = e.target.value
+                setPages(oldPages)
+              }
+            }} className={`${responsive === '400px' ? 'text-base' : 'text-lg'} p-1.5 rounded border bg-transparent text-center`} style={{ color: design.info.textColor }} />
+            </div>
             <div className="w-full flex px-4">
               <div className="bg-white border border-black/5 rounded-xl m-auto w-full max-w-[1280px]" style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
-                {
-                  calls?.find(call => call._id === design.meeting)
-                    ? <h2 className="text-center text-3xl border-b p-6 text-main font-semibold">{calls.find(call => call._id === design.meeting)?.title}</h2>
-                    : ''
-                }
                 <div className="lg:flex">
                   <div className="p-6 border-b lg:border-b-0 lg:border-r flex flex-col gap-8 w-full lg:w-5/12">
                     <div className="flex flex-col gap-3">
-                      <p className="text-sm font-medium">CARMEN ORELLANA</p>
+                      {
+                        storeData?.logo && storeData.logo !== ''
+                          ? <Image src={storeData.logo} alt={`Imagen logo ${storeData.name}`} width={200} height={150} className='w-40' />
+                          : <p className='text-lg font-medium'>{storeData?.name}</p>
+                      }
                       {
                         calls?.length
                           ? (
@@ -409,21 +458,44 @@ export const Call: React.FC<Props> = ({ edit, pages, setPages, design, index, in
                     ? <button className='w-fit m-auto'><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></button>
                     : ''
               }
-              <div className="bg-white border border-black/5 rounded-xl m-auto w-full max-w-[1280px]" style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+              <div className='flex flex-col gap-4'>
                 {
-                  calls?.find(call => call._id === design.meeting)
-                    ? <h2 className={`text-center ${responsive === '400px' ? 'text-[20px]' : 'text-[24px]'} border-b p-6 text-main font-semibold`}>{calls.find(call => call._id === design.meeting)?.title}</h2>
-                    : ''
+                  index === 0
+                    ? (
+                      <h1
+                        className={`${responsive === '400px' ? 'text-3xl' : 'text-5xl'} transition-opacity duration-200 font-semibold text-center`}
+                        style={{ color: design.info.textColor }}
+                        dangerouslySetInnerHTML={{ __html: design.info.title ? design.info.title  : '' }}
+                      />
+                    )
+                    : (
+                      <h2
+                        className={`${responsive === '400px' ? 'text-2xl' : 'text-4xl'} transition-opacity duration-200 font-semibold text-center`}
+                        style={{ color: design.info.textColor }}
+                        dangerouslySetInnerHTML={{ __html: design.info.title ? design.info.title  : '' }}
+                      />
+                    )
                 }
+                <p
+                  className={`${responsive === '400px' ? 'text-base' : 'text-lg'} transition-opacity duration-200 text-center`}
+                  style={{ color: design.info.textColor }}
+                  dangerouslySetInnerHTML={{ __html: design.info.description ? design.info.description : '' }}
+                />
+              </div>
+              <div className="bg-white border border-black/5 rounded-xl m-auto w-full max-w-[1280px]" style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
                 <div className={`flex ${responsive === '400px' ? 'flex-col' : 'flex-row'}`}>
                   <div className={`p-6 ${responsive === '400px' ? 'w-full border-b' : 'w-5/12 border-r'} flex flex-col gap-8`}>
                     <div className="flex flex-col gap-3">
-                      <p className="text-sm font-medium">CARMEN ORELLANA</p>
+                      {
+                        storeData?.logo && storeData.logo !== ''
+                          ? <Image src={storeData.logo} alt={`Imagen logo ${storeData.name}`} width={200} height={150} className='w-40' />
+                          : <p className='text-lg font-medium'>{storeData?.name}</p>
+                      }
                       {
                         calls?.find(call => call._id === design.meeting)
                           ? (
                             <>
-                              <p className="text-xl font-semibold">{calls.find(call => call._id === design.meeting)?.nameMeeting}</p>
+                              <p className="text-xl font-semibold">{calls.find(call => call._id === design.meeting)?.title}</p>
                               <div className="flex gap-2">
                                 <svg className="w-5 text-gray-500" data-id="details-item-icon" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" role="img"><path d="M.5 5a4.5 4.5 0 1 0 9 0 4.5 4.5 0 1 0-9 0Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 3.269V5l1.759 2.052" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                                 <p className="text-gray-500">{calls.find(call => call._id === design.meeting)?.duration}</p>

@@ -335,7 +335,7 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
             <div onClick={() => {
               if (indexPage !== -1) {
                 const oldPages = [...pages]
-                oldPages[indexPage].design.push({ content: 'Agendar llamada', meeting: '', info: {} })
+                oldPages[indexPage].design.push({ content: 'Agendar llamada', meeting: '', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum' } })
                 setPages(oldPages)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
@@ -343,7 +343,7 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 }, 200)
               } else if (indexFunnel !== -1 && indexStep !== -1) {
                 const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Agendar llamada', meeting: '', info: {} })
+                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Agendar llamada', meeting: '', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum' } })
                 setFunnels(oldFunnels)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
@@ -351,7 +351,7 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 }, 200)
               } else if (indexService !== -1 && indexStepService !== -1) {
                 const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Agendar llamada', meeting: '', info: {} })
+                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Agendar llamada', meeting: '', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum' } })
                 setServices(oldServices)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {

@@ -374,7 +374,23 @@ export const Services: React.FC<Props> = ({ edit, pages, setPages, design, index
                         if (serviceFind) {
                           return (
                             <div key={service} className='flex flex-col gap-2 p-4 rounded-xl border border-main/5 w-[350px] h-60 justify-center' style={{ boxShadow: '0px 3px 10px 3px #c447ff15' }}>
-                              <p className='font-medium text-2xl text-center text-main'>{serviceFind.name}</p>
+                              {
+                                index === 0
+                                ? (
+                                  <h2
+                                    className={`${responsive === '400px' ? 'text-xl' : 'text-3xl'} transition-opacity duration-200 font-semibold text-center`}
+                                    style={{ color: design.info.textColor }}
+                                    dangerouslySetInnerHTML={{ __html: serviceFind.name }}
+                                  />
+                                )
+                                : (
+                                  <h3
+                                    className={`${responsive === '400px' ? 'text-lg' : 'text-2xl'} transition-opacity duration-200 font-semibold text-center`}
+                                    style={{ color: design.info.textColor }}
+                                    dangerouslySetInnerHTML={{ __html: serviceFind.name }}
+                                  />
+                                )
+                              }
                               <p className='text-center'>{serviceFind.description}</p>
                               <Button config='mx-auto'>Ver más información</Button>
                             </div>
