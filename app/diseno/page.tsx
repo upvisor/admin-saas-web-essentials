@@ -90,6 +90,7 @@ export default function Page () {
   const [selectService, setSelectService] = useState<IService>()
   const [indexService, setIndexService] = useState(-1)
   const [indexStepService, setIndexStepService] = useState(-1)
+  const [type, setType] = useState('')
 
   const getStoreData = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/store-data`)
@@ -253,7 +254,10 @@ export default function Page () {
                     {
                       pages.map((page, index) => (
                         <div key={page.slug} className='flex gap-4'>
-                          <button onClick={() => setPart(page.page)} className='text-left w-full'>{page.page}</button>
+                          <button onClick={() => {
+                            setType('Page')
+                            setPart(page.page)
+                          }} className='text-left w-full'>{page.page}</button>
                           <div className='flex gap-2'>
                             <div className='flex gap-1'>
                               <input type='checkbox' checked={page.header} onChange={(e: any) => {
@@ -305,6 +309,7 @@ export default function Page () {
                           funnels.map((funnel, index) => (
                             <div key={funnel._id} className='flex gap-4 justify-between'>
                               <button onClick={(e: any) => {
+                                setType('Funnel')
                                 setPart(funnel.funnel)
                                 setSelectFunnel(funnel)
                               }} className='text-left w-full'>{funnel.funnel}</button>
@@ -331,6 +336,7 @@ export default function Page () {
                             return (
                               <div key={service._id} className='flex gap-4 justify-between'>
                                 <button onClick={(e: any) => {
+                                  setType('Service')
                                   setPart(service.name)
                                   setSelectService(service)
                                 }} className='text-left w-full'>{service.name}</button>
@@ -374,7 +380,7 @@ export default function Page () {
           }
           {
             pages.map((page, i) => {
-              if (part === page.page) {
+              if (part === page.page && type === 'Page') {
                 return (
                   <div key={page.slug} className='flex flex-col gap-4 p-4 mb-[104px]'>
                     <div className='border-b pb-4 dark:border-neutral-700'>
@@ -504,7 +510,7 @@ export default function Page () {
               : ''
           }
           {
-            funnels.find(funnel => funnel.funnel === part)
+            funnels.find(funnel => funnel.funnel === part) && type === 'Funnel'
               ? (
                 <div className='flex flex-col gap-4 p-4 mb-[104px]'>
                   <div className='border-b pb-4 dark:border-neutral-700'>
@@ -601,7 +607,7 @@ export default function Page () {
               : ''
           }
           {
-            services.find(service => service.name === part)
+            services.find(service => service.name === part) && type === 'Service'
               ? (
                 <div className='flex flex-col gap-4 p-4 mb-[104px]'>
                   <div className='border-b pb-4 dark:border-neutral-700'>
@@ -691,7 +697,7 @@ export default function Page () {
           }
           {
             pages.map((page, i) => {
-              if (part === page.page) {
+              if (part === page.page && type === 'Page') {
                 return (
                   <div key={page._id} className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t dark:border-neutral-700 dark:bg-neutral-800'>
                     <ButtonSubmit action={async () => {
@@ -729,7 +735,7 @@ export default function Page () {
               : ''
           }
           {
-            funnels.find(funnel => funnel.funnel === part) && funnels.find(funnel => funnel.funnel === part)?.steps.map(st => {
+            type === 'Funnel' && funnels.find(funnel => funnel.funnel === part) && funnels.find(funnel => funnel.funnel === part)?.steps.map(st => {
               if (step === st.step) {
                 return (
                   <div key={st._id} className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t dark:border-neutral-700 dark:bg-neutral-800'>
@@ -749,7 +755,7 @@ export default function Page () {
             })
           }
           {
-            services.find(service => service.name === part) && services.find(service => service.name === part)?.steps.map(st => {
+            type === 'Service' && services.find(service => service.name === part) && services.find(service => service.name === part)?.steps.map(st => {
               if (step === st.step) {
                 return (
                   <div key={st._id} className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t dark:border-neutral-700 dark:bg-neutral-800'>
@@ -780,7 +786,7 @@ export default function Page () {
         }
         {
           pages.map((page, i) => {
-            if (part === page.page) {
+            if (part === page.page && type === 'Page') {
               return (
                 <div key={page._id} className='m-auto h-full bg-white text-black' style={{ width: responsive }}>
                   <div className='flex p-4 bg-white border-b border-border dark:bg-neutral-900 dark:border-neutral-700'>
@@ -1022,7 +1028,7 @@ export default function Page () {
             : ''
         }
         {
-          funnels.find(funnel => funnel.funnel === part)
+          funnels.find(funnel => funnel.funnel === part) && type === 'Funnel'
             ? funnels.find(funnel => funnel.funnel === part)?.steps.find(st => st.step === step)
               ? (
                 funnels.find((funnel) => funnel.funnel === part)?.steps.map((st, i) => {
@@ -1151,7 +1157,7 @@ export default function Page () {
             : ''
         }
         {
-          services.find(service => service.name === part)
+          services.find(service => service.name === part) && type === 'Service'
             ? services.find(service => service.name === part)?.steps.find(st => st.step === step)
               ? (
                 services.find(service => service.name === part)?.steps.map((st, i) => {
