@@ -16,7 +16,7 @@ export interface IStep {
     metaTitle?: string
     metaDescription?: string
     image?: string
-    design?: { content: string, meetings?: string[], meeting?: string, form?: string, service?: { service: string, plan?: string }, services?: string[], info: IInfoFunnel }[]
+    design?: { content: string, meetings?: string[], meeting?: string, form?: string, service?: { service: string, plan?: string }, services?: { service: string, url: string }[], info: IInfoFunnel }[]
 }
 
 export interface IInfoFunnel {

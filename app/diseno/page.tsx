@@ -840,7 +840,7 @@ export default function Page () {
                                                               : design.content === 'Lead 2'
                                                                 ? <Lead2 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectFunnel={selectFunnel} setSelectFunnel={setSelectFunnel} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} storeData={storeData} />
                                                                 : design.content === 'Servicios'
-                                                                  ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} services={services} responsive={responsive} />
+                                                                  ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} services={services} responsive={responsive} pageNeed={pages} />
                                                                   : ''
                                 }
                                 <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>
@@ -1085,7 +1085,7 @@ export default function Page () {
                                                                   : design.content === 'Lead 2'
                                                                     ? <Lead2  edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} inde={funnels.findIndex(funnel => funnel.funnel === part)} funnels={funnels} setFunnels={setFunnels} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectFunnel={selectFunnel} setSelectFunnel={setSelectFunnel} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} storeData={storeData} />
                                                                     : design.content === 'Servicios'
-                                                                      ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} inde={funnels.findIndex(funnel => funnel.funnel === part)} calls={calls} funnels={funnels} setFunnels={setFunnels} responsive={responsive} />
+                                                                      ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} inde={funnels.findIndex(funnel => funnel.funnel === part)} calls={calls} funnels={funnels} setFunnels={setFunnels} responsive={responsive} pageNeed={pages} />
                                                                       : ''
                                     }
                                     <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>
@@ -1214,7 +1214,7 @@ export default function Page () {
                                                                   : design.content === 'Lead 2'
                                                                     ? <Lead2 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} indx={services.findIndex(service => service.name === part)} funnels={funnels} setFunnels={setFunnels} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectFunnel={selectFunnel} setSelectFunnel={setSelectFunnel} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} services={services} setServices={setServices} storeData={storeData} />
                                                                     : design.content === 'Servicios'
-                                                                      ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} indx={services.findIndex(service => service.name === part)} calls={calls} funnels={funnels} setFunnels={setFunnels} services={services} setServices={setServices} responsive={responsive} />
+                                                                      ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} indx={services.findIndex(service => service.name === part)} calls={calls} funnels={funnels} setFunnels={setFunnels} services={services} setServices={setServices} responsive={responsive} pageNeed={pages} />
                                                                       : ''
                                     }
                                     <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>

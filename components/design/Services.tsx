@@ -20,9 +20,10 @@ interface Props {
     services?: IService[]
     setServices?: any
     responsive: string
+    pageNeed: IPage[]
 }
 
-export const Services: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive }) => {
+export const Services: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed }) => {
   
     const [gradient, setGradient] = useState('')
     const [firstColor, setFirstColor] = useState('')
@@ -289,15 +290,15 @@ export const Services: React.FC<Props> = ({ edit, pages, setPages, design, index
                 <Select change={(e: any) => {
                   if (inde !== undefined) {
                     const oldFunnels = [...funnels!]
-                    oldFunnels[inde].steps[ind].design![index].services?.push(e.target.value)
+                    oldFunnels[inde].steps[ind].design![index].services?.push({ service: e.target.value, url: '' })
                     setFunnels(oldFunnels)
                   } else if (indx !== undefined) {
                     const oldServices = [...services!]
-                    oldServices[indx].steps[ind].design![index].services?.push(e.target.value)
+                    oldServices[indx].steps[ind].design![index].services?.push({ service: e.target.value, url: '' })
                     setServices(oldServices)
                   } else {
                     const oldPages = [...pages]
-                    oldPages[ind].design[index].services?.push(e.target.value)
+                    oldPages[ind].design[index].services?.push({ service: e.target.value, url: '' })
                     setPages(oldPages)
                   }
                 }} config='w-fit m-auto'>
@@ -309,13 +310,42 @@ export const Services: React.FC<Props> = ({ edit, pages, setPages, design, index
                 <div className='flex gap-8 flex-wrap justify-center'>
                   {
                     design.services?.length
-                      ? design.services.map(service => {
-                        const serviceFind = services?.find(servi => servi._id === service)
+                      ? design.services.map((service, i) => {
+                        const serviceFind = services?.find(servi => servi._id === service.service)
                         if (serviceFind) {
                           return (
-                            <div key={service} className='flex flex-col gap-2 p-4 rounded-xl border border-main/5 w-[350px] h-60 justify-center' style={{ boxShadow: '0px 3px 10px 3px #c447ff15' }}>
+                            <div key={service.service} className='flex flex-col gap-2 p-4 rounded-xl border border-main/5 w-[350px] h-60 justify-center' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
                               <p className='font-medium text-2xl text-center text-main'>{serviceFind.name}</p>
                               <p className='text-center'>{serviceFind.description}</p>
+                              <Select change={(e: any) => {
+                                if (inde !== undefined) {
+                                  const oldFunnels = [...funnels!]
+                                  oldFunnels[inde].steps[ind].design![index].services![i].url = e.target.value
+                                  setFunnels(oldFunnels)
+                                } else if (indx !== undefined) {
+                                  const oldServices = [...services!]
+                                  oldServices[indx].steps[ind].design![index].services![i].url = e.target.value
+                                  setServices(oldServices)
+                                } else {
+                                  const oldPages = [...pages]
+                                  oldPages[ind].design[index].services![i].url = e.target.value
+                                  setPages(oldPages)
+                                }
+                              }} value={service.url}>
+                                <option>Seleccionar pagina</option>
+                                {
+                                  pageNeed.map(page => (
+                                    <option key={page.slug}>/{page.slug}</option>
+                                  ))
+                                }
+                                {
+                                  funnels?.map(funnel => {
+                                    return funnel.steps.map(step => (
+                                      <option key={step._id} value={step.slug}>{funnel.funnel} - {step.step}</option>
+                                    ))
+                                  })
+                                }
+                              </Select>
                               <Button config='mx-auto'>Ver más información</Button>
                               <button className='m-auto' onClick={(e: any) => {
                                 e.preventDefault()
@@ -370,10 +400,10 @@ export const Services: React.FC<Props> = ({ edit, pages, setPages, design, index
                   {
                     design.services?.length
                       ? design.services.map(service => {
-                        const serviceFind = services?.find(servi => servi._id === service)
+                        const serviceFind = services?.find(servi => servi._id === service.service)
                         if (serviceFind) {
                           return (
-                            <div key={service} className='flex flex-col gap-2 p-4 rounded-xl border border-main/5 w-[350px] h-60 justify-center' style={{ boxShadow: '0px 3px 10px 3px #c447ff15' }}>
+                            <div key={service.service} className='flex flex-col gap-2 p-4 rounded-xl border border-main/5 w-[350px] h-60 justify-center' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
                               {
                                 index === 0
                                 ? (

@@ -278,7 +278,7 @@ export const Calls: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                           const call = calls?.find(call => call._id === meeting)
                           if (call) {
                             return (
-                              <div key={meeting} className='bg-white border p-6 rounded-lg'>
+                              <div key={meeting} className='bg-white border border-black/5 p-6 rounded-xl' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
                                 <div className='flex gap-6 justify-between'>
                                   <div className='flex flex-col gap-4'>
                                     <p className='text-lg font-medium'>{call.nameMeeting}</p>
@@ -328,7 +328,7 @@ export const Calls: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                 const call = calls?.find(call => call._id === meeting)
                 if (call) {
                   return (
-                    <div key={meeting} className='bg-white border p-6 rounded-lg'>
+                    <div key={meeting} className='bg-white border border-black/5 p-6 rounded-xl' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
                       <div className='flex gap-6 justify-between'>
                         <div className='flex flex-col gap-4'>
                           <p className='text-lg font-medium'>{call.nameMeeting}</p>
