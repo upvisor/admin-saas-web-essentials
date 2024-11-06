@@ -60,7 +60,6 @@ export default function Page() {
               if (!loadingDelete) {
                 setLoadingDelete(true)
                 await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/service/${newService._id}`)
-                await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=services`)
                 getServices()
                 setPopupDelete({ ...popupDelete, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {

@@ -62,7 +62,6 @@ export const PopupNewPage: React.FC<Props> = ({ popupPage, setPopupPage, setLoad
                 const updatePages = [...pages]
                 updatePages.push(newPage)
                 await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/design`, { pages: updatePages, header: header })
-                await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=design`)
                 setPopupPage({ ...popupPage, view: 'flex', opacity: 'opacity-0' })
                 getDesign()
                 setTimeout(() => {

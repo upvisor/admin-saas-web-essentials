@@ -1,5 +1,5 @@
 "use client"
-import { ButtonSubmit, Spinner2 } from '@/components/ui'
+import { ButtonSubmit } from '@/components/ui'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -29,7 +29,6 @@ export default function Page () {
     if (!submitLoading) {
       setSubmitLoading(true)
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/post`, { ...contentData, content: content })
-      await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=post`)
       router.push('/blog')
       setSubmitLoading(false)
     }

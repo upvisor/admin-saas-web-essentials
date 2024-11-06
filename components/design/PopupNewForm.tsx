@@ -57,7 +57,6 @@ export const PopupNewForm: React.FC<Props> = ({ popupForm, setPopupForm, titleFo
               if (newForm.nameForm !== '') {
                 console.log(newForm)
                 await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/form`, newForm)
-                await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=forms`)
                 getForms()
                 setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
@@ -70,7 +69,6 @@ export const PopupNewForm: React.FC<Props> = ({ popupForm, setPopupForm, titleFo
               }
             } else {
               await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/form/${newForm._id}`, newForm)
-              await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=forms`)
               getForms()
               setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-0' })
               setTimeout(() => {

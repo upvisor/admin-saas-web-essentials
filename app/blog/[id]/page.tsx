@@ -1,6 +1,6 @@
 "use client"
 import { Content, Image, Seo, Visibility } from '@/components/blog'
-import { ButtonSubmit, Spinner, Spinner2 } from '@/components/ui'
+import { ButtonSubmit, Spinner } from '@/components/ui'
 import { IPost } from '@/interfaces'
 import axios from 'axios'
 import Head from 'next/head'
@@ -39,7 +39,6 @@ export default function Page ({ params }: { params: { id: string } }) {
     if (!submitLoading) {
       setSubmitLoading(true)
       await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/post/${contentData._id}`, contentData)
-      await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=post`)
       router.push('/blog')
       setSubmitLoading(false)
     }
