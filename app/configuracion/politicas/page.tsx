@@ -38,6 +38,7 @@ export default function Page () {
       setError('')
       if (politics.privacy !== '' || politics.terms !== '') {
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/politics`, politics)
+        await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=politics`)
       } else {
         setError('Debes llenar al menos una politica')
       }

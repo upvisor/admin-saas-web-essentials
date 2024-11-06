@@ -33,6 +33,7 @@ export const PopupDeleteFunnel: React.FC<Props> = ({ popupDeleteFunnel, setPopup
               if (!loading) {
                 setLoading(true)
                 await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/funnel/${selectFunnel?._id}`)
+                await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=funnels`)
                 getFunnels()
                 setPopupDeleteFunnel({ ...popupDeleteFunnel, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {

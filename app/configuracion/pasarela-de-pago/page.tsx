@@ -43,6 +43,7 @@ export default function Page () {
       setError('')
       if ((payment.mercadoPago.accessToken !== '' && payment.mercadoPago.publicKey !== '') || (payment.transbank.apiKey !== '' && payment.transbank.commerceCode !== '')) {
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payment`, payment)
+        await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=payment`)
       } else {
         setError('Debes llenar todos los datos de al menos un metodo de pago')
       }

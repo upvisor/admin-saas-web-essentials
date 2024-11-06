@@ -39,6 +39,7 @@ export default function Page ({ params }: { params: { id: string } }) {
     if (!submitLoading) {
       setSubmitLoading(true)
       await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/post/${contentData._id}`, contentData)
+      await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=post`)
       router.push('/blog')
       setSubmitLoading(false)
     }

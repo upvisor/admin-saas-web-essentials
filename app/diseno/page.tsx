@@ -180,19 +180,21 @@ export default function Page () {
     return newPages;
   }
 
-  const handleMoveDown = (index: number) => {
+  const handleMoveDown = async (index: number) => {
     if (index < pages.length - 1) {
       const updatedPages = moveItem(index, index + 1)
       setPages(updatedPages)
       axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: updatedPages })
+      await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=design`)
     }
   };
 
-  const handleMoveUp = (index: number) => {
+  const handleMoveUp = async (index: number) => {
     if (index > 0) {
       const updatedPages = moveItem(index, index - 1)
       setPages(updatedPages)
       axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: updatedPages })
+      await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=design`)
     }
   }
 
@@ -260,11 +262,12 @@ export default function Page () {
                           }} className='text-left w-full'>{page.page}</button>
                           <div className='flex gap-2'>
                             <div className='flex gap-1'>
-                              <input type='checkbox' checked={page.header} onChange={(e: any) => {
+                              <input type='checkbox' checked={page.header} onChange={async (e: any) => {
                                 const newPages = [...pages]
                                 newPages[index].header = e.target.checked
                                 setPages(newPages)
-                                axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
+                                await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
+                                await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=design`)
                               }} />
                               <p className='my-auto'>Menu</p>
                             </div>
@@ -272,11 +275,12 @@ export default function Page () {
                               page.header === true
                                 ? (
                                   <div className='flex gap-1'>
-                                    <input type='checkbox' checked={page.button === true ? true : false} onChange={(e: any) => {
+                                    <input type='checkbox' checked={page.button === true ? true : false} onChange={async (e: any) => {
                                       const newPages = [...pages]
                                       newPages[index].button = e.target.checked
                                       setPages(newPages)
-                                      axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
+                                      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
+                                      await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=design`)
                                     }} />
                                     <p className='my-auto'>Boton</p>
                                   </div>
@@ -706,6 +710,7 @@ export default function Page () {
                         if (id) {
                           await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/page/${id}`, page)
                           await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { color: color, header: header })
+                          await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=design`)
                         }
                         setLoading(false)
                       }
@@ -725,6 +730,7 @@ export default function Page () {
                       setLoading(true)
                       if (id) {
                         await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { color: color, popup: popupWeb })
+                        await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=design`)
                       }
                       setLoading(false)
                     }
@@ -744,6 +750,7 @@ export default function Page () {
                         setLoading(true)
                         if (funnels.find(funnel => funnel.funnel === part)?._id) {
                           await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/funnel-step/${funnels.find(funnel => funnel.funnel === part)?._id}`, st)
+                          await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=funnels`)
                         }
                         setLoading(false)
                       }
@@ -764,6 +771,7 @@ export default function Page () {
                         setLoading(true)
                         if (services.find(service => service.name === part)?._id) {
                           await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/service-step/${services.find(service => service.name === part)?._id}`, st)
+                          await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=services`)
                         }
                         setLoading(false)
                       }

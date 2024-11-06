@@ -36,6 +36,7 @@ export const PopupDeletePage: React.FC<Props> = ({ popupDeletePage, setPopupDele
                 setLoading(true)
                 const newPages = pages?.filter(pag => pag._id !== page?._id)
                 await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/design`, { header: header, pages: newPages, color: color, popup: popupWeb })
+                await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=design`)
                 getPages()
                 setPopupDeletePage({ ...popupDeletePage, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {

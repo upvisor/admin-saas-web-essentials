@@ -150,8 +150,10 @@ export default function Page () {
       if (storeData.email !== '') {
         if (storeData._id) {
           await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/store-data/${storeData._id}`, storeData)
+          await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=store-data`)
         } else {
           await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/store-data`, storeData)
+          await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=store-data`)
         }
       } else {
         setError('Debes llenar al menos el dato de email')

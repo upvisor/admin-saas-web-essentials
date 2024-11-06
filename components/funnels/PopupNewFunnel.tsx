@@ -50,6 +50,7 @@ export const PopupNewFunnel: React.FC<Props> = ({ popup, setPopup, getFunnels, n
             if (title === 'Nuevo embudo') {
               if (newFunnel.funnel !== '' && newFunnel.slug !== '' && newFunnel.steps[0].step !== '' && newFunnel.steps[0].slug !== '') {
                 await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/funnel`, newFunnel)
+                await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=funnels`)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
@@ -62,6 +63,7 @@ export const PopupNewFunnel: React.FC<Props> = ({ popup, setPopup, getFunnels, n
             } else {
               if (newFunnel.funnel !== '' && newFunnel.slug !== '' && newFunnel.steps[0].step !== '' && newFunnel.steps[0].slug !== '') {
                 await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/funnel/${selectFunnel?._id}`, newFunnel)
+                await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=funnels`)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })

@@ -57,6 +57,7 @@ export const PopupNewCall: React.FC<Props> = ({ popupCall, setPopupCall, titleMe
             if (titleMeeting === 'Crear llamada') {
               if (newCall.nameMeeting !== '') {
                 await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/call`, newCall)
+                await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=calls`)
                 getCalls()
                 setPopupCall({ ...popupCall, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
@@ -69,6 +70,7 @@ export const PopupNewCall: React.FC<Props> = ({ popupCall, setPopupCall, titleMe
               }
             } else {
               await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/call/${newCall._id}`, newCall)
+              await axios.get(`${process.env.NEXT_PUBLIC_WEB_URL}/api/revalidate?tag=calls`)
               getCalls()
               setPopupCall({ ...popupCall, view: 'flex', opacity: 'opacity-0' })
               setTimeout(() => {
