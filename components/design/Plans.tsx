@@ -3,7 +3,7 @@ import { ICall, IDesign, IFunnel, IPage, IService } from '@/interfaces'
 import React, { useState } from 'react'
 import { Button, Input, Select, Spinner } from '../ui'
 import axios from 'axios'
-import { LiaTrashAlt } from 'react-icons/lia'
+import { NumberFormat } from '@/utils'
 
 interface Props {
     edit: any
@@ -23,21 +23,21 @@ interface Props {
     pageNeed: IPage[]
 }
 
-export const Services: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed }) => {
+export const Plans: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed }) => {
   
-    const [gradient, setGradient] = useState('')
-    const [firstColor, setFirstColor] = useState('')
-    const [lastColor, setLastColor] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
-    const [loadingImage, setLoadingImage] = useState(false)
-    const [errorImage, setErrorImage] = useState('')
+  const [gradient, setGradient] = useState('')
+  const [firstColor, setFirstColor] = useState('')
+  const [lastColor, setLastColor] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [loadingImage, setLoadingImage] = useState(false)
+  const [errorImage, setErrorImage] = useState('')
   
   return (
     <div className="w-full flex py-24 px-4" style={{ background: `${design.info.typeBackground === 'Degradado' ? design.info.background : design.info.typeBackground === 'Color' ? design.info.background : ''}` }}>
       <div className={`w-full flex flex-col gap-4 max-w-[1280px] m-auto`}>
-        {
-          edit === 'Servicios'
+      {
+          edit === 'Planes'
             ? (
               <>
                 <div className='flex flex-col gap-2 w-fit m-auto p-6 bg-white rounded-xl border border-black/5 shadow-md'>
@@ -286,90 +286,60 @@ export const Services: React.FC<Props> = ({ edit, pages, setPages, design, index
                     setPages(oldPages)
                   }
                 }} className={`${responsive === '400px' ? 'text-base' : 'text-lg'} text-center p-1.5 rounded border bg-transparent`} style={{ color: design.info.textColor }} />
-                <p className='m-auto text-center'>Seleccionar servicios</p>
                 <Select change={(e: any) => {
                   if (inde !== undefined) {
                     const oldFunnels = [...funnels!]
-                    oldFunnels[inde].steps[ind].design![index].services?.push({ service: e.target.value, url: '' })
+                    oldFunnels[inde].steps[ind].design![index].service = { service: e.target.value }
                     setFunnels(oldFunnels)
                   } else if (indx !== undefined) {
                     const oldServices = [...services!]
-                    oldServices[indx].steps[ind].design![index].services?.push({ service: e.target.value, url: '' })
+                    oldServices[indx].steps[ind].design![index].service = { service: e.target.value }
                     setServices(oldServices)
                   } else {
                     const oldPages = [...pages]
-                    oldPages[ind].design[index].services?.push({ service: e.target.value, url: '' })
+                    oldPages[ind].design[index].service = { service: e.target.value }
                     setPages(oldPages)
                   }
-                }} config='w-fit m-auto'>
-                  <option>Seleccionar servicios</option>
+                }} config='w-fit m-auto' value={design.service?.service}>
+                  <option value=''>Seleccionar servicio</option>
                   {
                     services?.map(service => <option key={service._id} value={service._id}>{service.name}</option>)
                   }
                 </Select>
-                <div className='flex gap-8 flex-wrap justify-center'>
-                  {
-                    design.services?.length
-                      ? design.services.map((service, i) => {
-                        const serviceFind = services?.find(servi => servi._id === service.service)
-                        if (serviceFind) {
-                          return (
-                            <div key={service.service} className='flex flex-col gap-2 p-4 rounded-xl border border-main/5 w-[350px] h-60 justify-center' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
-                              <p className='font-medium text-2xl text-center text-main'>{serviceFind.name}</p>
-                              <p className='text-center'>{serviceFind.description}</p>
-                              <Select change={(e: any) => {
-                                if (inde !== undefined) {
-                                  const oldFunnels = [...funnels!]
-                                  oldFunnels[inde].steps[ind].design![index].services![i].url = e.target.value
-                                  setFunnels(oldFunnels)
-                                } else if (indx !== undefined) {
-                                  const oldServices = [...services!]
-                                  oldServices[indx].steps[ind].design![index].services![i].url = e.target.value
-                                  setServices(oldServices)
-                                } else {
-                                  const oldPages = [...pages]
-                                  oldPages[ind].design[index].services![i].url = e.target.value
-                                  setPages(oldPages)
-                                }
-                              }} value={service.url}>
-                                <option>Seleccionar pagina</option>
-                                {
-                                  pageNeed.map(page => (
-                                    <option key={page.slug}>/{page.slug}</option>
-                                  ))
-                                }
-                                {
-                                  funnels?.map(funnel => {
-                                    return funnel.steps.map(step => (
-                                      <option key={step._id} value={step.slug}>{funnel.funnel} - {step.step}</option>
-                                    ))
-                                  })
-                                }
-                              </Select>
-                              <Button config='mx-auto'>Ver más información</Button>
-                              <button className='m-auto' onClick={(e: any) => {
-                                e.preventDefault()
-                                if (inde !== undefined) {
-                                  const oldFunnels = [...funnels!];
-                                  oldFunnels[inde].steps[ind].design![index].services = oldFunnels[inde].steps[ind].design![index].services?.filter((s) => s !== service);
-                                  setFunnels(oldFunnels);
-                                } else if (indx !== undefined) {
-                                  const oldServices = [...services!];
-                                  oldServices[indx].steps[ind].design![index].services = oldServices[indx].steps[ind].design![index].services?.filter((s) => s !== service);
-                                  setServices(oldServices);
-                                } else {
-                                  const oldPages = [...pages];
-                                  oldPages[ind].design[index].services = oldPages[ind].design[index].services?.filter((s) => s !== service);
-                                  setPages(oldPages);
-                                }
-                              }}><LiaTrashAlt className='text-2xl my-auto' /></button>
+                {
+                  services?.find(service => service._id === design.service?.service)?.plans?.plans.length
+                    ? (
+                      <div className='flex gap-6 justify-around'>
+                        {
+                          services?.find(service => service._id === design.service?.service)?.plans?.plans.map(plan => (
+                            <div className='p-6 rounded-xl border border-black/5 w-full max-w-96 flex flex-col gap-4' key={plan._id} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                              <p className='text-center font-medium text-xl'>{plan.name}</p>
+                              <div className='flex gap-2 w-fit m-auto'>
+                                <p className='text-center font-bold text-3xl'>${NumberFormat(Number(plan.price))}</p>
+                                <p className='my-auto'>/ mes</p>
+                              </div>
+                              {
+                                services?.find(service => service._id === design.service?.service)?.plans?.functionalities.length
+                                  ? (
+                                    <>
+                                      <p className='font-medium text-lg'>Funcionalidades:</p>
+                                      <div className='flex flex-col gap-2'>
+                                        {
+                                          plan.functionalities?.map(functionality => functionality.value ? <p key={functionality.name}>{functionality.name}: {functionality.value}</p> : '')
+                                        }
+                                      </div>
+                                    </>
+                                  )
+                                  : ''
+                              }
+                              <Button config='w-full'>Me interesa este plan</Button>
                             </div>
-                          )
+                          ))
                         }
-                      })
-                      : <p className='text-center m-auto'>No tienes servicios seleccionados</p>
-                  }
-                </div>
+                      </div>
+                    )
+                    : ''
+                }
               </>
             )
             : (
@@ -396,43 +366,43 @@ export const Services: React.FC<Props> = ({ edit, pages, setPages, design, index
                   style={{ color: design.info.textColor }}
                   dangerouslySetInnerHTML={{ __html: design.info.description ? design.info.description : '' }}
                 />
-                <div className='flex gap-8 flex-wrap justify-center'>
-                  {
-                    design.services?.length
-                      ? design.services.map(service => {
-                        const serviceFind = services?.find(servi => servi._id === service.service)
-                        if (serviceFind) {
-                          return (
-                            <div key={service.service} className='flex flex-col gap-2 p-4 rounded-xl border border-main/5 w-[350px] h-60 justify-center' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                {
+                  services?.find(service => service._id === design.service?.service)?.plans?.plans.length
+                    ? (
+                      <div className='flex gap-6 justify-around'>
+                        {
+                          services?.find(service => service._id === design.service?.service)?.plans?.plans.map(plan => (
+                            <div className='p-6 rounded-xl border border-black/5 w-full max-w-96 flex flex-col gap-4' key={plan._id} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                              <p className='text-center font-medium text-xl'>{plan.name}</p>
+                              <div className='flex gap-2 w-fit m-auto'>
+                                <p className='text-center font-bold text-3xl'>${NumberFormat(Number(plan.price))}</p>
+                                <p className='my-auto'>/ mes</p>
+                              </div>
                               {
-                                index === 0
-                                ? (
-                                  <h2
-                                    className={`${responsive === '400px' ? 'text-xl' : 'text-3xl'} transition-opacity duration-200 font-semibold text-center`}
-                                    style={{ color: design.info.textColor }}
-                                    dangerouslySetInnerHTML={{ __html: serviceFind.name }}
-                                  />
-                                )
-                                : (
-                                  <h3
-                                    className={`${responsive === '400px' ? 'text-lg' : 'text-2xl'} transition-opacity duration-200 font-semibold text-center`}
-                                    style={{ color: design.info.textColor }}
-                                    dangerouslySetInnerHTML={{ __html: serviceFind.name }}
-                                  />
-                                )
+                                services?.find(service => service._id === design.service?.service)?.plans?.functionalities.length
+                                  ? (
+                                    <>
+                                      <p className='font-medium text-lg'>Funcionalidades:</p>
+                                      <div className='flex flex-col gap-2'>
+                                        {
+                                          plan.functionalities?.map(functionality => functionality.value ? <p key={functionality.value}>{functionality.name}: {functionality.value}</p> : '')
+                                        }
+                                      </div>
+                                    </>
+                                  )
+                                  : ''
                               }
-                              <p className='text-center'>{serviceFind.description}</p>
-                              <Button config='mx-auto'>Ver más información</Button>
+                              <Button config='w-full'>Me interesa este plan</Button>
                             </div>
-                          )
+                          ))
                         }
-                      })
-                      : <p className='text-center m-auto'>No tienes servicios seleccionados</p>
-                  }
-                </div>
+                      </div>
+                    )
+                    : ''
+                }
               </>
             )
-        }
+          }
       </div>
     </div>
   )

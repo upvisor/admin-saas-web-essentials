@@ -6,7 +6,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import Image from 'next/image'
-import { Bloque1, Bloque2, Bloque3, Bloque4, Bloque5, Call, Contact, Layout, Lead1, PopupNewCall, PopupNewForm, PopupNewPage, PopupPagesBlocks, Slider, Subscription, Video, PopupDeleteFunnel, PopupDeletePage, Bloque7, Checkout, Calls, Lead2, Services } from '@/components/design'
+import { Bloque1, Bloque2, Bloque3, Bloque4, Bloque5, Call, Contact, Layout, Lead1, PopupNewCall, PopupNewForm, PopupNewPage, PopupPagesBlocks, Slider, Subscription, Video, PopupDeleteFunnel, PopupDeletePage, Bloque7, Checkout, Calls, Lead2, Services, Plans } from '@/components/design'
 import { Button, Button2, ButtonSecondary2, ButtonSubmit, Input, Select, Spinner, Textarea } from '@/components/ui'
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 import { PopupNewFunnel } from '@/components/funnels'
@@ -473,6 +473,25 @@ export default function Page () {
                     <p>Parrafo</p>
                     <Textarea placeholder='Descripción' value={popupWeb.description!} change={(e: any) => setPopupWeb({ ...popupWeb, description: e.target.value })} />
                   </div>
+                  <div className='flex flex-col gap-2'>
+                    <p>Texto boton</p>
+                    <Input placeholder='Boton' value={popupWeb.buttonText} change={(e: any) => setPopupWeb({ ...popupWeb, buttonText: e.target.value })} />
+                  </div>
+                  <div className='flex flex-col gap-2'>
+                    <p>Link boton</p>
+                    <Select change={(e: any) => setPopupWeb({ ...popupWeb, buttonLink: e.target.value })} value={popupWeb.buttonLink}>
+                      <option value=''>Seleccionar pagina</option>
+                      {
+                        pages.map(page => <option key={page._id} value={page.slug}>{page.page}</option>)
+                      }
+                      {
+                        funnels.map(funnel => funnel.steps.filter(step => step.slug && step.slug !== '').map(step => <option key={step._id} value={step.slug}>{funnel.funnel} - {step.step}</option>))
+                      }
+                      {
+                        services.map(service => service.steps.filter(step => step.slug && step.slug !== '').map(step => <option key={step._id} value={step.slug}>{service.name} - {step.step}</option>))
+                      }
+                    </Select>
+                  </div>
                   <p className='font-medium text-lg'>Mostrar formulario o llamada</p>
                   <div className='flex flex-col gap-2'>
                     <Select value={popupWeb.content} change={(e: any) => setPopupWeb({ ...popupWeb, content: e.target.value })}>
@@ -841,7 +860,9 @@ export default function Page () {
                                                                 ? <Lead2 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectFunnel={selectFunnel} setSelectFunnel={setSelectFunnel} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} storeData={storeData} />
                                                                 : design.content === 'Servicios'
                                                                   ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} services={services} responsive={responsive} pageNeed={pages} />
-                                                                  : ''
+                                                                  : design.content === 'Planes'
+                                                                    ? <Plans edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} services={services} responsive={responsive} pageNeed={pages} />
+                                                                    : ''
                                 }
                                 <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>
                                   <p className='my-auto font-medium'>{design.content}</p>
@@ -1022,6 +1043,11 @@ export default function Page () {
                       )
                       : ''
                   }
+                  {
+                    popupWeb.buttonLink && popupWeb.buttonLink !== '' && popupWeb.buttonText && popupWeb.buttonText !== ''
+                      ? <Button>{popupWeb.buttonText}</Button>
+                      : ''
+                  }
                 </div>
               </div>
             )
@@ -1086,7 +1112,9 @@ export default function Page () {
                                                                     ? <Lead2  edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} inde={funnels.findIndex(funnel => funnel.funnel === part)} funnels={funnels} setFunnels={setFunnels} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectFunnel={selectFunnel} setSelectFunnel={setSelectFunnel} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} storeData={storeData} />
                                                                     : design.content === 'Servicios'
                                                                       ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} inde={funnels.findIndex(funnel => funnel.funnel === part)} calls={calls} funnels={funnels} setFunnels={setFunnels} responsive={responsive} pageNeed={pages} />
-                                                                      : ''
+                                                                      : design.content === 'Planes'
+                                                                        ? <Plans edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} inde={funnels.findIndex(funnel => funnel.funnel === part)} services={services} responsive={responsive} pageNeed={pages} funnels={funnels} setFunnels={setFunnels} />
+                                                                        : ''
                                     }
                                     <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>
                                       <p className='my-auto font-medium'>{design.content}</p>
@@ -1215,7 +1243,9 @@ export default function Page () {
                                                                     ? <Lead2 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} indx={services.findIndex(service => service.name === part)} funnels={funnels} setFunnels={setFunnels} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectFunnel={selectFunnel} setSelectFunnel={setSelectFunnel} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} services={services} setServices={setServices} storeData={storeData} />
                                                                     : design.content === 'Servicios'
                                                                       ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} indx={services.findIndex(service => service.name === part)} calls={calls} funnels={funnels} setFunnels={setFunnels} services={services} setServices={setServices} responsive={responsive} pageNeed={pages} />
-                                                                      : ''
+                                                                      : design.content === 'Planes'
+                                                                        ? <Plans edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} indx={services.findIndex(service => service.name === part)} services={services} responsive={responsive} pageNeed={pages} funnels={funnels} setFunnels={setFunnels} setServices={setServices} />
+                                                                        : ''
                                     }
                                     <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>
                                       <p className='my-auto font-medium'>{design.content}</p>
