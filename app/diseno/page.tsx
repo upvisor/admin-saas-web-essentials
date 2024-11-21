@@ -6,7 +6,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import Image from 'next/image'
-import { Bloque1, Bloque2, Bloque3, Bloque4, Bloque5, Call, Contact, Layout, Lead1, PopupNewCall, PopupNewForm, PopupNewPage, PopupPagesBlocks, Slider, Subscription, Video, PopupDeleteFunnel, PopupDeletePage, Bloque7, Checkout, Calls, Lead2, Services, Plans } from '@/components/design'
+import { Bloque1, Bloque2, Bloque3, Bloque4, Bloque5, Call, Contact, Layout, Lead1, PopupNewCall, PopupNewForm, PopupNewPage, PopupPagesBlocks, Slider, Subscription, Video, PopupDeleteFunnel, PopupDeletePage, Bloque7, Checkout, Calls, Lead2, Services, Plans, Faq } from '@/components/design'
 import { Button, Button2, ButtonSecondary2, ButtonSubmit, Input, Select, Spinner, Textarea } from '@/components/ui'
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 import { PopupNewFunnel } from '@/components/funnels'
@@ -859,10 +859,12 @@ export default function Page () {
                                                               : design.content === 'Lead 2'
                                                                 ? <Lead2 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectFunnel={selectFunnel} setSelectFunnel={setSelectFunnel} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} storeData={storeData} />
                                                                 : design.content === 'Servicios'
-                                                                  ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} services={services} responsive={responsive} pageNeed={pages} />
+                                                                  ? <Services edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} services={services} responsive={responsive} pageNeed={pages} funnels={funnels} setFunnels={setFunnels} />
                                                                   : design.content === 'Planes'
                                                                     ? <Plans edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} services={services} responsive={responsive} pageNeed={pages} />
-                                                                    : ''
+                                                                    : design.content === 'Preguntas frecuentes'
+                                                                      ? <Faq edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} services={services} responsive={responsive} pageNeed={pages} />
+                                                                      : ''
                                 }
                                 <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>
                                   <p className='my-auto font-medium'>{design.content}</p>

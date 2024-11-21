@@ -10,16 +10,10 @@ const nextConfig = {
           pathname: '/embed/**'
         }, {
           protocol: 'https',
-          hostname: 'web-carmen-orellana.b-cdn.net',
+          hostname: 'img-web-carmen-orellana.b-cdn.net',
           port: '',
           pathname: '/**'
         }, {
-          protocol: 'https',
-          hostname: 'web-carmen.b-cdn.net',
-          port: '',
-          pathname: '/**'
-        },
-        {
           protocol: 'https',
           hostname: 'images-upvisor.b-cdn.net',
           port: '',

@@ -1,9 +1,9 @@
 "use client"
-import { ICall, IDesign, IFunnel, IPage, IService } from '@/interfaces'
+import { IPage, IDesign, IFunnel, ICall, IService } from '@/interfaces'
 import React, { useState } from 'react'
-import { Button, Input, Select, Spinner } from '../ui'
+import { Button2, Button2Red, Input, Select, Spinner, Textarea } from '../ui'
 import axios from 'axios'
-import { NumberFormat } from '@/utils'
+import { IoIosArrowDown } from 'react-icons/io'
 
 interface Props {
     edit: any
@@ -23,7 +23,7 @@ interface Props {
     pageNeed: IPage[]
 }
 
-export const Plans: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed }) => {
+export const Faq: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed }) => {
   
   const [gradient, setGradient] = useState('')
   const [firstColor, setFirstColor] = useState('')
@@ -37,7 +37,7 @@ export const Plans: React.FC<Props> = ({ edit, pages, setPages, design, index, i
     <div className="w-full flex py-24 px-4" style={{ background: `${design.info.typeBackground === 'Degradado' ? design.info.background : design.info.typeBackground === 'Color' ? design.info.background : ''}` }}>
       <div className={`w-full flex flex-col gap-4 max-w-[1280px] m-auto`}>
         {
-          edit === 'Planes'
+          edit === 'Preguntas frecuentes'
             ? (
               <>
                 <div className='flex flex-col gap-2 w-fit m-auto p-6 bg-white rounded-xl border border-black/5 shadow-md'>
@@ -286,60 +286,77 @@ export const Plans: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                     setPages(oldPages)
                   }
                 }} className={`${responsive === '400px' ? 'text-base' : 'text-lg'} text-center p-1.5 rounded border bg-transparent`} style={{ color: design.info.textColor }} />
-                <Select change={(e: any) => {
+                {
+                  design.info.faq?.length
+                    ? design.info.faq?.map((faq, i) => (
+                      <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border border-black/5' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                        <div className='flex gap-6 justify-between'>
+                          <input onChange={(e: any) => {
+                            if (inde !== undefined) {
+                              const oldFunnels = [...funnels!]
+                              oldFunnels[inde].steps[ind].design![index].info.faq![i].question = e.target.value
+                              setFunnels(oldFunnels)
+                            } else if (indx !== undefined) {
+                              const oldServices = [...services!]
+                              oldServices[indx].steps[ind].design![index].info.faq![i].question = e.target.value
+                              setServices(oldServices)
+                            } else {
+                              const oldPages = [...pages]
+                              oldPages[ind].design[index].info.faq![i].question = e.target.value
+                              setPages(oldPages)
+                            }
+                          }} value={faq.question} className='text-lg font-medium p-1.5 border w-full' />
+                          <IoIosArrowDown className='my-auto text-2xl rotate-180' />
+                        </div>
+                        <textarea onChange={(e: any) => {
+                          if (inde !== undefined) {
+                            const oldFunnels = [...funnels!]
+                            oldFunnels[inde].steps[ind].design![index].info.faq![i].response = e.target.value
+                            setFunnels(oldFunnels)
+                          } else if (indx !== undefined) {
+                            const oldServices = [...services!]
+                            oldServices[indx].steps[ind].design![index].info.faq![i].response = e.target.value
+                            setServices(oldServices)
+                          } else {
+                            const oldPages = [...pages]
+                            oldPages[ind].design[index].info.faq![i].response = e.target.value
+                            setPages(oldPages)
+                          }
+                        }} value={faq.response!} placeholder='Pregunta' className='p-1.5 border' />
+                        <Button2Red action={(e: any) => {
+                          if (inde !== undefined) {
+                            const oldFunnels = [...funnels!]
+                            oldFunnels[inde].steps[ind].design![index].info.faq?.splice(i, 1)
+                            setFunnels(oldFunnels)
+                          } else if (indx !== undefined) {
+                            const oldServices = [...services!]
+                            oldServices[indx].steps[ind].design![index].info.faq?.splice(i, 1)
+                            setServices(oldServices)
+                          } else {
+                            const oldPages = [...pages]
+                            oldPages[ind].design[index].info.faq?.splice(i, 1)
+                            setPages(oldPages)
+                          }
+                        }}>Eliminar pregunta</Button2Red>
+                      </div>
+                    ))
+                    : <p>No hay preguntas creadas</p>
+                }
+                <Button2 color={'main'} action={(e: any) => {
                   if (inde !== undefined) {
                     const oldFunnels = [...funnels!]
-                    oldFunnels[inde].steps[ind].design![index].service = { service: e.target.value }
+                    oldFunnels[inde].steps[ind].design![index].info.faq?.push({ question: 'Lorem ipsum', response: 'Lorem ipsum' })
                     setFunnels(oldFunnels)
                   } else if (indx !== undefined) {
                     const oldServices = [...services!]
-                    oldServices[indx].steps[ind].design![index].service = { service: e.target.value }
+                    oldServices[indx].steps[ind].design![index].info.faq?.push({ question: 'Lorem ipsum', response: 'Lorem ipsum' })
                     setServices(oldServices)
                   } else {
                     const oldPages = [...pages]
-                    oldPages[ind].design[index].service = { service: e.target.value }
+                    oldPages[ind].design[index].info.faq?.push({ question: 'Lorem ipsum', response: 'Lorem ipsum' })
                     setPages(oldPages)
                   }
-                }} config='w-fit m-auto' value={design.service?.service}>
-                  <option value=''>Seleccionar servicio</option>
-                  {
-                    services?.map(service => <option key={service._id} value={service._id}>{service.name}</option>)
-                  }
-                </Select>
-                {
-                  services?.find(service => service._id === design.service?.service)?.plans?.plans.length
-                    ? (
-                      <div className='flex gap-6 justify-around'>
-                        {
-                          services?.find(service => service._id === design.service?.service)?.plans?.plans.map(plan => (
-                            <div className='p-6 rounded-xl border border-black/5 w-full max-w-96 flex flex-col gap-4' key={plan._id} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
-                              <p className='text-center font-medium text-xl'>{plan.name}</p>
-                              <div className='flex gap-2 w-fit m-auto'>
-                                <p className='text-center font-bold text-3xl'>${NumberFormat(Number(plan.price))}</p>
-                                <p className='my-auto'>/ mes</p>
-                              </div>
-                              {
-                                services?.find(service => service._id === design.service?.service)?.plans?.functionalities.length
-                                  ? (
-                                    <>
-                                      <p className='font-medium text-lg'>Funcionalidades:</p>
-                                      <div className='flex flex-col gap-2'>
-                                        {
-                                          plan.functionalities?.map(functionality => functionality.value ? <p key={functionality.name}>{functionality.name}: {functionality.value}</p> : '')
-                                        }
-                                      </div>
-                                    </>
-                                  )
-                                  : ''
-                              }
-                              <Button config='w-full'>Me interesa este plan</Button>
-                            </div>
-                          ))
-                        }
-                      </div>
-                    )
-                    : ''
-                }
+                }}>Añadir pregunta</Button2>
               </>
             )
             : (
@@ -367,38 +384,15 @@ export const Plans: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                   dangerouslySetInnerHTML={{ __html: design.info.description ? design.info.description : '' }}
                 />
                 {
-                  services?.find(service => service._id === design.service?.service)?.plans?.plans.length
-                    ? (
-                      <div className='flex gap-6 justify-around'>
-                        {
-                          services?.find(service => service._id === design.service?.service)?.plans?.plans.map(plan => (
-                            <div className='p-6 rounded-xl border border-black/5 w-full max-w-96 flex flex-col gap-4' key={plan._id} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
-                              <p className='text-center font-medium text-xl'>{plan.name}</p>
-                              <div className='flex gap-2 w-fit m-auto'>
-                                <p className='text-center font-bold text-3xl'>${NumberFormat(Number(plan.price))}</p>
-                                <p className='my-auto'>/ mes</p>
-                              </div>
-                              {
-                                services?.find(service => service._id === design.service?.service)?.plans?.functionalities.length
-                                  ? (
-                                    <>
-                                      <p className='font-medium text-lg'>Funcionalidades:</p>
-                                      <div className='flex flex-col gap-2'>
-                                        {
-                                          plan.functionalities?.map(functionality => functionality.value ? <p key={functionality.value}>{functionality.name}: {functionality.value}</p> : '')
-                                        }
-                                      </div>
-                                    </>
-                                  )
-                                  : ''
-                              }
-                              <Button config='w-full'>Me interesa este plan</Button>
-                            </div>
-                          ))
-                        }
+                  design.info.faq?.map((faq, i) => (
+                    <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border border-black/5' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                      <div className='flex gap-6 justify-between'>
+                        <p className='font-medium text-lg'>{faq.question}</p>
+                        <IoIosArrowDown className='my-auto text-2xl rotate-180' />
                       </div>
-                    )
-                    : ''
+                      <p>{faq.response}</p>
+                    </div>
+                  ))
                 }
               </>
             )
