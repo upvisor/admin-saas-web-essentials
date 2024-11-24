@@ -247,7 +247,7 @@ export default function Page () {
         <title>Personalizar sitio web</title>
       </Head>
       <div className='flex h-full bg-white dark:bg-neutral-900'>
-        <div className='p-4 fixed'>
+        <div className='p-4 fixed flex lg:hidden'>
           <button onClick={(e: any) => {
             e.preventDefault()
             if (menu === 'hidden') {
