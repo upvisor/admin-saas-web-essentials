@@ -104,9 +104,9 @@ export default function CallsPage () {
         </div>
       </div>
       <PopupNewCall popupCall={popupCall} setPopupCall={setPopupCall} titleMeeting={title} newCall={newCall} setNewCall={setNewCall} getCalls={getMeetings} tags={tags} getTags={getTags} error={error} setError={setError} funnels={funnels} newData={newData} setNewData={setNewData} loadingNewData={loadingNewData} setLoadingNewData={setLoadingNewData} clientData={clientData} getClientData={getClientData} />
-      <main className="flex flex-col p-6 gap-6 h-full w-full bg-bg dark:bg-neutral-900">
+      <main className="flex flex-col p-4 lg:p-6 gap-6 h-full w-full bg-bg dark:bg-neutral-900">
         <div className="w-full flex flex-col gap-6 mx-auto max-w-[1280px]">
-          <div className="flex gap-4 justify-between">
+          <div className="flex gap-4 justify-between flex-col lg:flex-row">
             <h1 className="text-2xl font-medium my-auto">Llamadas</h1>
             <div className="flex gap-6">
               <Link href="/llamadas/disponibilidad" className="my-auto text-sm">Modificar disponibilidad</Link>
@@ -145,7 +145,7 @@ export default function CallsPage () {
                           setFilteredMeetings(filterMeetings)
                           setCallSelect(e.target.value)
                         }
-                      }} config="w-fit">
+                      }} config="w-fit max-w-full">
                         <option>Todas las llamadas</option>
                         {
                           calls.map(call => (

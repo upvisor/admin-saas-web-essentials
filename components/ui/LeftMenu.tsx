@@ -48,7 +48,7 @@ export const LeftMenu: React.FC<PropsWithChildren> = ({ children }) => {
         pathname !== '/ingresar'
           ? (
                 <div className='flex bg-bg w-full' style={{ height: 'calc(100vh - 49px' }}>
-                  <div className={`w-[250px] z-40 border-r border-border p-4 flex flex-col justify-between dark:border-neutral-800 dark:bg-neutral-900`}>
+                  <div className={`w-[250px] z-40 border-r border-border p-4 hidden flex-col justify-between lg:flex dark:border-neutral-800 dark:bg-neutral-900`}>
                     <div className='flex flex-col gap-1'>
                       <Link href='/' className={`transition-all duration-150 ${pathname === '/' ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex gap-2 py-1.5 px-3 rounded-xl`}><AiOutlineHome className={`mt-auto mb-auto text-xl ${pathname === '/' ? 'text-white' : 'text-main'}`} /><p className={`${pathname === '/' ? 'text-white' : ''}`}>Inicio</p></Link>
                       <Link href='/pagos' className={`transition-all duration-150 ${pathname.includes('/pagos') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><MdOutlinePayment className={`mt-auto mb-auto text-xl ${pathname.includes('/pagos') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/pagos') ? 'text-white' : ''}`}>Pagos</p></Link>
@@ -68,7 +68,7 @@ export const LeftMenu: React.FC<PropsWithChildren> = ({ children }) => {
                       <Link href='/configuracion' className={`transition-all duration-150 ${pathname.includes('/configuracion') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><IoSettingsOutline className={`mt-auto mb-auto text-xl ${pathname.includes('/configuracion') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/configuracion') ? 'text-white' : ''}`}>Configuración</p></Link>
                     </div>
                   </div>
-                  <main style={{ width: 'calc(100% - 250px)' }}>
+                  <main className='w-full lg:w-[calc(100%-250px)]'>
                     { children }
                   </main>
                 </div>

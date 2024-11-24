@@ -53,7 +53,7 @@ export default function FunnelPage () {
     <>
       <PopupNewFunnel popup={popup} setPopup={setPopup} getFunnels={getFunnels} newFunnel={newFunnel} setNewFunnel={setNewFunnel} selectFunnel={selectFunnel!} title={title} error={error} setError={setError} services={services} />
       <PopupDeleteFunnel popupDelete={popupDelete} setPopupDelete={setPopupDelete} setSelectFunnel={setSelectFunnel} selectFunnel={selectFunnel!} getFunnels={getFunnels} />
-      <main className="w-full h-full p-6 flex flex-col gap-6 bg-bg dark:bg-neutral-900">
+      <main className="w-full h-full p-4 lg:p-6 flex flex-col gap-6 bg-bg min-h-full max-h-full overflow-y-auto dark:bg-neutral-900">
         <div className="w-full flex flex-col gap-6 mx-auto max-w-[1280px]">
           <div className="flex gap-4 justify-between">
             <h1 className="text-2xl font-medium my-auto">Embudos</h1>
@@ -80,7 +80,7 @@ export default function FunnelPage () {
               : funnels.length
                 ? (
                   <div className="flex flex-col gap-4">
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 flex-col lg:flex-row">
                       <Select change={(e: any) => {
                         const funnel = funnels.find(funnel => funnel.funnel === e.target.value)
                         setSelectFunnel(funnel)

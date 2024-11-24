@@ -67,12 +67,12 @@ export default function Page () {
       <Head>
         <title>Mensajes</title>
       </Head>
-        <div className='p-6 w-full flex flex-col gap-6 min-h-full overflow-y-auto bg-bg dark:bg-neutral-900'>
+        <div className='p-4 lg:p-6 w-full flex flex-col gap-6 min-h-full overflow-y-auto bg-bg dark:bg-neutral-900'>
           <div className='w-full flex flex-col gap-4 max-w-[1280px] mx-auto'>
             <h1 className='text-2xl font-medium'>Mensajes</h1>
           </div>
-          <div className='w-full max-w-[1280px] flex mx-auto gap-6'>
-            <div className='w-1/2 flex flex-col gap-2'>
+          <div className='w-full max-w-[1280px] flex mx-auto gap-6 flex-col lg:flex-row'>
+            <div className='w-full lg:w-1/2 flex flex-col gap-2'>
               {
                 chatIds === undefined
                   ? (
@@ -108,7 +108,7 @@ export default function Page () {
                     : <p>No hay chats</p>
               }
             </div>
-            <div className='w-1/2'>
+            <div className='w-full lg:w-1/2'>
               <div className='bg-white pt-4 pb-4 pl-4 flex flex-col gap-4 justify-between border border-black/5 rounded-xl w-full h-[70vh] dark:bg-neutral-800 dark:border-neutral-700' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
                 <div ref={containerRef} className='w-full h-full flex flex-col pr-4' style={{ overflow: 'overlay' }}>
                   {

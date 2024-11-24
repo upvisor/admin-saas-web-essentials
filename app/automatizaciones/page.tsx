@@ -59,10 +59,10 @@ export default function Page () {
             }}>Cancelar</button>
           </div>
         </Popup>
-        <div className='p-6 w-full flex flex-col gap-6 min-h-full overflow-y-auto bg-bg dark:bg-neutral-900'>
-          <div className='flex justify-between w-full max-w-[1280px] mx-auto'>
+        <div className='p-4 lg:p-6 w-full flex flex-col gap-6 min-h-full max-h-full overflow-y-auto bg-bg dark:bg-neutral-900'>
+          <div className='flex justify-between w-full max-w-[1280px] mx-auto flex-col gap-2 lg:flex-row'>
             <h1 className='text-2xl font-medium my-auto'>Automatizaciones</h1>
-            <ButtonLink href='/automatizaciones/nueva-automatizacion'>Crear automatización</ButtonLink>
+            <ButtonLink href='/automatizaciones/nueva-automatizacion' >Crear automatización</ButtonLink>
           </div>
           <div className='w-full max-w-[1280px] mx-auto'>
             {

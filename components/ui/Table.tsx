@@ -6,7 +6,7 @@ interface Props {
 
 export const Table: React.FC<PropsWithChildren<Props>> = ({ children, th }) => {
   return (
-    <div className='overflow-hidden border border-black/5 rounded-xl dark:border-neutral-700' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+    <div className='overflow-x-auto overflow-y-hidden border border-black/5 rounded-xl dark:border-neutral-700' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
         <table className='min-w-full'>
             <thead className='border-b border-black/5 w-full dark:border-neutral-700'>
                 {

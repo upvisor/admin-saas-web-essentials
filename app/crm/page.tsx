@@ -54,7 +54,7 @@ export default function Page() {
     <>
       <PopupNewService popupService={popup} setPopupService={setPopup} newService={newService} setNewService={setNewService} loadingService={loadingService} setLoadingService={setLoadingService} getServices={getServices} error={error} title={title} newFunctionality={newFunctionality} setNewFunctionality={setNewFunctionality} tags={tags} getTags={getTags} />
       <div className='w-full h-full bg-bg flex flex-col gap-6 dark:bg-neutral-900'>
-        <div className='p-6 w-full flex flex-col gap-6 overflow-y-auto'>
+        <div className='p-4 lg:p-6 w-full flex flex-col gap-6 min-h-full max-h-full overflow-y-auto'>
           <div className='flex justify-between w-full max-w-[1280px] mx-auto'>
             <h1 className='text-2xl font-medium my-auto'>CRM</h1>
             <Button action={(e: any) => {
@@ -82,7 +82,7 @@ export default function Page() {
                   ? (
                     <div className="flex flex-col gap-4">
                       <p>Selecciona el servicio</p>
-                      <div className="flex gap-4">
+                      <div className="flex gap-4 flex-col lg:flex-row">
                         <Select change={(e: any) => setService(services.find(servi => servi.name === e.target.value))} config="w-fit">
                           <option>Seleccionar servicio</option>
                           {
@@ -107,7 +107,7 @@ export default function Page() {
                       {
                         service
                           ? (
-                            <div className="flex gap-4">
+                            <div className="flex gap-4 overflow-x-auto max-w-full">
                               {
                                 service.steps.map(step => (
                                   <div key={step.step} onDragOver={(e) => e.preventDefault()} onDrop={async () => {

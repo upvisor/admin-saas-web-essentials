@@ -6,11 +6,21 @@ import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
-import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs'
+import { BsFillMoonFill, BsFillSunFill, BsShop } from 'react-icons/bs'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { io } from 'socket.io-client'
 import { Spinner } from '../ui'
 import Image from 'next/image'
+import { SlMenu } from 'react-icons/sl'
+import { GrClose } from 'react-icons/gr'
+import { AiOutlineHome, AiOutlineFunnelPlot, AiOutlineFund, AiOutlineNotification, AiOutlineMessage } from 'react-icons/ai'
+import { FaCogs } from 'react-icons/fa'
+import { HiOutlineUsers } from 'react-icons/hi'
+import { IoSettingsOutline } from 'react-icons/io5'
+import { LiaClipboardListSolid } from 'react-icons/lia'
+import { MdOutlinePayment, MdOutlineCall } from 'react-icons/md'
+import { PiSuitcaseSimple } from 'react-icons/pi'
+import { TfiWrite } from 'react-icons/tfi'
 
 const socket = io(`${process.env.NEXT_PUBLIC_API_URL}/`, {
   transports: ['websocket']
@@ -28,6 +38,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
   const [storeData, setStoreData] = useState<IStoreData>()
   const [loading, setLoading] = useState(true)
   const [notification, setNotification] = useState(false)
+  const [menu, setMenu] = useState('hidden')
 
   const notificationsRef = useRef(notifications)
 
@@ -111,6 +122,35 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
+      {
+        menu === 'flex'
+          ? (
+            <div className='fixed top-[49px] h-full flex w-full z-50'>
+              <div className={`w-[250px] h-full z-50 border-r bg-bg border-border p-4 flex-col justify-between dark:border-neutral-800 dark:bg-neutral-900`}>
+                <div className='flex flex-col gap-1'>
+                  <Link href='/' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname === '/' ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex gap-2 py-1.5 px-3 rounded-xl`}><AiOutlineHome className={`mt-auto mb-auto text-xl ${pathname === '/' ? 'text-white' : 'text-main'}`} /><p className={`${pathname === '/' ? 'text-white' : ''}`}>Inicio</p></Link>
+                  <Link href='/pagos' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/pagos') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><MdOutlinePayment className={`mt-auto mb-auto text-xl ${pathname.includes('/pagos') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/pagos') ? 'text-white' : ''}`}>Pagos</p></Link>
+                  <Link href='/servicios' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/servicios') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><PiSuitcaseSimple className={`mt-auto mb-auto text-xl ${pathname.includes('/servicios') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/servicios') ? 'text-white' : ''}`}>Servicios</p></Link>
+                  <Link href='/embudos' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/embudos') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><AiOutlineFunnelPlot className={`mt-auto mb-auto text-xl ${pathname.includes('/embudos') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/embudos') ? 'text-white' : ''}`}>Embudos</p></Link>
+                  <Link href='/crm' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/crm') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><LiaClipboardListSolid className={`mt-auto mb-auto text-xl ${pathname.includes('/crm') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/crm') ? 'text-white' : ''}`}>CRM</p></Link>
+                  <Link href='/llamadas' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/llamadas') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><MdOutlineCall className={`mt-auto mb-auto text-xl ${pathname.includes('/llamadas') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/llamadas') ? 'text-white' : ''}`}>Llamadas</p></Link>
+                  <Link href='/estadisticas' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/estadisticas') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex gap-2 py-1.5 px-3 rounded-xl`}><AiOutlineFund className={`mt-auto mb-auto text-xl ${pathname.includes('/estadisticas') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/estadisticas') ? 'text-white' : ''}`}>Estadisticas</p></Link>
+                  <Link href='/clientes' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/clientes') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex gap-2 py-1.5 px-3 rounded-xl`}><HiOutlineUsers className={`mt-auto mb-auto text-xl ${pathname.includes('/clientes') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/clientes') ? 'text-white' : ''}`}>Clientes</p></Link>
+                  <Link href='/campanas' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/campanas') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex gap-2 py-1.5 px-3 rounded-xl`}><AiOutlineNotification className={`mt-auto mb-auto text-xl ${pathname.includes('/campanas') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/campanas') ? 'text-white' : ''}`}>Campañas</p></Link>
+                  <Link href='/automatizaciones' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/automatizaciones') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex gap-2 py-1.5 px-3 rounded-xl`}><FaCogs className={`mt-auto mb-auto text-xl ${pathname.includes('/automatizaciones') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/automatizaciones') ? 'text-white' : ''}`}>Automatizaciones</p></Link>
+                  <Link href='/mensajes' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/mensajes') ? 'bg-main' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><AiOutlineMessage className={`mt-auto mb-auto text-xl ${pathname.includes('/mensajes') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/mensajes') ? 'text-white' : ''}`}>Mensajes</p></Link>
+                  <Link href='/blog' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/blog') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><TfiWrite className={`mt-auto mb-auto text-xl ${pathname.includes('/blog') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/blog') ? 'text-white' : ''}`}>Blog</p></Link>
+                  <Link href='/diseno' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/diseno') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><BsShop className={`mt-auto mb-auto text-xl ${pathname.includes('/diseno') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/diseno') ? 'text-white' : ''}`}>Diseño</p></Link>
+                </div>
+                <div className='border-t border-border pt-4 dark:border-neutral-800'>
+                  <Link href='/configuracion' onClick={() => setMenu('hidden')} className={`transition-all duration-150 ${pathname.includes('/configuracion') ? 'bg-main shadow-md shadow-main/30' : 'hover:bg-neutral-100 dark:hover:bg-main/30'} flex py-1.5 px-3 gap-2 rounded-xl`}><IoSettingsOutline className={`mt-auto mb-auto text-xl ${pathname.includes('/configuracion') ? 'text-white' : 'text-main'}`} /><p className={`${pathname.includes('/configuracion') ? 'text-white' : ''}`}>Configuración</p></Link>
+                </div>
+              </div>
+              <button onClick={() => setMenu('hidden')} className='h-full w-full bg-black/20' />
+            </div>
+          )
+          : ''
+      }
       <div className={`${loading ? 'flex' : 'hidden'} fixed w-full h-full z-50 bg-white dark:bg-neutral-900`}>
         <div className='w-fit h-fit m-auto'>
           <Spinner />
@@ -122,7 +162,17 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
             <>
               <div className='w-full px-2 py-1 bg-white border-b border-border z-40 dark:border-neutral-800 dark:bg-neutral-900'>
                 <div className='w-full m-auto flex justify-between'>
-                  <div className='flex gap-2'>
+                  <div className='flex gap-3'>
+                    <div className='flex lg:hidden'>
+                      <button onClick={(e: any) => {
+                        e.preventDefault()
+                        if (menu === 'hidden') {
+                          setMenu('flex')
+                        } else {
+                          setMenu('hidden')
+                        }
+                      }} className='my-auto flex'>{menu === 'hidden' ? <SlMenu className='my-auto text-xl' /> : <GrClose className='text-xl' />}</button>
+                    </div>
                     {
                       !mounted
                         ? <Link href='/'><div className='h-10 w-1'><p>TIENDA</p></div></Link>
@@ -141,7 +191,7 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
                           : <Link href='/'><div className='h-10 w-1 flex'><p className='text-3xl m-auto font-semibold'>TIENDA</p></div></Link>
                     }
                   </div>
-                  <div className='flex gap-4'>
+                  <div className='hidden lg:flex gap-4'>
                     {renderThemeChanger()}
                     <button onClick={(e: any) => {
                       e.preventDefault()

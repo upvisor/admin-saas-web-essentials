@@ -12,6 +12,8 @@ import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 import { PopupNewFunnel } from '@/components/funnels'
 import { IoLaptopOutline, IoPhonePortraitOutline } from 'react-icons/io5'
 import { PopupNewService } from '@/components/service'
+import { SlMenu } from 'react-icons/sl'
+import { GrClose } from 'react-icons/gr'
 
 export default function Page () {
 
@@ -74,7 +76,7 @@ export default function Page () {
   const [popupDeletePage, setPopupDeletePage] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [popupDeleteFunnel, setPopupDeleteFunnel] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [selectPage, setSelectPage] = useState<IPage>()
-  const [responsive, setResponsive] = useState('calc(100% - 350px)')
+  const [responsive, setResponsive] = useState('calc(100%-350px)')
   const [id, setId] = useState<string>()
   const [error, setError] = useState('')
   const [newData, setNewData] = useState('')
@@ -91,6 +93,7 @@ export default function Page () {
   const [indexService, setIndexService] = useState(-1)
   const [indexStepService, setIndexStepService] = useState(-1)
   const [type, setType] = useState('')
+  const [menu, setMenu] = useState('hidden')
 
   const getStoreData = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/store-data`)
@@ -244,7 +247,577 @@ export default function Page () {
         <title>Personalizar sitio web</title>
       </Head>
       <div className='flex h-full bg-white dark:bg-neutral-900'>
-        <div className='w-[350px] border-r flex flex-col justify-between bg-white dark:border-neutral-800 dark:bg-neutral-900' style={{ overflow: 'overlay' }}>
+        <div className='p-4 fixed'>
+          <button onClick={(e: any) => {
+            e.preventDefault()
+            if (menu === 'hidden') {
+              setMenu('flex')
+            } else {
+              setMenu('hidden')
+            }
+          }} className='h-fit'>{menu === 'hidden' ? <SlMenu className='text-lg' /> : <GrClose className='text-lg' />}</button>
+        </div>
+        <div className={`${menu} z-50 bg-white flex flex-col gap-4 fixed p-4 overflow-y-auto lg:hidden`} style={{ height: 'calc(100% - 49px)' }}>
+          <button onClick={(e: any) => {
+            e.preventDefault()
+            if (menu === 'hidden') {
+              setMenu('flex')
+            } else {
+              setMenu('hidden')
+            }
+          }} className='h-fit'>{menu === 'hidden' ? <SlMenu className='text-lg' /> : <GrClose className='text-lg' />}</button>
+          <div className='w-[350px] flex flex-col justify-between bg-white dark:border-neutral-800 dark:bg-neutral-900' style={{ overflow: 'overlay' }}>
+            {
+              part === ''
+                ? (
+                  <div className='flex flex-col gap-4'>
+                    <h2 className='text-lg font-medium'>Paginas</h2>
+                    <div className='flex flex-col gap-2'>
+                      {
+                        pages.map((page, index) => (
+                          <div key={page.slug} className='flex gap-4'>
+                            <button onClick={() => {
+                              setType('Page')
+                              setPart(page.page)
+                            }} className='text-left w-full'>{page.page}</button>
+                            <div className='flex gap-2'>
+                              <div className='flex gap-1'>
+                                <input type='checkbox' checked={page.header} onChange={async (e: any) => {
+                                  const newPages = [...pages]
+                                  newPages[index].header = e.target.checked
+                                  setPages(newPages)
+                                  await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
+                                }} />
+                                <p className='my-auto'>Menu</p>
+                              </div>
+                              {
+                                page.header === true
+                                  ? (
+                                    <div className='flex gap-1'>
+                                      <input type='checkbox' checked={page.button === true ? true : false} onChange={async (e: any) => {
+                                        const newPages = [...pages]
+                                        newPages[index].button = e.target.checked
+                                        setPages(newPages)
+                                        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
+                                      }} />
+                                      <p className='my-auto'>Boton</p>
+                                    </div>
+                                  )
+                                  : ''
+                              }
+                              <button onClick={() => handleMoveUp(index)}><SlArrowUp className='text-lg' /></button>
+                              <button onClick={() => handleMoveDown(index)}><SlArrowDown className='text-lg' /></button>
+                              <button onClick={(e: any) => {
+                                e.preventDefault()
+                                setSelectPage(page)
+                                setPopupDeletePage({ ...popupDeletePage, view: 'flex', opacity: 'opacity-0' })
+                                setTimeout(() => {
+                                  setPopupDeletePage({ ...popupDeletePage, view: 'flex', opacity: 'opacity-1' })
+                                }, 10)
+                              }}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
+                            </div>
+                          </div>
+                        ))
+                      }
+                      <div className='flex gap-4'>
+                        <button onClick={() => setPart('Popup')} className='text-left w-full'>Popup</button>
+                      </div>
+                    </div>
+                    <h2 className='text-lg font-medium'>Embudos</h2>
+                    <div className='flex flex-col gap-2'>
+                      {
+                        funnels.length
+                          ? (
+                            funnels.map((funnel, index) => (
+                              <div key={funnel._id} className='flex gap-4 justify-between'>
+                                <button onClick={(e: any) => {
+                                  setType('Funnel')
+                                  setPart(funnel.funnel)
+                                  setSelectFunnel(funnel)
+                                }} className='text-left w-full'>{funnel.funnel}</button>
+                                <button onClick={(e: any) => {
+                                  e.preventDefault()
+                                  setSelectFunnel(funnel)
+                                  setPopupDeleteFunnel({ ...popupDeleteFunnel, view: 'flex', opacity: 'opacity-0' })
+                                  setTimeout(() => {
+                                    setPopupDeleteFunnel({ ...popupDeleteFunnel, view: 'flex', opacity: 'opacity-1' })
+                                  }, 10)
+                                }}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
+                              </div>
+                            ))
+                          )
+                          : <p>No hay embudos creados</p>
+                      }
+                    </div>
+                    <h2 className='text-lg font-medium'>Servicios</h2>
+                    <div className='flex flex-col gap-2'>
+                      {
+                        services.length
+                          ? services.map((service, index) => {
+                            if (service.steps.some(step => step.slug && step.slug !== '')) {
+                              return (
+                                <div key={service._id} className='flex gap-4 justify-between'>
+                                  <button onClick={(e: any) => {
+                                    setType('Service')
+                                    setPart(service.name)
+                                    setSelectService(service)
+                                  }} className='text-left w-full'>{service.name}</button>
+                                  <button onClick={(e: any) => {
+                                    e.preventDefault()
+                                    setSelectService(service)
+                                    setPopupDeleteFunnel({ ...popupDeleteFunnel, view: 'flex', opacity: 'opacity-0' })
+                                    setTimeout(() => {
+                                      setPopupDeleteFunnel({ ...popupDeleteFunnel, view: 'flex', opacity: 'opacity-1' })
+                                    }, 10)
+                                  }}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
+                                </div>
+                              )
+                            }
+                          })
+                          : ''
+                      }
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <Button2 action={() => {
+                        setError('')
+                        setPopupPage({ ...popupPage, view: 'flex', opacity: 'opacity-0' })
+                        setTimeout(() => {
+                          setPopupPage({ ...popupPage, view: 'flex', opacity: 'opacity-1' })
+                        }, 10)
+                      }} color='main' config='w-full'>Agregar pagina</Button2>
+                      <ButtonSecondary2 action={(e: any) => {
+                      e.preventDefault()
+                      setError('')
+                      setNewFunnel({ funnel: '', description: '', slug: '', steps: [{ step: '', slug: '' }] })
+                      setTitle('Nuevo embudo')
+                      setPopupNewFunnel({ ...popupNewFunnel, view: 'flex', opacity: 'opacity-0' })
+                      setTimeout(() => {
+                        setPopupNewFunnel({ ...popupNewFunnel, view: 'flex', opacity: 'opacity-1' })
+                      }, 10)
+                    }} config='w-full'>Agregar embudo</ButtonSecondary2>
+                    </div>
+                  </div>
+                )
+                : ''
+            }
+            {
+              pages.map((page, i) => {
+                if (part === page.page && type === 'Page') {
+                  return (
+                    <div key={page.slug} className='flex flex-col gap-4 mb-[104px]'>
+                      <div className='border-b pb-4 dark:border-neutral-700'>
+                        <button onClick={() => setPart('')} className='flex gap-2 pt-1 pb-1 pl-2 pr-2 rounded transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl my-auto' /><p className='my-auto'>Volver</p></button>
+                      </div>
+                      <h2 className='text-lg font-medium'>{page.page}</h2>
+                      <h3 className='font-medium'>Seo</h3>
+                      <div className='flex flex-col gap-2'>
+                        <p className='text-sm'>Meta titulo</p>
+                        <Input placeholder='Meta titulo' value={page.metaTitle} change={(e: any) => {
+                          const oldPages = [...pages]
+                          oldPages[i].metaTitle = e.target.value
+                          setPages(oldPages)
+                        }} />
+                      </div>
+                      <div className='flex flex-col gap-2'>
+                        <p className='text-sm'>Meta descripción</p>
+                        <Textarea placeholder='Meta descripción' value={page.metaDescription!} change={(e: any) => {
+                          const oldPages = [...pages]
+                          oldPages[i].metaDescription = e.target.value
+                          setPages(oldPages)
+                        }} />
+                      </div>
+                      <input type='file' onChange={async (e: any) => {
+                        if (!loadingImage) {
+                          setLoadingImage(true)
+                          setErrorImage('')
+                          const formData = new FormData();
+                          formData.append('image', e.target.files[0]);
+                          formData.append('name', e.target.files[0].name);
+                          try {
+                            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/image`, formData, {
+                              headers: {
+                                accept: 'application/json',
+                                'Accept-Language': 'en-US,en;q=0.8'
+                              }
+                            })
+                            const oldPages = [...pages]
+                            oldPages[i].image = data
+                            setPages(oldPages)
+                            setLoadingImage(false)
+                          } catch (error) {
+                            setLoadingImage(false)
+                            setErrorImage('Ha ocurrido un error al subir la imagen, intentalo nuevamente.')
+                          }
+                        }
+                      }} value={page.image} className='m-auto w-[320px] text-sm block file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/60 file:text-white hover:file:bg-main/40' />
+                      {
+                        loadingImage
+                          ? (
+                            <div className='flex w-full'>
+                              <div className='w-fit m-auto'>
+                                <Spinner />
+                              </div>
+                            </div>
+                          )
+                          : page.image && page.image !== ''
+                            ? <Image src={page.image} alt={`Imagen SEO de la pagina ${page.page}`} width={500} height={500} />
+                            : ''
+                      }
+                    </div>
+                  )
+                }
+              })
+            }
+            {
+              part === 'Popup'
+                ? (
+                  <div className='flex flex-col gap-4 mb-[104px]'>
+                    <div className='border-b pb-4 dark:border-neutral-700'>
+                      <button onClick={() => setPart('')} className='flex gap-2 pt-1 pb-1 pl-2 pr-2 rounded transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl my-auto' /><p className='my-auto'>Volver</p></button>
+                    </div>
+                    <h2 className='text-lg font-medium'>Popup</h2>
+                    <div className='flex gap-2'>
+                      <input type='checkbox' checked={popupWeb.active} onChange={(e: any) => setPopupWeb({ ...popupWeb, active: e.target.checked })} />
+                      <p>Activar Popup</p>
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <p>Aparecer</p>
+                      <div className='flex gap-2'>
+                        <Input type='number' placeholder='Segundos' value={popupWeb.wait} change={(e: any) => setPopupWeb({ ...popupWeb, wait: e.target.value })} />
+                        <p className='my-auto'>segundos</p>
+                      </div>
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <p>Titulo</p>
+                      <Input placeholder='Titulo' value={popupWeb.title} change={(e: any) => setPopupWeb({ ...popupWeb, title: e.target.value })} />
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <p>Parrafo</p>
+                      <Textarea placeholder='Descripción' value={popupWeb.description!} change={(e: any) => setPopupWeb({ ...popupWeb, description: e.target.value })} />
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <p>Texto boton</p>
+                      <Input placeholder='Boton' value={popupWeb.buttonText} change={(e: any) => setPopupWeb({ ...popupWeb, buttonText: e.target.value })} />
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <p>Link boton</p>
+                      <Select change={(e: any) => setPopupWeb({ ...popupWeb, buttonLink: e.target.value })} value={popupWeb.buttonLink}>
+                        <option value=''>Seleccionar pagina</option>
+                        {
+                          pages.map(page => <option key={page._id} value={page.slug}>{page.page}</option>)
+                        }
+                        {
+                          funnels.map(funnel => funnel.steps.filter(step => step.slug && step.slug !== '').map(step => <option key={step._id} value={step.slug}>{funnel.funnel} - {step.step}</option>))
+                        }
+                        {
+                          services.map(service => service.steps.filter(step => step.slug && step.slug !== '').map(step => <option key={step._id} value={step.slug}>{service.name} - {step.step}</option>))
+                        }
+                      </Select>
+                    </div>
+                    <p className='font-medium text-lg'>Mostrar formulario o llamada</p>
+                    <div className='flex flex-col gap-2'>
+                      <Select value={popupWeb.content} change={(e: any) => setPopupWeb({ ...popupWeb, content: e.target.value })}>
+                        <option>Seleccionar formulario o llamada</option>
+                        {
+                          forms?.map(form => <option key={form._id} value={form._id}>{form.nameForm}</option>)
+                        }
+                        {
+                          calls?.map(call => <option key={call._id} value={call._id}>{call.nameMeeting}</option>)
+                        }
+                      </Select>
+                      <Button2 color='main' action={(e: any) => {
+                        e.preventDefault()
+                        setError('')
+                        setTitleForm('Nuevo formulario')
+                        setNewForm({ nameForm: '', informations: [{ icon: '', text: '', subText: '' }], labels: [{ text: '', name: '', data: '' }], button: '', action: 'Ir a una pagina', tags: [], title: '' })
+                        setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-0' })
+                        setTimeout(() => {
+                          setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-1' })
+                        }, 10)
+                      }}>Crear formulario</Button2>
+                      <Button2 color='main' action={(e: any) => {
+                        e.preventDefault()
+                        setError('')
+                        setNewCall({ nameMeeting: '', duration: '15 minutos', description: '', title: '', labels: [{ data: '', name: '', text: '' }], buttonText: '', action: 'Mostrar mensaje', message: '' })
+                        setTitleMeeting('Crear llamada')
+                        setPopupCall({ ...popupCall, view: 'flex', opacity: 'opacity-0' })
+                        setTimeout(() => {
+                          setPopupCall({ ...popupCall, view: 'flex', opacity: 'opacity-1' })
+                        }, 10)
+                      }}>Crear llamada</Button2>
+                    </div>
+                  </div>
+                )
+                : ''
+            }
+            {
+              funnels.find(funnel => funnel.funnel === part) && type === 'Funnel'
+                ? (
+                  <div className='flex flex-col gap-4 mb-[104px]'>
+                    <div className='border-b pb-4 dark:border-neutral-700'>
+                      <button onClick={() => funnels.find(funnel => funnel.funnel === part)!.steps.find(st => st.step === step) ? setStep('') : setPart('')} className='flex gap-2 pt-1 pb-1 pl-2 pr-2 rounded transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl my-auto' /><p className='my-auto'>Volver</p></button>
+                    </div>
+                    <h2 className='text-lg font-medium'>{part}</h2>
+                    {
+                      funnels.find((funnel, index) => funnel.funnel === part)!.steps.find((st, i) => st.step === step)
+                        ? (
+                          <>
+                            <p className='font-medium'>Paso: {step}</p>
+                            <p className='font-medium'>Seo</p>
+                            <div className='flex flex-col gap-2'>
+                              <p className='text-sm'>Meta titulo</p>
+                              <Input change={(e: any) => {
+                                const oldFunnels = [...funnels]
+                                oldFunnels.find(funnel => funnel.funnel === part)!.steps.find(st => st.step === step)!.metaTitle = e.target.value
+                                setFunnels(oldFunnels)
+                              }} placeholder='Meta titulo' value={funnels.find(funnel => funnel.funnel === part)!.steps.find(st => st.step === step)?.metaTitle} />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                              <p className='text-sm'>Meta descripción</p>
+                              <Textarea change={(e: any) => {
+                                const oldFunnels = [...funnels]
+                                oldFunnels.find(funnel => funnel.funnel === part)!.steps.find(st => st.step === step)!.metaDescription = e.target.value
+                                setFunnels(oldFunnels)
+                              }} placeholder='Meta titulo' value={funnels.find(funnel => funnel.funnel === part)!.steps.find(st => st.step === step)?.metaDescription!} />
+                            </div>
+                            <input type='file' onChange={async (e: any) => {
+                              if (!loadingImage) {
+                                setLoadingImage(true)
+                                setErrorImage('')
+                                const formData = new FormData();
+                                formData.append('image', e.target.files[0]);
+                                formData.append('name', e.target.files[0].name);
+                                try {
+                                  const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/image`, formData, {
+                                    headers: {
+                                      accept: 'application/json',
+                                      'Accept-Language': 'en-US,en;q=0.8'
+                                    }
+                                  })
+                                  const oldFunnels = [...funnels!]
+                                  oldFunnels.find(funnel => funnel.funnel === part)!.steps.find(st => st.step === step)!.image = data
+                                  setFunnels(oldFunnels)
+                                  setLoadingImage(false)
+                                } catch (error) {
+                                  setLoadingImage(false)
+                                  setErrorImage('Ha ocurrido un error al subir la imagen, intentalo nuevamente.')
+                                }
+                              }
+                            }} value={funnels.find((funnel, index) => funnel.funnel === part)!.steps.find((st, i) => st.step === step)?.image} className='m-auto w-[320px] text-sm block file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/60 file:text-white hover:file:bg-main/40' />
+                            {
+                              loadingImage
+                                ? (
+                                  <div className='flex w-full'>
+                                    <div className='w-fit m-auto'>
+                                      <Spinner />
+                                    </div>
+                                  </div>
+                                )
+                                : funnels.find((funnel, index) => funnel.funnel === part)!.steps.find((st, i) => st.step === step)?.image && funnels.find((funnel, index) => funnel.funnel === part)!.steps.find((st, i) => st.step === step)?.image !== ''
+                                  ? <Image src={funnels.find((funnel, index) => funnel.funnel === part)!.steps.find((st, i) => st.step === step)!.image!} alt={`Imagen SEO de la pagina ${funnels.find((funnel, index) => funnel.funnel === part)!.steps.find((st, i) => st.step === step)?.step}`} width={500} height={500} />
+                                  : ''
+                            }
+                          </>
+                        )
+                        : (
+                          <>
+                            <p className='font-medium'>Pasos</p>
+                            <div className='flex flex-col gap-2'>
+                              {
+                                funnels.find(funnel => funnel.funnel === part)?.steps.map(step => {
+                                  if (step.slug && step.slug !== '') {
+                                    return <button onClick={(e: any) => setStep(step.step)} key={step._id} className='text-left'>{step.step}</button>
+                                  }
+                                })
+                              }
+                            </div>
+                          </>
+                        ) 
+                    }
+                    <Button2 color='main' action={(e: any) => {
+                      setError('')
+                      setNewFunnel(funnels.find(funnel => funnel.funnel === part)!)
+                      setTitle(funnels.find(funnel => funnel.funnel === part)!.funnel)
+                      setPopupNewFunnel({ ...popupNewFunnel, view: 'flex', opacity: 'opacity-0' })
+                      setTimeout(() => {
+                        setPopupNewFunnel({ ...popupNewFunnel, view: 'flex', opacity: 'opacity-1' })
+                      }, 10)
+                    }}>Editar embudo</Button2>
+                  </div>
+                )
+                : ''
+            }
+            {
+              services.find(service => service.name === part) && type === 'Service'
+                ? (
+                  <div className='flex flex-col gap-4 mb-[104px]'>
+                    <div className='border-b pb-4 dark:border-neutral-700'>
+                      <button onClick={() => services.find(service => service.name === part)!.steps.find(st => st.step === step) ? setStep('') : setPart('')} className='flex gap-2 pt-1 pb-1 pl-2 pr-2 rounded transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl my-auto' /><p className='my-auto'>Volver</p></button>
+                    </div>
+                    <h2 className='text-lg font-medium'>{part}</h2>
+                    <p className='font-medium'>Pasos</p>
+                    {
+                      services.find(service => service.name === part)!.steps!.find(st => st.step === step)
+                        ? (
+                          <>
+                            <p className='font-medium'>Paso: {step}</p>
+                            <p className='font-medium'>Seo</p>
+                            <div className='flex flex-col gap-2'>
+                              <p className='text-sm'>Meta titulo</p>
+                              <Input change={(e: any) => {
+                                const oldServices = [...services]
+                                oldServices.find(service => service.name === part)!.steps.find(st => st.step === step)!.metaTitle = e.target.value
+                                setServices(oldServices)
+                              }} placeholder='Meta titulo' value={services.find(service => service.name === part)!.steps.find(st => st.step === step)?.metaTitle} />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                              <p className='text-sm'>Meta descripción</p>
+                              <Textarea change={(e: any) => {
+                                const oldServices = [...services]
+                                oldServices.find(service => service.name === part)!.steps.find(st => st.step === step)!.metaDescription = e.target.value
+                                setServices(oldServices)
+                              }} placeholder='Meta titulo' value={services.find(service => service.name === part)!.steps.find(st => st.step === step)?.metaDescription!} />
+                            </div>
+                            <input type='file' onChange={async (e: any) => {
+                              if (!loadingImage) {
+                                setLoadingImage(true)
+                                setErrorImage('')
+                                const formData = new FormData();
+                                formData.append('image', e.target.files[0]);
+                                formData.append('name', e.target.files[0].name);
+                                try {
+                                  const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/image`, formData, {
+                                    headers: {
+                                      accept: 'application/json',
+                                      'Accept-Language': 'en-US,en;q=0.8'
+                                    }
+                                  })
+                                  const oldServices = [...services]
+                                  oldServices.find(service => service.name === part)!.steps.find(st => st.step === step)!.image = data
+                                  setServices(oldServices)
+                                  setLoadingImage(false)
+                                } catch (error) {
+                                  setLoadingImage(false)
+                                  setErrorImage('Ha ocurrido un error al subir la imagen, intentalo nuevamente.')
+                                }
+                              }
+                            }} value={services.find(service => service.name === part)!.steps.find(st => st.step === step)?.image} className='m-auto w-[320px] text-sm block file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/60 file:text-white hover:file:bg-main/40' />
+                            {
+                              loadingImage
+                                ? (
+                                  <div className='flex w-full'>
+                                    <div className='w-fit m-auto'>
+                                      <Spinner />
+                                    </div>
+                                  </div>
+                                )
+                                : services.find((service, index) => service.name === part)!.steps.find((st, i) => st.step === step)?.image && services.find((service, index) => service.name === part)!.steps.find((st, i) => st.step === step)?.image !== ''
+                                  ? <Image src={services.find((service, index) => service.name === part)!.steps.find((st, i) => st.step === step)!.image!} alt={`Imagen SEO de la pagina ${services.find((service, index) => service.name === part)!.steps.find((st, i) => st.step === step)?.step}`} width={500} height={500} />
+                                  : ''
+                            }
+                          </>
+                        )
+                        : selectService?.steps.map(step => {
+                          if (step.slug && step.slug !== '') {
+                            return <button onClick={(e: any) => setStep(step.step)} key={step._id} className='text-left'>{step.step}</button>
+                          }
+                        })
+                    }
+                    <Button2 color='main' action={(e: any) => {
+                      setError('')
+                      setNewService(services.find(service => service.name === part)!)
+                      setTitle(services.find(service => service.name === part)!.name)
+                      setPopupService({ ...popupService, view: 'flex', opacity: 'opacity-0' })
+                      setTimeout(() => {
+                        setPopupService({ ...popupService, view: 'flex', opacity: 'opacity-1' })
+                      }, 10)
+                    }}>Editar embudo</Button2>
+                  </div>
+                )
+                : ''
+            }
+            {
+              pages.map((page, i) => {
+                if (part === page.page && type === 'Page') {
+                  return (
+                    <div key={page._id} className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t dark:border-neutral-700 dark:bg-neutral-800'>
+                      <ButtonSubmit action={async () => {
+                        if (!loading) {
+                          setLoading(true)
+                          if (id) {
+                            await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/page/${id}`, page)
+                            await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { color: color, header: header })
+                          }
+                          setLoading(false)
+                        }
+                      }} color='main' submitLoading={loading} textButton='Guardar' config='w-full' />
+                      <button className='text-sm'>Cancelar</button>
+                    </div>
+                  )
+                }
+              })
+            }
+            {
+              part === 'Popup'
+                ? (
+                  <div className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t dark:border-neutral-700 dark:bg-neutral-800'>
+                    <ButtonSubmit action={async () => {
+                      if (!loading) {
+                        setLoading(true)
+                        if (id) {
+                          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { color: color, popup: popupWeb })
+                        }
+                        setLoading(false)
+                      }
+                    }} color='main' submitLoading={loading} textButton='Guardar' config='w-full' />
+                    <button className='text-sm'>Cancelar</button>
+                  </div>
+                )
+                : ''
+            }
+            {
+              type === 'Funnel' && funnels.find(funnel => funnel.funnel === part) && funnels.find(funnel => funnel.funnel === part)?.steps.map(st => {
+                if (step === st.step) {
+                  return (
+                    <div key={st._id} className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t dark:border-neutral-700 dark:bg-neutral-800'>
+                      <ButtonSubmit action={async () => {
+                        if (!loading) {
+                          setLoading(true)
+                          if (funnels.find(funnel => funnel.funnel === part)?._id) {
+                            await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/funnel-step/${funnels.find(funnel => funnel.funnel === part)?._id}`, st)
+                          }
+                          setLoading(false)
+                        }
+                      }} color='main' submitLoading={loading} textButton='Guardar' config='w-full' />
+                      <button className='text-sm'>Cancelar</button>
+                    </div>
+                  )
+                }
+              })
+            }
+            {
+              type === 'Service' && services.find(service => service.name === part) && services.find(service => service.name === part)?.steps.map(st => {
+                if (step === st.step) {
+                  return (
+                    <div key={st._id} className='p-4 flex flex-col gap-2 fixed bg-white w-[349px] bottom-0 border-t dark:border-neutral-700 dark:bg-neutral-800'>
+                      <ButtonSubmit action={async () => {
+                        if (!loading) {
+                          setLoading(true)
+                          if (services.find(service => service.name === part)?._id) {
+                            await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/service-step/${services.find(service => service.name === part)?._id}`, st)
+                          }
+                          setLoading(false)
+                        }
+                      }} color='main' submitLoading={loading} textButton='Guardar' config='w-full' />
+                      <button className='text-sm'>Cancelar</button>
+                    </div>
+                  )
+                }
+              })
+            }
+          </div>
+        </div>
+        <div className='w-[350px] border-r hidden lg:flex flex-col justify-between bg-white dark:border-neutral-800 dark:bg-neutral-900' style={{ overflow: 'overlay' }}>
           {
             part === ''
               ? (
@@ -427,7 +1000,7 @@ export default function Page () {
                           setErrorImage('Ha ocurrido un error al subir la imagen, intentalo nuevamente.')
                         }
                       }
-                    }} value={page.image} className='m-auto w-fit text-sm block file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/60 file:text-white hover:file:bg-main/40' />
+                    }} value={page.image} className='m-auto w-[320px] text-sm block file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/60 file:text-white hover:file:bg-main/40' />
                     {
                       loadingImage
                         ? (
@@ -581,7 +1154,7 @@ export default function Page () {
                                 setErrorImage('Ha ocurrido un error al subir la imagen, intentalo nuevamente.')
                               }
                             }
-                          }} value={funnels.find((funnel, index) => funnel.funnel === part)!.steps.find((st, i) => st.step === step)?.image} className='m-auto w-fit text-sm block file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/60 file:text-white hover:file:bg-main/40' />
+                          }} value={funnels.find((funnel, index) => funnel.funnel === part)!.steps.find((st, i) => st.step === step)?.image} className='m-auto w-[320px] text-sm block file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/60 file:text-white hover:file:bg-main/40' />
                           {
                             loadingImage
                               ? (
@@ -679,7 +1252,7 @@ export default function Page () {
                                 setErrorImage('Ha ocurrido un error al subir la imagen, intentalo nuevamente.')
                               }
                             }
-                          }} value={services.find(service => service.name === part)!.steps.find(st => st.step === step)?.image} className='m-auto w-fit text-sm block file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/60 file:text-white hover:file:bg-main/40' />
+                          }} value={services.find(service => service.name === part)!.steps.find(st => st.step === step)?.image} className='m-auto w-[320px] text-sm block file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/60 file:text-white hover:file:bg-main/40' />
                           {
                             loadingImage
                               ? (
@@ -797,7 +1370,7 @@ export default function Page () {
         {
           part === ''
             ? (
-              <div className='h-full flex dark:bg-neutral-900' style={{ width: 'calc(100% - 350px)' }}>
+              <div className='h-full flex w-full lg:w-[calc(100%-350px)] dark:bg-neutral-900'>
                 <p className='m-auto'>Selecciona una pagina para editar</p>
               </div>
             )
@@ -807,12 +1380,12 @@ export default function Page () {
           pages.map((page, i) => {
             if (part === page.page && type === 'Page') {
               return (
-                <div key={page._id} className='m-auto h-full bg-white text-black' style={{ width: responsive }}>
+                <div key={page._id} className={`m-auto h-full bg-white text-black w-full lg:w-[${responsive}]`}>
                   <div className='flex p-4 bg-white border-b border-border dark:bg-neutral-900 dark:border-neutral-700'>
                     <div className='flex gap-4 w-fit m-auto'>
                       <button onClick={(e: any) => {
                         e.preventDefault()
-                        setResponsive('calc(100% - 350px')
+                        setResponsive('calc(100%-350px')
                       }} className='border border-border rounded-lg p-2 dark:border-neutral-700'><IoLaptopOutline className='text-2xl dark:text-white' /></button>
                       <button  onClick={(e: any) => {
                         e.preventDefault()
@@ -1067,7 +1640,7 @@ export default function Page () {
                           <div className='flex gap-4 w-fit m-auto'>
                             <button onClick={(e: any) => {
                               e.preventDefault()
-                              setResponsive('calc(100% - 350px')
+                              setResponsive('calc(100%-350px')
                             }} className='border border-border rounded-lg p-2 dark:border-neutral-700'><IoLaptopOutline className='text-2xl dark:text-white' /></button>
                             <button  onClick={(e: any) => {
                               e.preventDefault()
@@ -1198,7 +1771,7 @@ export default function Page () {
                           <div className='flex gap-4 w-fit m-auto'>
                             <button onClick={(e: any) => {
                               e.preventDefault()
-                              setResponsive('calc(100% - 350px')
+                              setResponsive('calc(100%-350px')
                             }} className='border border-border rounded-lg p-2 dark:border-neutral-700'><IoLaptopOutline className='text-2xl dark:text-white' /></button>
                             <button  onClick={(e: any) => {
                               e.preventDefault()

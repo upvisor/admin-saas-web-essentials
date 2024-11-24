@@ -10,7 +10,7 @@ export const Nav = () => {
   const pathname = usePathname()
 
   return (
-    <div className='bg-white flex flex-col gap-4 sticky top-0 w-1/4 h-fit p-5 rounded-xl border border-black/5 dark:bg-neutral-800 dark:border-neutral-700' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+    <div className='bg-white flex flex-col gap-4 sticky top-0 w-full lg:w-1/4 h-fit p-5 rounded-xl border border-black/5 dark:bg-neutral-800 dark:border-neutral-700' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
       <div>
         <h1 className='text-lg font-medium'>Configuración</h1>
       </div>

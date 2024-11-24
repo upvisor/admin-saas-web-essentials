@@ -55,7 +55,7 @@ export default function Page () {
       <Head>
         <title>Pasarela de pago</title>
       </Head>
-        <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 dark:bg-neutral-800 dark:border-neutral-700' style={{ width: 'calc(100% - 250px)' }}>
+        <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 w-full lg:w-[calc(100%-250px)] dark:bg-neutral-800 dark:border-neutral-700'>
           <div className='flex m-auto w-full max-w-[1280px]'>
             {
               error !== ''
@@ -69,9 +69,9 @@ export default function Page () {
           </div>
         </div>
         <div className='p-6 w-full flex flex-col gap-6 overflow-y-auto bg-bg dark:bg-neutral-900' style={{ height: 'calc(100% - 73px)' }}>
-          <div className='flex w-full max-w-[1280px] mx-auto gap-6'>
+          <div className='flex w-full max-w-[1280px] mx-auto gap-6 flex-col lg:flex-row'>
             <Nav />
-            <div className='w-3/4 flex flex-col gap-6'>
+            <div className='w-full lg:w-3/4 flex flex-col gap-6'>
               <h2 className='text-lg font-medium mt-3 pb-3 border-b dark:border-neutral-700'>Pasarela de pago</h2>
               <div className='flex flex-col gap-4'>
                 <p>Selecciona los metodos de pago para tu tienda</p>

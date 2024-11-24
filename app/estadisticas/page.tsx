@@ -80,7 +80,7 @@ export default function Page () {
           <div className='flex flex-col gap-4 w-full max-w-[1280px] mx-auto'>
             <h1 className='text-2xl font-medium'>Estadisticas</h1>
             <p>Estadisticas de la tienda</p>
-            <div className='flex gap-2'>
+            <div className='flex gap-2 flex-col lg:flex-row'>
               <div className='flex flex-col gap-2'>
                 <p className='text-sm'>Desde</p>
                 <Input type='date' change={inputChange} name='dateInitial' />
@@ -92,7 +92,7 @@ export default function Page () {
               <Button action={handleFilter} config='mt-auto'>Filtrar</Button>
             </div>
           </div>
-          <div className='flex gap-6 w-full flex-wrap max-w-[1280px] mx-auto'>
+          <div className='flex gap-6 w-full flex-wrap max-w-[1280px] mx-auto overflow-auto min-h-[550px]'>
             {
               loading
                 ? (
@@ -105,10 +105,10 @@ export default function Page () {
                 : stadistics?.checkouts.length || stadistics?.clients.length || stadistics?.leads.length || stadistics?.pages.length || stadistics?.pays.length || stadistics?.sessions.length
                   ? (
                     <>
-                      <div className='grid grid-cols-4 gap-4 w-full max-w-[1280px]'>
-                        <div className='col-span-4 p-6 w-full flex flex-col gap-3 border border-black/5  bg-white rounded-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-card dark:shadow-card-dark'>
+                      <div className='grid grid-cols-4 gap-4 w-full max-w-[1280px] min-w-[800px]'>
+                        <div className='col-span-4 p-6 w-full flex flex-col gap-3 border border-black/5 bg-white rounded-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-card dark:shadow-card-dark'>
                           <p className='font-medium'>Tasa de conversion</p>
-                          <div className='grid grid-cols-2 md:grid-cols-5 divide-x divide-black/5 dark:divide-neutral-700'>
+                          <div className='grid grid-cols-5 divide-x divide-black/5 dark:divide-neutral-700'>
                             <div className='flex flex-col gap-2 justify-between'>
                               <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.length) / Number(stadistics.pages.length)) * 100) ? Math.round((Number(stadistics.pays.length) / Number(stadistics.pages.length)) * 100) : 0}%</p>
                               <p className='mx-auto text-center'>Paginas visitadas</p>
@@ -220,10 +220,10 @@ export default function Page () {
                           )
                           : ''
                       }
-                      <div className='grid grid-cols-4 gap-4 w-full max-w-[1280px]'>
+                      <div className='grid grid-cols-4 gap-4 w-full max-w-[1280px] min-w-[800px]'>
                         <div className='col-span-4 p-6 w-full flex flex-col gap-3 border border-black/5 bg-white rounded-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-card dark:shadow-card-dark'>
                           <p className='font-medium'>Tasa de conversion</p>
-                          <div className='grid grid-cols-2 md:grid-cols-5 divide-x divide-black/5 dark:divide-neutral-700'>
+                          <div className='grid grid-cols-5 divide-x divide-black/5 dark:divide-neutral-700'>
                             <div className='flex flex-col gap-2 justify-between'>
                               <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : pay.funnel).length) / Number(stadistics.pages.filter(page => selectFunnel ? page.funnel === selectFunnel : page.funnel).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectFunnel ? pay.funnel === selectFunnel : pay.funnel).length) / Number(stadistics.pages.filter(page => selectFunnel ? page.funnel === selectFunnel : page.funnel).length)) * 100) : 0}%</p>
                               <p className='mx-auto text-center'>Paginas visitadas</p>
@@ -335,10 +335,10 @@ export default function Page () {
                           )
                           : ''
                       }
-                      <div className='grid grid-cols-4 gap-4 w-full max-w-[1280px]'>
+                      <div className='grid grid-cols-4 gap-4 w-full max-w-[1280px] min-w-[800px]'>
                         <div className='col-span-4 p-6 w-full flex flex-col gap-3 border border-black/5  bg-white rounded-xl dark:bg-neutral-800 dark:border-neutral-700 shadow-card dark:shadow-card-dark'>
                           <p className='font-medium'>Tasa de conversion</p>
-                          <div className='grid grid-cols-2 md:grid-cols-5 divide-x divide-black/5 dark:divide-neutral-700'>
+                          <div className='grid grid-cols-5 divide-x divide-black/5 dark:divide-neutral-700'>
                             <div className='flex flex-col gap-2 justify-between'>
                               <p className='text-2xl font-medium mx-auto'>{Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : pay.service).length) / Number(stadistics.pages.filter(page => selectService ? page.service === selectService : page.service).length)) * 100) ? Math.round((Number(stadistics.pays.filter(pay => selectService ? pay.service === selectService : pay.service).length) / Number(stadistics.pages.filter(page => selectService ? page.service === selectService : page.service).length)) * 100) : 0}%</p>
                               <p className='mx-auto text-center'>Paginas visitadas</p>

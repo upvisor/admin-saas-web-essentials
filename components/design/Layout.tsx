@@ -18,7 +18,7 @@ interface Props {
 export const Layout: React.FC<PropsWithChildren<Props>> = ({ children, edit, setEdit, setHeader, header, setPart, pages, storeData, responsive }) => {
   return (
     <>
-      <div className='bg-[#22262c] text-white flex pl-2 pr-2 pt-1.5 pb-1.5 sticky text-center z-50'>
+      <div className='bg-[#22262c] text-white flex pl-2 pr-2 pt-1.5 pb-1.5 sticky text-center'>
         {
           edit !== 'Header'
             ? <p onClick={() => setEdit('Header')} className='cursor-pointer m-auto tracking-wide font-medium text-[11px]'>{header?.topStrip}</p>
