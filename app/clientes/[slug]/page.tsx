@@ -251,6 +251,8 @@ export default function Page ({ params }: { params: { slug: string } }) {
                                     <p className='my-auto text-center min-w-32'>{service.steps.find(step => step._id === clientData.services!.find(serv => serv.service === service._id)!.step)?.step}</p>
                                   </div>
                                 )
+                              } else {
+                                return <p key={service._id}>Este cliente no esta asociado a algun servicio</p>
                               }
                             })
                             : <p>Este cliente no esta asociado a algun servicio</p>

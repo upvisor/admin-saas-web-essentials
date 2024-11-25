@@ -49,6 +49,7 @@ export interface IMeetingClient {
 
 export interface IEmailClient {
   id: string
+  automatizationId?: string
   subject: string
   opened: boolean
   clicked: boolean

@@ -1,5 +1,5 @@
 "use client"
-import { Config, Segment, Step } from '@/components/automatizations'
+import { Config, PopupStadistics, Segment, Step } from '@/components/automatizations'
 import { Button, Button2, ButtonSubmit, Input, Spinner } from '@/components/ui'
 import { IAutomatization, ICall, IClientTag, IEmailAutomatization, IForm, IFunnel, IService, IStoreData } from '@/interfaces'
 import axios from 'axios'
@@ -30,6 +30,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
   const [calls, setCalls] = useState<ICall[]>([])
   const [services, setServices] = useState<IService[]>([])
   const [funnels, setFunnels] = useState<IFunnel[]>([])
+  const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
 
   const router = useRouter()
 
@@ -174,6 +175,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
           }}>Guardar condición</Button>
         </div>
       </div>
+      <PopupStadistics popup={popup} setPopup={setPopup} automatization={automatization} />
       <Head>
         <title>Nueva automatización</title>
       </Head>
@@ -197,6 +199,13 @@ export default function Page ({ params }: { params: { slug: string } }) {
                   <div className='flex gap-3 w-full max-w-[1280px] mx-auto'>
                     <Link href='/automatizaciones' className='border rounded-xl h-fit my-auto p-2 transition-colors duration-150 bg-white hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
                     <h1 className='text-2xl my-auto font-medium'>Automatización: {automatization?.name}</h1>
+                    <Button2 color={'main'} action={(e: any) => {
+                      e.preventDefault()
+                      setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                      setTimeout(() => {
+                        setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
+                      }, 10)
+                    }}>Estadisticas</Button2>
                   </div>
                   <div className='w-full flex max-w-[1280px] mx-auto'>
                     <div className='m-auto flex gap-6 flex-col lg:flex-row'>
