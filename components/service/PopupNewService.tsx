@@ -45,7 +45,7 @@ export const PopupNewService: React.FC<Props> = ({ popupService, setPopupService
   }, [popupService, setPopupService]);
   
   return (
-    <div className={`${popupService.view} ${popupService.opacity} transition-opacity duration-200 fixed w-full h-full bg-black/20 flex top-0 left-0 z-50`}>
+    <div className={`${popupService.view} ${popupService.opacity} transition-opacity duration-200 fixed w-full h-full bg-black/20 flex top-0 left-0 z-50 p-4`}>
         <form ref={popupRef} onSubmit={async (e: any) => {
           e.preventDefault()
           if (!loadingService) {
@@ -62,7 +62,7 @@ export const PopupNewService: React.FC<Props> = ({ popupService, setPopupService
             }, 200)
             setLoadingService(false)
           }
-        }} onMouseEnter={() => setPopupService({ ...popupService, mouse: true })} onMouseLeave={() => setPopupService({ ...popupService, mouse: false })} onMouseMove={() => setPopupService({ ...popupService, mouse: true })} className={`${popupService.opacity === 'opacity-0' ? 'scale-90' : 'scale-100'} transition-transform duration-200 w-full max-w-[700px] max-h-[700px] overflow-y-auto p-8 rounded-2xl m-auto border flex flex-col gap-4 shadow-popup bg-white dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
+        }} onMouseEnter={() => setPopupService({ ...popupService, mouse: true })} onMouseLeave={() => setPopupService({ ...popupService, mouse: false })} onMouseMove={() => setPopupService({ ...popupService, mouse: true })} className={`${popupService.opacity === 'opacity-0' ? 'scale-90' : 'scale-100'} transition-transform duration-200 w-full max-w-[700px] max-h-[600px] overflow-y-auto p-6 lg:p-8 rounded-2xl m-auto border flex flex-col gap-4 shadow-popup bg-white dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
           {
             error !== ''
               ? <p className='px-2 py-1 bg-red-500 text-white w-fit'>{ error }</p>

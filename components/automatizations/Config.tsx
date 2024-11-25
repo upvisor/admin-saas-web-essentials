@@ -32,13 +32,13 @@ export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmai
   }, [])
 
   return (
-    <div className='flex flex-col gap-6 sticky top-10'>
-      <div className='w-[600px] p-5 flex flex-col gap-4 bg-white rounded-xl border border-black/5 dark:bg-neutral-800 dark:border-neutral-700' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+    <div className='flex flex-col gap-6 sticky top-10 w-full'>
+      <div className='w-full max-w-[600px] p-5 flex flex-col gap-4 bg-white rounded-xl border border-black/5 dark:bg-neutral-800 dark:border-neutral-700' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
         <h2 className='font-medium text-lg'>Configuración correo</h2>
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
             <div className='flex gap-2 justify-between'>
-              <p className='text-sm my-auto w-32'>Asunto:</p>
+              <p className='text-sm my-auto'>Asunto:</p>
               <Select change={(e: any) => {
                 e.preventDefault()
                 setTempEmail({...tempEmail, affair: tempEmail.affair + e.target.value})
@@ -57,7 +57,7 @@ export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmai
           </div>
           <div className='flex flex-col gap-2'>
             <div className='flex gap-2 justify-between'>
-              <p className='text-sm mt-auto mb-auto w-32'>Titulo:</p>
+              <p className='text-sm mt-auto mb-auto'>Titulo:</p>
               <Select change={(e: any) => {
                 e.preventDefault()
                 setTempEmail({...tempEmail, title: tempEmail.title + e.target.value})
@@ -76,7 +76,7 @@ export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmai
           </div>
           <div className='flex flex-col gap-2'>
             <div className='flex gap-2 justify-between'>
-              <p className='text-sm mt-auto mb-auto w-32'>Parrafo:</p>
+              <p className='text-sm mt-auto mb-auto'>Parrafo:</p>
               <Select change={(e: any) => {
                 e.preventDefault()
                 setTempEmail({...tempEmail, paragraph: tempEmail.paragraph + e.target.value})
@@ -93,13 +93,13 @@ export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmai
             </div>
             <Textarea change={(e: ChangeEvent<HTMLTextAreaElement>) => setTempEmail({ ...tempEmail, paragraph: e.target.value })} value={tempEmail.paragraph} placeholder='Parrafo' />
           </div>
-          <div className='flex'>
+          <div className='flex gap-2'>
             <p className='text-sm mt-auto mb-auto w-32'>Texto boton:</p>
             <Input change={(e: ChangeEvent<HTMLInputElement>) => setTempEmail({ ...tempEmail, buttonText: e.target.value })} value={tempEmail.buttonText} type='text' placeholder='Boton' />
           </div>
-          <div className='flex flex-col gap-2'>
+          <div className='flex flex-col gap-2 w-full'>
             <div className='flex gap-4 justify-between'>
-              <p className='text-sm mt-auto mb-auto w-32'>Url:</p>
+              <p className='text-sm mt-auto mb-auto'>Url:</p>
               <Select change={(e: any) => setTempEmail({ ...tempEmail, url: e.target.value })}>
                 <option>Selecciona una pagina</option>
                 {
@@ -118,7 +118,7 @@ export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmai
             </div>
             <Input change={(e: ChangeEvent<HTMLInputElement>) => setTempEmail({ ...tempEmail, url: e.target.value })} value={tempEmail.url} placeholder='Url' />
           </div>
-          <div className='flex gap-4'>
+          <div className='flex gap-4 w-full flex-col lg:flex-row'>
             <div className='flex flex-col gap-2'>
               <p className='text-sm'>Agregar dato a la url:</p>
               <Select change={(e: any) => {
@@ -140,7 +140,7 @@ export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmai
               <Select change={(e: any) => {
                 e.preventDefault()
                 setTempEmail({...tempEmail, url: tempEmail.url + e.target.value})
-              }} value='' config='w-fit'>
+              }} value='' config='w-52 lg:w-fit'>
                 <option value=''>Agregar id</option>
                 {
                   services?.length
@@ -168,7 +168,7 @@ export const Config: React.FC<Props> = ({ setTempEmail, automatization, tempEmai
           }} color='main'>Guardar correo</Button2>
         </div>
       </div>
-      <div className='flex flex-col h-fit gap-4 p-4 border border-black/5 bg-white w-[600px] dark:bg-neutral-800 dark:border-neutral-700'>
+      <div className='flex flex-col h-fit gap-4 p-4 border border-black/5 bg-white w-full max-w-[600px] dark:bg-neutral-800 dark:border-neutral-700'>
         {
           storeData?.logo && storeData.logo !== ''
             ? <Image className='w-40 mx-auto' src={storeData?.logo!} alt={`Logo tienda ${storeData?.name}`} width={160} height={50} />

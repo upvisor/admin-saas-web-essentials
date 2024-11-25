@@ -25,7 +25,7 @@ export const Segment: React.FC<Props> = ({ setEmail, email, clientTags, clientDa
           }
         </Select>
       </div>
-      <div className='flex gap-2'>
+      <div className='flex gap-2 flex-col lg:flex-row'>
         <p className='text-sm mt-auto mb-auto w-20 min-w-20'>Asunto:</p>
         <Select change={(e: any) => {
           e.preventDefault()

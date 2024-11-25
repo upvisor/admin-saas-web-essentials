@@ -9,7 +9,7 @@ interface Props {
 
 export const Email: React.FC<Props> = ({ email, storeData }) => {
   return (
-    <div className='w-[600px] flex flex-col gap-4 m-auto bg-white border border-black/5 p-6 dark:bg-neutral-800 dark:border-neutral-700'>
+    <div className='max-w-[600px] w-full flex flex-col gap-4 m-auto bg-white border border-black/5 p-6 dark:bg-neutral-800 dark:border-neutral-700'>
       {
         storeData?.logo && storeData.logo !== ''
           ? <Image className='w-40 m-auto' src={storeData?.logo!} alt={`Logo tienda ${storeData?.name}`} width={160} height={50} />

@@ -49,7 +49,7 @@ export const PopupNewCall: React.FC<Props> = ({ popupCall, setPopupCall, titleMe
   }, [popupCall, setPopupCall]);
 
   return (
-    <div className={`${popupCall.view} ${popupCall.opacity} transition-opacity duration-200 fixed w-full h-full bg-black/20 flex top-0 left-0 z-50`}>
+    <div className={`${popupCall.view} ${popupCall.opacity} transition-opacity duration-200 fixed w-full h-full bg-black/20 flex top-0 left-0 z-50 p-4`}>
         <form ref={popupRef} onSubmit={async (e: any) => {
           e.preventDefault()
           if (!loadingNewCall) {
@@ -77,7 +77,7 @@ export const PopupNewCall: React.FC<Props> = ({ popupCall, setPopupCall, titleMe
               setLoadingNewCall(false)
             }
           }
-        }} onMouseEnter={() => setPopupCall({ ...popupCall, mouse: true })} onMouseLeave={() => setPopupCall({ ...popupCall, mouse: false })} onMouseMove={() => setPopupCall({ ...popupCall, mouse: true })} className={`${popupCall.opacity === 'opacity-0' ? 'scale-90' : 'scale-100'} transition-transform duration-200 w-full max-w-[700px] max-h-[700px] overflow-y-auto p-8 rounded-2xl m-auto border flex flex-col gap-4 border-white bg-white shadow-popup dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
+        }} onMouseEnter={() => setPopupCall({ ...popupCall, mouse: true })} onMouseLeave={() => setPopupCall({ ...popupCall, mouse: false })} onMouseMove={() => setPopupCall({ ...popupCall, mouse: true })} className={`${popupCall.opacity === 'opacity-0' ? 'scale-90' : 'scale-100'} transition-transform duration-200 w-full max-w-[700px] max-h-[600px] overflow-y-auto p-6 lg:p-8 rounded-2xl m-auto border flex flex-col gap-4 border-white bg-white shadow-popup dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
           {
             error !== ''
               ? <p className='px-2 py-1 bg-red-500 text-white w-fit'>{ error }</p>

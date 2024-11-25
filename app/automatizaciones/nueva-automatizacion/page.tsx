@@ -139,7 +139,7 @@ export default function Page () {
             setPopupCondition({ ...popupCondition, view: 'hidden', opacity: 'opacity-0' })
           }, 200)
         }
-      }} className={`${popupCondition.view} ${popupCondition.opacity} transition-opacity duration-200 fixed w-full h-full bg-black/20 flex top-0 left-0 z-50`}>
+      }} className={`${popupCondition.view} ${popupCondition.opacity} transition-opacity duration-200 fixed w-full h-full bg-black/20 flex top-0 left-0 z-50 p-4`}>
         <div onMouseEnter={() => setPopupCondition({ ...popupCondition, mouse: true })} onMouseLeave={() => setPopupCondition({ ...popupCondition, mouse: false })} onMouseMove={() => setPopupCondition({ ...popupCondition, mouse: true })} className={`${popupCondition.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 shadow-popup w-full max-w-[500px] max-h-[600px] overflow-y-auto p-6 rounded-xl flex flex-col gap-4 m-auto border bg-white dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
           <p className="text-lg">Agrega una condición para el pasar al siguiente paso</p>
           <div className='flex flex-col gap-2'>
@@ -181,10 +181,10 @@ export default function Page () {
       <Head>
         <title>Nueva automatización</title>
       </Head>
-      <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 dark:bg-neutral-800 dark:border-neutral-700' style={{ width: 'calc(100% - 250px)' }}>
-        <div className='flex m-auto w-full max-w-[1280px] justify-between gap-4'>
+      <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 w-full lg:w-[calc(100%-250px)] dark:bg-neutral-800 dark:border-neutral-700'>
+        <div className='flex m-auto w-full max-w-[1280px] justify-between gap-4 flex-col lg:flex-row'>
           <div className='flex gap-4'>
-            <p className='my-auto w-[450px]'>Nombre de la automatización:</p>
+            <p className='my-auto w-[450px] hidden lg:flex'>Nombre de la automatización:</p>
             <Input change={(e: any) => setAutomatization({ ...automatization, name: e.target.value })} value={automatization.name} placeholder='Nombre' />
           </div>
           {
@@ -198,14 +198,14 @@ export default function Page () {
           </div>
         </div>
       </div>
-      <div className='overflow-y-auto bg-bg dark:bg-neutral-900' style={{ height: 'calc(100% - 73px)' }}>
-        <div className='p-6 flex flex-col gap-6 bg-bg dark:bg-neutral-900'>
+      <div className='overflow-y-auto bg-bg dark:bg-neutral-900 h-[calc(100%-140px)] lg:h-[calc(100%-73px)] lg:pb-0'>
+        <div className='p-4 lg:p-6 flex flex-col gap-6 bg-bg dark:bg-neutral-900'>
           <div className='flex gap-3 w-full max-w-[1280px] mx-auto'>
             <Link href='/automatizaciones' className='border rounded-xl p-2 transition-colors duration-150 bg-white hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
             <h1 className='text-2xl my-auto font-medium'>Nueva automatización</h1>
           </div>
           <div className='w-full flex max-w-[1280px] mx-auto'>
-            <div className='m-auto flex gap-6'>
+            <div className='m-auto flex gap-6 flex-col lg:flex-row'>
               <div className='flex flex-col h-fit'>
                 <Segment setAutomatization={setAutomatization} automatization={automatization} clientTags={clientTags} forms={forms} calls={calls} services={services} funnels={funnels} />
                 {
@@ -227,15 +227,15 @@ export default function Page () {
                   }) })
                 }} color='main' config='m-auto mt-4'>Agregar paso</Button2>
               </div>
-              <div>
-                {
-                  (tempEmail.buttonText !== '' || tempEmail.paragraph !== '' || tempEmail.title !== '')
-                    ? (
+              {
+                (tempEmail.buttonText !== '' || tempEmail.paragraph !== '' || tempEmail.title !== '')
+                  ? (
+                    <div className='w-full'>
                       <Config setTempEmail={setTempEmail} automatization={automatization} tempEmail={tempEmail} setAutomatization={setAutomatization} storeData={storeData} clientData={clientData} setClientData={setClientData} services={services} calls={calls} funnels={funnels} />
-                    )
-                    : ''
-                }
-              </div>
+                    </div>
+                  )
+                  : ''
+              }
             </div>
           </div>
         </div>

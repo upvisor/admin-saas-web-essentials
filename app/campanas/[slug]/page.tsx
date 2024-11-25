@@ -72,7 +72,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
       <Head>
         <title>Campaña: {email?._id}</title>
       </Head>
-        <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 dark:bg-neutral-800 dark:border-neutral-700' style={{ width: 'calc(100% - 250px)' }}>
+        <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 w-full lg:w-[calc(100%-250px)] dark:bg-neutral-800 dark:border-neutral-700'>
           <div className='flex m-auto w-full max-w-[1280px]'>
             <div className='flex gap-6 ml-auto w-fit'>
               <ButtonSubmit action={submit} color='main' submitLoading={loading} textButton='Editar campaña' config='w-40' />
@@ -80,7 +80,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
             </div>
           </div>
         </div>
-        <div className='p-6 flex flex-col gap-6 mb-16 w-full overflow-y-auto bg-bg dark:bg-neutral-900' style={{ height: 'calc(100% - 73px)' }}>
+        <div className='p-4 lg:p-6 flex flex-col gap-6 w-full overflow-y-auto bg-bg dark:bg-neutral-900' style={{ height: 'calc(100% - 69px)' }}>
           {
             email
               ? (

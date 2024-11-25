@@ -1,7 +1,7 @@
 export default function page () {
   return (
     <>
-      <div className='p-6 bg-bg w-full h-full flex flex-col gap-6 dark:bg-neutral-900' style={{ overflow: 'overlay' }}>
+      <div className='p-4 lg:p-6 bg-bg w-full h-full flex flex-col gap-6 dark:bg-neutral-900' style={{ overflow: 'overlay' }}>
         <div className='flex justify-between w-full max-w-[1280px] mx-auto'>
           <h1 className='text-2xl my-auto font-medium'>Inicio</h1>
         </div>

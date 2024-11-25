@@ -76,8 +76,8 @@ export default function CallsPage () {
             setPopupDelete({ ...popupDelete, view: 'hidden', opacity: 'opacity-0' })
           }, 200)
         }
-      }} className={`${popupDelete.view} ${popupDelete.opacity} transition-opacity duration-200 fixed w-full h-full bg-black/20 flex top-0 left-0 z-50`}>
-        <div onMouseEnter={() => setPopupDelete({ ...popupDelete, mouse: true })} onMouseLeave={() => setPopupDelete({ ...popupDelete, mouse: false })} className={`${popupDelete.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 shadow-popup w-full max-w-[500px] max-h-[600px] overflow-y-auto p-6 rounded-xl flex flex-col gap-4 m-auto border bg-white dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
+      }} className={`${popupDelete.view} ${popupDelete.opacity} transition-opacity duration-200 fixed w-full h-full bg-black/20 flex top-0 left-0 z-50 p-4`}>
+        <div onMouseEnter={() => setPopupDelete({ ...popupDelete, mouse: true })} onMouseLeave={() => setPopupDelete({ ...popupDelete, mouse: false })} className={`${popupDelete.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 shadow-popup w-full max-w-[500px] max-h-[600px] overflow-y-auto p-5 lg:p-6 rounded-xl flex flex-col gap-4 m-auto border bg-white dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
           <p>¿Estas seguro que deseas eliminar la llamada: <span className='font-medium'>{newCall?.nameMeeting}</span>?</p>
           <div className='flex gap-6'>
             <ButtonSubmit submitLoading={loading} textButton='Eliminar' action={async (e: any) => {
@@ -108,7 +108,7 @@ export default function CallsPage () {
         <div className="w-full flex flex-col gap-6 mx-auto max-w-[1280px]">
           <div className="flex gap-4 justify-between flex-col lg:flex-row">
             <h1 className="text-2xl font-medium my-auto">Llamadas</h1>
-            <div className="flex gap-6">
+            <div className="flex gap-6 flex-col lg:flex-row">
               <Link href="/llamadas/disponibilidad" className="my-auto text-sm">Modificar disponibilidad</Link>
               <Button action={(e: any) => {
                 e.preventDefault()
@@ -133,7 +133,7 @@ export default function CallsPage () {
               : meetings.length || calls.length
                 ? (
                   <>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 flex-col lg:flex-row">
                       <Select change={(e: any) => {
                         if (e.target.value === 'Todas las llamadas') {
                           setNewCall({ nameMeeting: '', duration: '15 minutos', title: '', price: '', tags: [], labels: [{ data: '', name: '', text: '' }], buttonText: '', action: 'Mostrar mensaje', description: '', message: '', redirect: '' })
