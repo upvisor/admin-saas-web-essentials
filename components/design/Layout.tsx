@@ -25,7 +25,7 @@ export const Layout: React.FC<PropsWithChildren<Props>> = ({ children, edit, set
             : <input onChange={(e: any) => setHeader({ ...header, topStrip: e.target.value })} type='text' placeholder='Texto superior' value={header.topStrip} className='bg-transparent border border-neutral-500 p-1.5 rounded m-auto w-[800px] text-center' />
         }
       </div>
-      <div style={{ top: '-0.5px' }} className="w-full sticky text-black bg-white flex z-40">
+      <div style={{ top: '-0.5px' }} className="w-full sticky text-black bg-white flex z-40 overflow-x-auto">
         <div className="w-full border-b bg-white">
           <div className='flex gap-4 bg-white px-2 justify-between m-auto max-w-[1280px] w-full'>
             {

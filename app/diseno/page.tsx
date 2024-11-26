@@ -1510,7 +1510,7 @@ export default function Page () {
         {
           part === 'Popup'
             ? (
-              <div className='w-full h-full text-black bg-black/30 flex' style={{ width: 'calc(100% - 350px' }}>
+              <div className='w-full h-full text-black bg-black/30 flex lg:w-[calc(100%-350px)] px-4'>
                 <div className={`${calls?.find(call => call._id === popupWeb.content) ? 'max-w-[800px]' : 'max-w-[600px]'} w-full p-6 rounded-lg bg-white m-auto flex flex-col gap-4`}>
                   {
                     popupWeb.title && popupWeb.title !== ''
