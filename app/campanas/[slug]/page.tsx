@@ -1,6 +1,6 @@
 "use client"
-import { Email, Segment, Config } from '@/components/campaigns'
-import { ButtonSubmit, Spinner } from '@/components/ui'
+import { Email, Segment, Config, PopupStadistics } from '@/components/campaigns'
+import { Button2, ButtonSubmit, Spinner } from '@/components/ui'
 import { IClientTag, IEmail, IStoreData } from '@/interfaces'
 import axios from 'axios'
 import Head from 'next/head'
@@ -17,6 +17,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
   const [storeData, setStoreData] = useState<IStoreData>()
   const [clientTags, setClientTags] = useState<IClientTag[]>([])
   const [clientData, setClientData] = useState([])
+  const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
 
   const router = useRouter()
 
@@ -71,6 +72,7 @@ export default function Page ({ params }: { params: { slug: string } }) {
       <Head>
         <title>Campaña: {email?._id}</title>
       </Head>
+      <PopupStadistics popup={popup} setPopup={setPopup} campaign={email} />
         <div className='fixed flex bg-white border-t bottom-0 right-0 p-4 w-full lg:w-[calc(100%-250px)] dark:bg-neutral-800 dark:border-neutral-700'>
           <div className='flex m-auto w-full max-w-[1280px]'>
             <div className='flex gap-6 ml-auto w-fit'>
@@ -84,9 +86,18 @@ export default function Page ({ params }: { params: { slug: string } }) {
             email
               ? (
                 <>
-                  <div className='flex gap-3 w-full max-w-[1280px] mx-auto'>
-                    <Link href='/campanas' className='border rounded-lg p-2 transition-colors duration-150 bg-white hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
-                    <h1 className='text-xl font-medium mt-auto mb-auto'>Campaña: {email?._id}</h1>
+                  <div className='flex gap-3 w-full max-w-[1280px] mx-auto flex-col lg:flex-row'>
+                    <div className='flex gap-3'>
+                      <Link href='/campanas' className='border rounded-xl p-2 h-fit my-auto transition-colors duration-150 bg-white hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
+                      <h1 className='text-xl font-medium mt-auto mb-auto'>Campaña: {email?._id}</h1>
+                    </div>
+                    <Button2 color={'main'} action={(e: any) => {
+                      e.preventDefault()
+                      setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                      setTimeout(() => {
+                        setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
+                      }, 10);
+                    }}>Estadisticas</Button2>
                   </div>
                   <div className='flex flex-col gap-6 w-full max-w-[1280px] mx-auto'>
                     <Segment setEmail={setEmail} email={email} clientTags={clientTags} clientData={clientData} setClientData={setClientData} />

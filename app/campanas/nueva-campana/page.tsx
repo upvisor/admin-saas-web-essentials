@@ -90,7 +90,7 @@ export default function Page () {
           <div className='flex flex-col gap-6 w-full max-w-[1280px] mx-auto'>
             <Segment setEmail={setEmail} email={email} clientTags={clientTags} clientData={clientData} setClientData={setClientData} />
             <div className='w-full flex'>
-              <div className='flex flex-wrap gap-6 m-auto'>
+              <div className='flex gap-6 m-auto w-full flex-wrap'>
                 <Email email={email} storeData={storeData} />
                 <Config setEmail={setEmail} email={email} setDate={setDate} date={date} clientData={clientData} setClientData={setClientData} />
               </div>

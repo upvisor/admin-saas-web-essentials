@@ -65,7 +65,7 @@ export default function Page() {
         <div onMouseEnter={() => setPopupStadistics({ ...popupStadistics, mouse: true })} onMouseLeave={() => setPopupStadistics({ ...popupStadistics, mouse: false })} onMouseMove={() => setPopupStadistics({ ...popupStadistics, mouse: true })} className={`${popupStadistics.opacity === 'opacity-1' ? 'scale-1' : 'scale-90'} transition-transform duration-200 w-full max-w-[700px] max-h-[600px] overflow-y-auto p-6 rounded-xl flex flex-col gap-4 m-auto border bg-white shadow-popup dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
           <p className="text-lg font-medium">Estadisticas</p>
           <p className='font-medium'>Tasa de conversion</p>
-          <div className={`overflow-y-auto grid grid-cols-${services.find(serv => serv._id === service?._id)?.steps.length} divide-x divide-black/5 dark:divide-neutral-700`}>
+          <div className={`overflow-y-auto flex gap-2`}>
             {
               services.find(serv => serv._id === service?._id)?.steps.map((step, index, steps) => (
                 <div key={step._id} className='flex flex-col gap-2 justify-between min-w-28'>
