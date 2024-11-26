@@ -33,27 +33,53 @@ export const PopupStadistics: React.FC<Props> = ({ popup, setPopup, automatizati
         <div onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} onMouseMove={() => setPopup({ ...popup, mouse: true })} className={`${popup.opacity === 'opacity-1' ? 'scale-1' : 'scale-90'} transition-transform duration-200 w-full max-w-[700px] max-h-[600px] overflow-y-auto p-6 rounded-xl flex flex-col gap-4 m-auto border bg-white shadow-popup dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
           <p className="text-lg font-medium">Estadisticas</p>
           <div className='flex flex-col gap-4'>
-            {
-              automatization.automatization.map((auto, index) => (
-                <div key={auto.affair} className='flex flex-col gap-2'>
-                  <p className='font-medium'>Correo {index + 1}</p>
-                  <div className='flex gap-4 justify-around'>
-                    <div className='flex flex-col gap-2'>
-                      <p className='m-auto text-center'>Correo enviado</p>
-                      <p className='m-auto text-center'>{clients?.filter(client => client.emails?.find(email => email.automatizationId === automatization._id && email.subject === auto.affair)).length}</p>
+          {
+            automatization.automatization.map((auto, index) => {
+              // Calcula métricas para optimizar y evitar repetir lógica
+              const emailsSent = clients?.filter(client =>
+                client.emails?.some(email => email.automatizationId === automatization._id && email.subject === auto.affair)
+              ).length || 0;
+
+              const emailsOpened = clients?.filter(client =>
+                client.emails?.some(email => email.automatizationId === automatization._id && email.subject === auto.affair && email.opened)
+              ).length || 0;
+
+              const emailsClicked = clients?.filter(client =>
+                client.emails?.some(email => email.automatizationId === automatization._id && email.subject === auto.affair && email.clicked)
+              ).length || 0;
+
+              const openRate = emailsSent > 0 ? ((emailsOpened / emailsSent) * 100) : "0";
+              const clickRate = emailsSent > 0 ? ((emailsClicked / emailsSent) * 100) : "0";
+
+              return (
+                <div key={auto.affair} className="flex flex-col gap-2">
+                  <p className="font-medium">Correo {index + 1}</p>
+                  <div className="flex gap-4 justify-around">
+                    <div className="flex flex-col gap-2">
+                      <p className="m-auto text-center">Correo enviado</p>
+                      <p className="m-auto text-center">{emailsSent}</p>
                     </div>
-                    <div className='flex flex-col gap-2'>
-                      <p className='m-auto text-center'>Correo abierto</p>
-                      <p className='m-auto text-center'>{clients?.filter(client => client.emails?.find(email => email.automatizationId === automatization._id && email.subject === auto.affair && email.opened)).length}</p>
+                    <div className="flex flex-col gap-2">
+                      <p className="m-auto text-center">Correo abierto</p>
+                      <p className="m-auto text-center">{emailsOpened}</p>
                     </div>
-                    <div className='flex flex-col gap-2'>
-                      <p className='m-auto text-center'>Click en el enlace</p>
-                      <p className='m-auto text-center'>{clients?.filter(client => client.emails?.find(email => email.automatizationId === automatization._id && email.subject === auto.affair && email.clicked)).length}</p>
+                    <div className="flex flex-col gap-2">
+                      <p className="m-auto text-center">Ratio de apertura</p>
+                      <p className="m-auto text-center">{openRate}%</p>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <p className="m-auto text-center">Clicks en el enlace</p>
+                      <p className="m-auto text-center">{emailsClicked}</p>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <p className="m-auto text-center">Ratio de clicks</p>
+                      <p className="m-auto text-center">{clickRate}%</p>
                     </div>
                   </div>
                 </div>
-              ))
-            }
+              );
+            })
+          }
           </div>
           
         </div>

@@ -51,28 +51,31 @@ export const PopupNewFunnel: React.FC<Props> = ({ popup, setPopup, getFunnels, n
               if (newFunnel.funnel !== '' && newFunnel.slug !== '' && newFunnel.steps[0].step !== '' && newFunnel.steps[0].slug !== '') {
                 await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/funnel`, newFunnel)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                getFunnels()
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+                  setLoading(false)
                 }, 200)
-                getFunnels()
                 setNewFunnel({ funnel: '', slug: '', steps: [{ step: '', sendEmail: false, slug: '', email: { subject: '', title: '', text: '', linkButton: '', textButton: '' } }], description: '' })
               } else {
                 setError('Debes ingresar todos los datos necesarios')
+                setLoading(false)
               }
             } else {
               if (newFunnel.funnel !== '' && newFunnel.slug !== '' && newFunnel.steps[0].step !== '' && newFunnel.steps[0].slug !== '') {
                 await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/funnel/${selectFunnel?._id}`, newFunnel)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                getFunnels()
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+                  setLoading(false)
                 }, 200)
-                getFunnels()
                 setNewFunnel({ funnel: '', slug: '', steps: [{ step: '', slug: '', sendEmail: false, email: { subject: '', title: '', text: '', linkButton: '', textButton: '' } }], description: '' })
               } else {
                 setError('Debes ingresar todos los datos necesarios')
+                setLoading(false)
               }
             }
-            setLoading(false)
           }
         }} onMouseEnter={() => setPopup({ ...popup, mouse: true })} onMouseLeave={() => setPopup({ ...popup, mouse: false })} className={`${popup.opacity === 'opacity-0' ? 'scale-90' : 'scale-100'} transition-transform duration-200 w-full max-w-[700px] max-h-[600px] overflow-y-auto p-6 lg:p-8 rounded-2xl flex flex-col gap-4 m-auto border bg-white shadow-popup dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
           {

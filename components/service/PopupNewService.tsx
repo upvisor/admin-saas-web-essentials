@@ -59,8 +59,8 @@ export const PopupNewService: React.FC<Props> = ({ popupService, setPopupService
             setPopupService({ ...popupService, view: 'flex', opacity: 'opacity-0' })
             setTimeout(() => {
                 setPopupService({ ...popupService, view: 'hidden', opacity: 'opacity-0' })
+                setLoadingService(false)
             }, 200)
-            setLoadingService(false)
           }
         }} onMouseEnter={() => setPopupService({ ...popupService, mouse: true })} onMouseLeave={() => setPopupService({ ...popupService, mouse: false })} onMouseMove={() => setPopupService({ ...popupService, mouse: true })} className={`${popupService.opacity === 'opacity-0' ? 'scale-90' : 'scale-100'} transition-transform duration-200 w-full max-w-[700px] max-h-[600px] overflow-y-auto p-6 lg:p-8 rounded-2xl m-auto border flex flex-col gap-4 shadow-popup bg-white dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
           {

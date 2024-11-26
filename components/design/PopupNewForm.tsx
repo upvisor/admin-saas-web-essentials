@@ -61,8 +61,8 @@ export const PopupNewForm: React.FC<Props> = ({ popupForm, setPopupForm, titleFo
                 setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopupForm({ ...popupForm, view: 'hidden', opacity: 'opacity-0' })
+                  setLoadingNewForm(false)
                 }, 200)
-                setLoadingNewForm(false)
               } else {
                 setError('Debes llenar todos los datos')
                 setLoadingNewForm(false)
@@ -73,8 +73,8 @@ export const PopupNewForm: React.FC<Props> = ({ popupForm, setPopupForm, titleFo
               setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-0' })
               setTimeout(() => {
                 setPopupForm({ ...popupForm, view: 'hidden', opacity: 'opacity-0' })
+                setLoadingNewForm(false)
               }, 200)
-              setLoadingNewForm(false)
             }
           }
         }} onMouseEnter={() => setPopupForm({ ...popupForm, mouse: true })} onMouseMove={() => setPopupForm({ ...popupForm, mouse: true })} onMouseLeave={() => setPopupForm({ ...popupForm, mouse: false })} className={`${popupForm.opacity === 'opacity-0' ? 'scale-90' : 'scale-100'} transition-transform duration-200 w-full max-w-[700px] max-h-[700px] overflow-y-auto p-8 rounded-xl m-auto border border-black/50 flex flex-col gap-4 border-white bg-white dark:bg-neutral-800 dark:border-neutral-700`} style={{ boxShadow: '0px 3px 10px 3px #c1c1c1' }}>

@@ -95,7 +95,6 @@ export default function Page ({ params }: { params: { slug: string } }) {
       setLoading(true)
       await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/client/${clientData?._id}`)
       router.push('/clientes')
-      setLoading(false)
     }
   }
 
@@ -126,8 +125,8 @@ export default function Page ({ params }: { params: { slug: string } }) {
                 setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopupPrice({ ...popupPrice, view: 'hidden', opacity: 'opacity-0' })
+                  setLoadingPrice(false)
                 }, 200)
-                setLoadingPrice(false)
               }
             }} color='main' submitLoading={loadingPrice} textButton='Asignar precio' config='w-44' />
             <button onClick={() => {
@@ -195,8 +194,8 @@ export default function Page ({ params }: { params: { slug: string } }) {
                     setPopupEmail({ ...popupEmail, view: 'flex', opacity: 'opacity-0' })
                     setTimeout(() => {
                       setPopupEmail({ ...popupEmail, view: 'hidden', opacity: 'opacity-0' })
+                      setLoadingEmail(false)
                     }, 200)
-                    setLoadingEmail(false)
                   }
                 }} color='main' submitLoading={loadingEmail} textButton='Envíar correo' config='w-36' />
               </div>
@@ -421,8 +420,8 @@ export default function Page ({ params }: { params: { slug: string } }) {
                                 setLoadingClientTag(true)
                                 await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/client-tag`, { tag: newClientTag })
                                 setNewClientTag('')
-                                setLoadingClientTag(false)
                                 getClientTags()
+                                setLoadingClientTag(false)
                               }
                             }} color='main' submitLoading={loadingClientTag} textButton='Crear tag' config='w-32' />
                           </div>

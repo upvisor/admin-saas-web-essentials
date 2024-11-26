@@ -39,7 +39,6 @@ export default function Page () {
       setLoading(true)
       await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/posts/${postSelect._id}`)
       router.refresh()
-      setLoading(false)
     }
   }
 

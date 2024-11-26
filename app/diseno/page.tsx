@@ -278,6 +278,7 @@ export default function Page () {
                           <div key={page.slug} className='flex gap-4'>
                             <button onClick={() => {
                               setType('Page')
+                              setMenu('hidden')
                               setPart(page.page)
                             }} className='text-left w-full'>{page.page}</button>
                             <div className='flex gap-2'>
@@ -320,7 +321,10 @@ export default function Page () {
                         ))
                       }
                       <div className='flex gap-4'>
-                        <button onClick={() => setPart('Popup')} className='text-left w-full'>Popup</button>
+                        <button onClick={() => {
+                          setMenu('hidden')
+                          setPart('Popup')}
+                        } className='text-left w-full'>Popup</button>
                       </div>
                     </div>
                     <h2 className='text-lg font-medium'>Embudos</h2>
@@ -626,7 +630,10 @@ export default function Page () {
                               {
                                 funnels.find(funnel => funnel.funnel === part)?.steps.map(step => {
                                   if (step.slug && step.slug !== '') {
-                                    return <button onClick={(e: any) => setStep(step.step)} key={step._id} className='text-left'>{step.step}</button>
+                                    return <button onClick={(e: any) => {
+                                      setMenu('hidden')
+                                      setStep(step.step)
+                                    }} key={step._id} className='text-left'>{step.step}</button>
                                   }
                                 })
                               }
@@ -719,7 +726,10 @@ export default function Page () {
                         )
                         : selectService?.steps.map(step => {
                           if (step.slug && step.slug !== '') {
-                            return <button onClick={(e: any) => setStep(step.step)} key={step._id} className='text-left'>{step.step}</button>
+                            return <button onClick={(e: any) => {
+                              setMenu('hidden')
+                              setStep(step.step)
+                            }} key={step._id} className='text-left'>{step.step}</button>
                           }
                         })
                     }

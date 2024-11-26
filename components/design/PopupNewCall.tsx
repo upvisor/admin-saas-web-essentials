@@ -61,8 +61,8 @@ export const PopupNewCall: React.FC<Props> = ({ popupCall, setPopupCall, titleMe
                 setPopupCall({ ...popupCall, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopupCall({ ...popupCall, view: 'hidden', opacity: 'opacity-0' })
+                  setLoadingNewCall(false)
                 }, 200)
-                setLoadingNewCall(false)
               } else {
                 setError('Debes llenar todos los datos')
                 setLoadingNewCall(false)
@@ -73,8 +73,8 @@ export const PopupNewCall: React.FC<Props> = ({ popupCall, setPopupCall, titleMe
               setPopupCall({ ...popupCall, view: 'flex', opacity: 'opacity-0' })
               setTimeout(() => {
                 setPopupCall({ ...popupCall, view: 'hidden', opacity: 'opacity-0' })
+                setLoadingNewCall(false)
               }, 200)
-              setLoadingNewCall(false)
             }
           }
         }} onMouseEnter={() => setPopupCall({ ...popupCall, mouse: true })} onMouseLeave={() => setPopupCall({ ...popupCall, mouse: false })} onMouseMove={() => setPopupCall({ ...popupCall, mouse: true })} className={`${popupCall.opacity === 'opacity-0' ? 'scale-90' : 'scale-100'} transition-transform duration-200 w-full max-w-[700px] max-h-[600px] overflow-y-auto p-6 lg:p-8 rounded-2xl m-auto border flex flex-col gap-4 border-white bg-white shadow-popup dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>

@@ -126,7 +126,6 @@ export default function Page () {
       setLoading(true)
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/automatization`, { startType: automatization.startType, startValue: automatization.startValue, name: automatization.name, date: new Date(), automatization: automatization.automatization })
       router.push('/automatizaciones')
-      setLoading(false)
     }
   }
 

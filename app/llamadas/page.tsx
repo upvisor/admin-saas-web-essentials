@@ -89,8 +89,8 @@ export default function CallsPage () {
                 setPopupDelete({ ...popupDelete, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopupDelete({ ...popupDelete, view: 'hidden', opacity: 'opacity-0' })
+                  setLoading(false)
                 }, 200)
-                setLoading(false)
               }
             }} color='red-500' config='w-28' />
             <button onClick={(e: any) => {

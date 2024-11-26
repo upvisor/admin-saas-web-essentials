@@ -1,6 +1,6 @@
 "use client"
 import { PopupNewService } from "@/components/service"
-import { Button, Select, Spinner } from "@/components/ui"
+import { Button, Button2, Button2Secondary, ButtonSecondary2, Select, Spinner } from "@/components/ui"
 import { IClient, IService, ITag } from "@/interfaces"
 import axios from "axios"
 import Link from "next/link"
@@ -20,6 +20,7 @@ export default function Page() {
   const [newFunctionality, setNewFunctionality] = useState('')
   const [tags, setTags] = useState<ITag[]>([])
   const [selectClient, setSelectClient] = useState<IClient>()
+  const [popupStadistics, setPopupStadistics] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
 
   const getServices = async () => {
     setLoading(true)
@@ -53,6 +54,68 @@ export default function Page() {
   return (
     <>
       <PopupNewService popupService={popup} setPopupService={setPopup} newService={newService} setNewService={setNewService} loadingService={loadingService} setLoadingService={setLoadingService} getServices={getServices} error={error} title={title} newFunctionality={newFunctionality} setNewFunctionality={setNewFunctionality} tags={tags} getTags={getTags} />
+      <div onClick={() => {
+        if (!popup.mouse) {
+          setPopupStadistics({ ...popupStadistics, view: 'flex', opacity: 'opacity-0' })
+          setTimeout(() => {
+            setPopupStadistics({ ...popupStadistics, view: 'hidden', opacity: 'opacity-0' })
+          }, 200)
+        }
+      }} className={`${popupStadistics.view} ${popupStadistics.opacity} transition-opacity duration-200 fixed w-full h-full bg-black/20 flex top-0 left-0 z-50 p-4`}>
+        <div onMouseEnter={() => setPopupStadistics({ ...popupStadistics, mouse: true })} onMouseLeave={() => setPopupStadistics({ ...popupStadistics, mouse: false })} onMouseMove={() => setPopupStadistics({ ...popupStadistics, mouse: true })} className={`${popupStadistics.opacity === 'opacity-1' ? 'scale-1' : 'scale-90'} transition-transform duration-200 w-full max-w-[700px] max-h-[600px] overflow-y-auto p-6 rounded-xl flex flex-col gap-4 m-auto border bg-white shadow-popup dark:shadow-popup-dark dark:bg-neutral-800 dark:border-neutral-700`}>
+          <p className="text-lg font-medium">Estadisticas</p>
+          <p className='font-medium'>Tasa de conversion</p>
+          <div className={`overflow-y-auto grid grid-cols-${services.find(serv => serv._id === service?._id)?.steps.length} divide-x divide-black/5 dark:divide-neutral-700`}>
+            {
+              services.find(serv => serv._id === service?._id)?.steps.map((step, index, steps) => (
+                <div key={step._id} className='flex flex-col gap-2 justify-between min-w-28'>
+                  <p className='text-center my-auto'>{step.step}</p>
+                  <p className='text-2xl font-medium mx-auto text-center'>
+                    {
+                      clients.filter(client => 
+                        client.services?.some(serv => 
+                          serv.service === service?._id && 
+                          steps.findIndex(s => s._id === serv.step) >= index
+                        )
+                      ).length
+                    }
+                  </p>
+                  <p className='text-center text-lg font-medium'>
+                    {
+                      (() => {
+                        // Clientes en el último paso del embudo
+                        const clientsInLastStep = clients.filter(client => 
+                          client.services?.some(serv => 
+                            serv.service === service?._id && 
+                            serv.step === steps.slice(-1)[0]._id
+                          )
+                        ).length;
+
+                        // Clientes en el paso actual o posterior
+                        const clientsInCurrentOrLaterStep = clients.filter(client => 
+                          client.services?.some(serv => 
+                            serv.service === service?._id && 
+                            steps.findIndex(s => s._id === serv.step) >= index
+                          )
+                        ).length;
+
+                        // Si no hay clientes en el último paso, mostrar '0%'
+                        if (clientsInLastStep === 0) {
+                          return '0%';
+                        }
+
+                        // Calcular el porcentaje
+                        const percentage = (clientsInCurrentOrLaterStep / clientsInLastStep) * 100;
+                        return `${percentage.toFixed(2)}%`; // Mostrar con 2 decimales
+                      })()
+                    }
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
       <div className='w-full h-full bg-bg flex flex-col gap-6 dark:bg-neutral-900'>
         <div className='p-4 lg:p-6 w-full flex flex-col gap-6 min-h-full max-h-full overflow-y-auto'>
           <div className='flex justify-between w-full max-w-[1280px] mx-auto'>
@@ -91,16 +154,27 @@ export default function Page() {
                         </Select>
                         {
                           service
-                            ? <Button action={(e: any) => {
-                              e.preventDefault()
-                              setError('')
-                              setNewService(service)
-                              setTitle('Editar servicio')
-                              setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                              setTimeout(() => {
-                                setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
-                              }, 10)
-                            }}>Editar servicio</Button>
+                            ? (
+                              <>
+                                <Button2 action={(e: any) => {
+                                  e.preventDefault()
+                                  setError('')
+                                  setNewService(service)
+                                  setTitle('Editar servicio')
+                                  setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                                  setTimeout(() => {
+                                    setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
+                                  }, 10)
+                                } } color={"main"} config="my-auto">Editar servicio</Button2>
+                                <ButtonSecondary2 action={(e: any) => {
+                                  e.preventDefault()
+                                  setPopupStadistics({ ...popupStadistics, view: 'flex', opacity: 'opacity-0' })
+                                  setTimeout(() => {
+                                    setPopupStadistics({ ...popupStadistics, view: 'flex', opacity: 'opacity-1' })
+                                  }, 10)
+                                }} config="my-auto">Estadisticas</ButtonSecondary2>
+                              </>
+                            )
                             : ''
                         }
                       </div>

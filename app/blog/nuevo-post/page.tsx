@@ -30,7 +30,6 @@ export default function Page () {
       setSubmitLoading(true)
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/post`, { ...contentData, content: content })
       router.push('/blog')
-      setSubmitLoading(false)
     }
   }
 

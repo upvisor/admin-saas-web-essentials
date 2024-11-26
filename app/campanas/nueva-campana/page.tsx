@@ -65,7 +65,6 @@ export default function Page () {
       setLoading(true)
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/new-campaign`, email)
       router.push('/campanas')
-      setLoading(false)
     }
   }
 

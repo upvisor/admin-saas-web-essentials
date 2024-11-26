@@ -27,9 +27,9 @@ export default function Page () {
         password: loginData.password,
         redirect: false
       })
-      setLoading(false)
       if (res?.error) return setError(res.error)
       if (res?.ok) return window.location.replace('/')
+      setLoading(false)
     }
   }
 

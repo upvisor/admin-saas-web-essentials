@@ -1,7 +1,7 @@
 import { IFunnel } from '@/interfaces'
 import axios from 'axios'
 import React, { useState } from 'react'
-import { ButtonRedSubmit, ButtonSubmit, Spinner2 } from '../ui'
+import { ButtonRedSubmit } from '../ui'
 
 interface Props {
     popupDelete: { view: string, opacity: string, mouse: boolean }
@@ -36,8 +36,8 @@ export const PopupDeleteFunnel: React.FC<Props> = ({ popupDelete, setPopupDelete
                 getFunnels()
                 setTimeout(() => {
                   setPopupDelete({ ...popupDelete, view: 'hidden', opacity: 'opacity-0' })
+                  setLoadingDelete(false)
                 }, 200)
-                setLoadingDelete(false)
               }
             }} submitLoading={loadingDelete} textButton='Eliminar' config='w-32' />
             <button onClick={(e: any) => {

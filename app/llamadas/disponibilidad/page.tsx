@@ -3,6 +3,7 @@ import { ButtonSubmit, Calendar } from "@/components/ui"
 import { DateData } from "@/interfaces"
 import axios from "axios"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { BiArrowBack } from "react-icons/bi"
 
@@ -11,10 +12,12 @@ export default function AvaliableCallsPage () {
   const [availableDates, setAvailableDates] = useState<DateData[]>([])
   const [submitLoading, setSubmitLoading] = useState(false)
 
+  const router = useRouter()
+
   const handleSubmit = async () => {
     setSubmitLoading(true)
     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/calendar`, { dates: availableDates })
-    setSubmitLoading(false)
+    router.push('/llamadas')
   }
 
   return (

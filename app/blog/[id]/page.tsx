@@ -40,7 +40,6 @@ export default function Page ({ params }: { params: { id: string } }) {
       setSubmitLoading(true)
       await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/post/${contentData._id}`, contentData)
       router.push('/blog')
-      setSubmitLoading(false)
     }
   }
 

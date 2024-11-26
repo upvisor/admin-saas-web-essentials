@@ -188,29 +188,34 @@ export default function Page () {
                                         }
                                       </p>
                                       <p className='text-center text-lg font-medium'>
-                                        {
-                                          // Obtener el porcentaje en función de los clientes en el último paso
-                                          (clients.filter(client => 
-                                            client.funnels?.some(funnel => 
-                                              funnel.funnel === selectFunnel && 
-                                              funnel.step === steps.slice(-1)[0]._id
+                                      {
+                                        (() => {
+                                          // Clientes en el último paso del embudo
+                                          const clientsInLastStep = clients.filter(client => 
+                                            client.funnels?.some(funn => 
+                                              funn.funnel === selectFunnel && 
+                                              funn.step === steps.slice(-1)[0]._id
                                             )
-                                          ).length || 1) > 0
-                                          ? (
-                                            (clients.filter(client => 
-                                              client.funnels?.some(funnel => 
-                                                funnel.funnel === selectFunnel && 
-                                                steps.findIndex(s => s._id === funnel.step) >= index
-                                              )
-                                            ).length / clients.filter(client => 
-                                              client.funnels?.some(funnel => 
-                                                funnel.funnel === selectFunnel && 
-                                                funnel.step === steps.slice(-1)[0]._id
-                                              )
-                                            ).length * 100
-                                          ) + '%')
-                                          : '0%'
-                                        }
+                                          ).length;
+
+                                          // Clientes en el paso actual o posterior
+                                          const clientsInCurrentOrLaterStep = clients.filter(client => 
+                                            client.funnels?.some(funn => 
+                                              funn.funnel === selectFunnel && 
+                                              steps.findIndex(s => s._id === funn.step) >= index
+                                            )
+                                          ).length;
+
+                                          // Si no hay clientes en el último paso, mostrar '0%'
+                                          if (clientsInLastStep === 0) {
+                                            return '0%';
+                                          }
+
+                                          // Calcular el porcentaje
+                                          const percentage = (clientsInCurrentOrLaterStep / clientsInLastStep) * 100;
+                                          return `${percentage.toFixed(2)}%`; // Mostrar con 2 decimales
+                                        })()
+                                      }
                                       </p>
                                     </div>
                                   ))
@@ -304,27 +309,32 @@ export default function Page () {
                                       </p>
                                       <p className='text-center text-lg font-medium'>
                                         {
-                                          // Obtener el porcentaje en función de los clientes en el último paso
-                                          (clients.filter(client => 
-                                            client.services?.some(service => 
-                                              service.service === selectService && 
-                                              service.step === steps.slice(-1)[0]._id
-                                            )
-                                          ).length || 1) > 0
-                                          ? (
-                                            (clients.filter(client => 
-                                              client.services?.some(service => 
-                                                service.service === selectService && 
-                                                steps.findIndex(s => s._id === service.step) >= index
-                                              )
-                                            ).length / clients.filter(client => 
+                                          (() => {
+                                            // Clientes en el último paso del embudo
+                                            const clientsInLastStep = clients.filter(client => 
                                               client.services?.some(service => 
                                                 service.service === selectService && 
                                                 service.step === steps.slice(-1)[0]._id
                                               )
-                                            ).length * 100
-                                          ) + '%')
-                                          : '0%'
+                                            ).length;
+
+                                            // Clientes en el paso actual o posterior
+                                            const clientsInCurrentOrLaterStep = clients.filter(client => 
+                                              client.services?.some(service => 
+                                                service.service === selectService && 
+                                                steps.findIndex(s => s._id === service.step) >= index
+                                              )
+                                            ).length;
+
+                                            // Si no hay clientes en el último paso, mostrar '0%'
+                                            if (clientsInLastStep === 0) {
+                                              return '0%';
+                                            }
+
+                                            // Calcular el porcentaje
+                                            const percentage = (clientsInCurrentOrLaterStep / clientsInLastStep) * 100;
+                                            return `${percentage.toFixed(2)}%`; // Mostrar con 2 decimales
+                                          })()
                                         }
                                       </p>
                                     </div>

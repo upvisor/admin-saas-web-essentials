@@ -45,16 +45,16 @@ export default function Page () {
       if (clientData.email !== '') {
         if (emailRegex.test(clientData.email)) {
           await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/clients`, clientData)
-          setSubmitLoading(false)
           router.push('/clientes')
         } else {
           setError('Debes ingresar un email valido')
+          setSubmitLoading(false)
         }
       } else {
         setError('Debes ingresar un email')
+        setSubmitLoading(false)
       }
     }
-    setSubmitLoading(false)
   }
 
   return (

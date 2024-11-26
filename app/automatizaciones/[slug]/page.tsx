@@ -123,7 +123,6 @@ export default function Page ({ params }: { params: { slug: string } }) {
       console.log(automatization)
       await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/automatization/${automatization._id}`, { startType: automatization?.startType, startValue: automatization.startValue, name: automatization?.name, date: new Date(), automatization: automatization?.automatization })
       router.push('/automatizaciones')
-      setLoading(false)
     }
   }
 
@@ -196,9 +195,11 @@ export default function Page ({ params }: { params: { slug: string } }) {
             automatization
               ? (
                 <>
-                  <div className='flex gap-3 w-full max-w-[1280px] mx-auto'>
-                    <Link href='/automatizaciones' className='border rounded-xl h-fit my-auto p-2 transition-colors duration-150 bg-white hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
-                    <h1 className='text-2xl my-auto font-medium'>Automatización: {automatization?.name}</h1>
+                  <div className='flex gap-3 w-full max-w-[1280px] mx-auto flex-col lg:flex-row'>
+                    <div className='flex gap-3'>
+                      <Link href='/automatizaciones' className='border rounded-xl h-fit my-auto p-2 transition-colors duration-150 bg-white hover:bg-neutral-50 dark:bg-neutral-800 dark:border-neutral-600 dark:hover:bg-neutral-700'><BiArrowBack className='text-xl' /></Link>
+                      <h1 className='text-2xl my-auto font-medium'>Automatización: {automatization?.name}</h1>
+                    </div>
                     <Button2 color={'main'} action={(e: any) => {
                       e.preventDefault()
                       setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })

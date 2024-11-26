@@ -37,8 +37,8 @@ export default function Page () {
       getAutomatizations()
       setTimeout(() => {
         setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+        setLoadingDelete(false)
       }, 200)
-      setLoadingDelete(false)
     }
   }
 

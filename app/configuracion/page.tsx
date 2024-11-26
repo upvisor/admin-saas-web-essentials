@@ -156,7 +156,6 @@ export default function Page () {
       } else {
         setError('Debes llenar al menos el dato de email')
       }
-      
       setLoading(false)
     }
   }

@@ -64,8 +64,8 @@ export default function Page() {
                 setPopupDelete({ ...popupDelete, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopupDelete({ ...popupDelete, view: 'hidden', opacity: 'opacity-0' })
+                  setLoadingDelete(false)
                 }, 200)
-                setLoadingDelete(false)
               }
             }} color='red-500' config="w-28" />
             <button>Cancelar</button>
