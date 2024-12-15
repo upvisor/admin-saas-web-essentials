@@ -10,7 +10,7 @@ export default function Page () {
     name: '',
     email: '',
     password: '',
-    type: 'Administrador'
+    type: 'Administrador',
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
