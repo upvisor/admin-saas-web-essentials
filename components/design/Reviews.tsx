@@ -339,7 +339,7 @@ export const Reviews: React.FC<Props> = ({ edit, pages, setPages, design, index,
                                       : Number(review.stars) > 4.5 ? <FaStar className='text-yellow-400 text-xl' /> : <FaRegStar className='text-yellow-400 text-xl' />
                                   }
                                 </div>
-                                <p className='text-center'>"{review.review}"</p>
+                                <p className='text-center'>&quot;{review.review}&quot;</p>
                                 <p className='font-medium'>{review.name}</p>
                               </div>
                             </div>

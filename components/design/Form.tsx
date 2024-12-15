@@ -351,7 +351,7 @@ export const Form: React.FC<Props> = ({ edit, pages, setPages, design, index, in
                                                       <Select change={undefined}>
                                                         <option>Seleccionar opción</option>
                                                         {
-                                                          label.datas?.map(data => <option>{data}</option>)
+                                                          label.datas?.map(data => <option key={data}>{data}</option>)
                                                         }
                                                       </Select>
                                                     )

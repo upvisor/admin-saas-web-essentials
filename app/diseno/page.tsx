@@ -434,7 +434,7 @@ export default function Page () {
                   <div className='flex flex-col gap-2'>
                     {
                       pages.map((page, index) => (
-                        <div className='flex flex-col gap-2'>
+                        <div key={page._id} className='flex flex-col gap-2'>
                           <div key={page.slug} className='flex gap-4' draggable onDragStart={() => setNewPage({ ...newPage, page: page.page, slug: page.slug })} onDragOver={(e) => e.preventDefault()} onDrop={async () => {
                             const oldPages = [...pages]
                             if (oldPages[index].subPage?.length) {
@@ -489,7 +489,7 @@ export default function Page () {
                           </div>
                           {
                             page.subPage?.map((subPage, i) => (
-                              <div className='flex gap-2 ml-10 justify-between'>
+                              <div key={subPage.slug} className='flex gap-2 ml-10 justify-between'>
                                 <p>{subPage.page}</p>
                                 <button onClick={async (e: any) => {
                                   e.preventDefault()

@@ -178,7 +178,7 @@ export const PopupNewForm: React.FC<Props> = ({ popupForm, setPopupForm, titleFo
                         <>
                           {
                             label.datas?.map((data, index) => (
-                              <div className='flex gap-2'>
+                              <div key={data} className='flex gap-2'>
                                 <Input change={(e: any) => {
                                   e.preventDefault()
                                   const oldLabels = [...newForm.labels]
