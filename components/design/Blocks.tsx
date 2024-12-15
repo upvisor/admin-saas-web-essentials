@@ -1,76 +1,43 @@
-"use client"
+import { IPage, IDesign, IFunnel, ICall, IService } from '@/interfaces'
 import axios from 'axios'
 import React, { useState } from 'react'
-import Image from 'next/image'
-import { ICall, ICategoryPage, IDesign, IForm, IFunnel, IPage, IService } from '@/interfaces'
-import { Button, Input, Select, Spinner } from '../ui'
+import { IoIosArrowDown } from 'react-icons/io'
+import { Select, Spinner, Button2Red, Button2, Input, Button } from '../ui'
 
 interface Props {
     edit: any
+    pages: IPage[]
+    setPages: any
     design: IDesign
     index: number
-    pages: IPage[] | ICategoryPage[]
-    setPages: any
     ind: number
     inde?: number
     indx?: number
-    pageNeed: IPage[]
+    funnels?: IFunnel[]
+    setFunnels?: any
+    calls?: ICall[]
+    services?: IService[]
+    setServices?: any
     responsive: string
-    forms: IForm[] | undefined
+    pageNeed: IPage[]
 }
 
-export const Bloque3: React.FC<Props> = ({ edit, design, index, pages, setPages, ind, inde, indx, pageNeed, responsive, forms }) => {
-
-  const [gradient, setGradient] = useState('')
-  const [firstColor, setFirstColor] = useState('')
-  const [lastColor, setLastColor] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [loadingImage, setLoadingImage] = useState(false)
-  const [errorImage, setErrorImage] = useState('')
-
-  return (
-    <div className="w-full flex py-24 px-2" style={{ background: `${design.info.typeBackground === 'Degradado' ? design.info.background : design.info.typeBackground === 'Color' ? design.info.background : ''}` }}>
-      <div className={`text-center m-auto max-w-[1280px] w-full flex flex-col gap-3`}>
+export const Blocks: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed }) => {
+  
+    const [gradient, setGradient] = useState('')
+    const [firstColor, setFirstColor] = useState('')
+    const [lastColor, setLastColor] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [loadingImage, setLoadingImage] = useState(false)
+    const [errorImage, setErrorImage] = useState('')
+  
+    return (
+    <div className="w-full flex py-24 px-4" style={{ background: `${design.info.typeBackground === 'Degradado' ? design.info.background : design.info.typeBackground === 'Color' ? design.info.background : ''}` }}>
+      <div className={`w-full flex flex-col gap-4 max-w-[1280px] m-auto`}>
         {
-          edit !== 'Bloque 3'
+          edit === 'Bloques'
             ? (
-              <>
-                {
-                  index === 0
-                    ? (
-                      <h1
-                        className={`${responsive === '400px' ? 'text-3xl' : 'text-5xl'} transition-opacity duration-200 font-semibold`}
-                        style={{ color: design.info.textColor }}
-                        dangerouslySetInnerHTML={{ __html: design.info.title ? design.info.title  : '' }}
-                      />
-                    )
-                    : (
-                      <h2
-                        className={`${responsive === '400px' ? 'text-2xl' : 'text-4xl'} transition-opacity duration-200 font-semibold`}
-                        style={{ color: design.info.textColor }}
-                        dangerouslySetInnerHTML={{ __html: design.info.title ? design.info.title  : '' }}
-                      />
-                    )
-                }
-                <p
-                  className={`${responsive === '400px' ? 'text-base' : 'text-lg'} transition-opacity duration-200`}
-                  style={{ color: design.info.textColor }}
-                  dangerouslySetInnerHTML={{ __html: design.info.description ? design.info.description : '' }}
-                />
-                {
-                  design.info.button && design.info.button !== '' && design.info.buttonLink && design.info.buttonLink !== ''
-                    ? <Button config='m-auto'>{design.info.button}</Button>
-                    : ''
-                }
-                {
-                  design.info?.image && design.info.image !== ''
-                    ? <Image className='h-fit mx-auto' width={480} height={300} alt='Imagen slider prueba' src={design.info.image} />
-                    : ''
-                }
-              </>
-            )
-            : (
               <>
                 <div className='flex flex-col gap-2 w-fit m-auto p-6 bg-white rounded-xl border border-black/5 shadow-md'>
                   <div className='flex flex-col gap-2'>
@@ -211,75 +178,129 @@ export const Bloque3: React.FC<Props> = ({ edit, design, index, pages, setPages,
                   oldPages[ind].design[index].info.description = e.target.value
                   setPages(oldPages)
                 }} className={`${responsive === '400px' ? 'text-base' : 'text-lg'} text-center p-1.5 rounded border bg-transparent`} style={{ color: design.info.textColor }} />
-                <div className='flex gap-4 m-auto'>
-                  <div className='bg-main border border-main w-fit text-white py-1.5 px-6 rounded-xl shadow-md shadow-main/30'>
-                    <input type='text' placeholder='Boton' value={design.info.button} onChange={(e: any) => {
-                      const oldPages = [...pages]
-                      oldPages[ind].design[index].info.button = e.target.value
-                      setPages(oldPages)
-                    }} className='font-medium bg-main rounded border border-neutral-500' />
-                  </div>
-                  <select value={design.info.buttonLink} onChange={(e: any) => {
-                    const oldPages = [...pages]
-                    oldPages[ind].design[index].info.buttonLink = e.target.value
-                    setPages(oldPages)
-                  }} className='rounded border w-full'>
-                    <option>Acción boton</option>
-                    {
-                      pageNeed.map(page => (
-                        <option key={page.slug}>/{page.slug}</option>
-                      ))
-                    }
-                  </select>
-                </div>
                 {
-                  design.info?.image && design.info.image !== ''
-                    ? <Image className='h-fit mx-auto' width={480} height={300} alt='Imagen slider prueba' src={design.info.image} />
-                    : ''
-                }
-                {
-                  loading
+                  design.info.blocks?.length
                     ? (
-                      <div className='flex w-full'>
-                        <div className='w-fit m-auto'>
-                          <Spinner />
-                        </div>
+                      <div className='flex gap-6 justify-around flex-wrap'>
+                        {
+                            design.info.blocks?.map((block, i) => (
+                                <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border w-full max-w-96 border-black/5' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                                  <input onChange={(e: any) => {
+                                    const oldPages = [...pages]
+                                    oldPages[ind].design[index].info.blocks![i].title = e.target.value
+                                    setPages(oldPages)
+                                  }} value={block.title} className='text-lg font-medium p-1.5 border w-full text-center' />
+                                  <textarea onChange={(e: any) => {
+                                    const oldPages = [...pages]
+                                    oldPages[ind].design[index].info.blocks![i].description = e.target.value
+                                    setPages(oldPages)
+                                  }} value={block.description} placeholder='Pregunta' className='p-1.5 border text-center' />
+                                  <div className='bg-main border border-main m-auto w-fit text-white py-1.5 px-6 rounded-xl shadow-md shadow-main/30'>
+                                    <input type='text' placeholder='Boton' value={block.buttonText} onChange={(e: any) => {
+                                        const oldPages = [...pages]
+                                        oldPages[ind].design[index].info.blocks![i].buttonText = e.target.value
+                                        setPages(oldPages)
+                                    }} className='text-sm lg:text-[16px] bg-main rounded border border-neutral-500' />
+                                    </div>
+                                    <select value={block.buttonLink} onChange={(e: any) => {
+                                    const oldPages = [...pages]
+                                    oldPages[ind].design[index].info.blocks![i].buttonLink = e.target.value
+                                    setPages(oldPages)
+                                    }} className='rounded border p-1.5 m-auto'>
+                                    <option>Acción boton</option>
+                                    {
+                                        pageNeed.map(page => (
+                                        <option key={page.slug}>/{page.slug}</option>
+                                        ))
+                                    }
+                                    </select>
+                                  <Button2Red action={(e: any) => {
+                                    const oldPages = [...pages]
+                                    oldPages[ind].design[index].info.blocks?.splice(i, 1)
+                                    setPages(oldPages)
+                                  }}>Eliminar bloque</Button2Red>
+                                </div>
+                              ))
+                        }
+                      </div>
+                    )
+                    : <p>No hay bloques creados</p>
+                }
+                <Button2 color={'main'} action={(e: any) => {
+                  const oldPages = [...pages]
+                  console.log(oldPages)
+                  oldPages[ind].design[index].info.blocks?.push({ title: 'Lorem ipsum', description: 'Lorem ipsum', buttonText: 'Lorem ipsum', buttonLink: '' })
+                  console.log(oldPages)
+                  setPages(oldPages)
+                }}>Añadir bloque</Button2>
+              </>
+            )
+            : (
+              <>
+                {
+                  index === 0
+                  ? (
+                    <h1
+                      className={`${responsive === '400px' ? 'text-3xl' : 'text-5xl'} transition-opacity duration-200 font-semibold text-center`}
+                      style={{ color: design.info.textColor }}
+                      dangerouslySetInnerHTML={{ __html: design.info.title ? design.info.title  : '' }}
+                    />
+                  )
+                  : (
+                    <h2
+                      className={`${responsive === '400px' ? 'text-2xl' : 'text-4xl'} transition-opacity duration-200 font-semibold text-center`}
+                      style={{ color: design.info.textColor }}
+                      dangerouslySetInnerHTML={{ __html: design.info.title ? design.info.title  : '' }}
+                    />
+                  )
+                }
+                <p
+                  className={`${responsive === '400px' ? 'text-base' : 'text-lg'} transition-opacity duration-200 text-center`}
+                  style={{ color: design.info.textColor }}
+                  dangerouslySetInnerHTML={{ __html: design.info.description ? design.info.description : '' }}
+                />
+                {
+                  design.info.blocks?.length
+                    ? (
+                      <div className='flex gap-6 justify-around flex-wrap'>
+                        {
+                          design.info.blocks?.map((block, i) => (
+                            <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border border-black/5 w-full max-w-96 bg-white' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                              <div className='flex flex-col gap-4 m-auto'>
+                                {
+                                  index === 0
+                                    ? (
+                                      <h2
+                                        className={`${responsive === '400px' ? 'text-2xl' : 'text-4xl'} transition-opacity duration-200 font-semibold text-center`}
+                                        style={{ color: design.info.textColor }}
+                                        dangerouslySetInnerHTML={{ __html: block.title ? block.title  : '' }}
+                                      />
+                                    )
+                                    : (
+                                      <h3
+                                        className={`${responsive === '400px' ? 'text-xl' : 'text-2xl'} transition-opacity duration-200 font-semibold text-center`}
+                                        style={{ color: design.info.textColor }}
+                                        dangerouslySetInnerHTML={{ __html: block.title ? block.title  : '' }}
+                                      />
+                                    )
+                                }
+                                <p className='text-center'>{block.description}</p>
+                                {
+                                  block.buttonLink && block.buttonLink !== '' && block.buttonText && block.buttonText !== ''
+                                    ? <Button config='w-fit mx-auto'>{block.buttonText}</Button>
+                                    : ''
+                                }
+                              </div>
+                            </div>
+                          ))
+                        }
                       </div>
                     )
                     : ''
                 }
-                {
-                  error !== ''
-                    ? <p className='bg-red-500 text-white px-2 py-1'>{error}</p>
-                    : ''
-                }
-                <input type='file' className='m-auto text-sm w-fit file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/10 file:text-main hover:file:bg-main/20' style={{ color: design.info.textColor }} onChange={async (e: any) => {
-                  if (!loading) {
-                    setLoading(true)
-                    setError('')
-                    const formData = new FormData();
-                    formData.append('image', e.target.files[0]);
-                    formData.append('name', e.target.files[0].name);
-                    try {
-                      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/image`, formData, {
-                        headers: {
-                          accept: 'application/json',
-                          'Accept-Language': 'en-US,en;q=0.8'
-                        }
-                      })
-                      const oldPages = [...pages]
-                      oldPages[ind].design[index].info.image = data
-                      setPages(oldPages)
-                      setLoading(false)
-                    } catch (error) {
-                      setLoading(false)
-                      setError('Ha ocurrido un error al subir la imagen, intentalo nuevamente.')
-                    }
-                  }
-                }} />
               </>
             )
-        }
+          }
       </div>
     </div>
   )

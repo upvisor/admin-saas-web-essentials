@@ -413,7 +413,7 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                         e.preventDefault()
                         setError('')
                         setTitleForm('Nuevo formulario')
-                        setNewForm({ nameForm: '', informations: [{ icon: '', text: '', subText: '' }], labels: [{ text: '', name: '', data: '' }], button: '', action: 'Ir a una pagina', tags: [], title: '' })
+                        setNewForm({ nameForm: '', informations: [{ icon: '', text: '', subText: '' }], labels: [{ text: '', name: '', data: '', datas: [''], type: '' }], button: '', action: 'Ir a una pagina', tags: [], title: '' })
                         setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-0' })
                         setTimeout(() => {
                           setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-1' })

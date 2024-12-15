@@ -47,11 +47,40 @@ export const Navbar: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (session === null) {
-      router.push('/ingresar')
+      router.push('/ingresar');
     } else if (session !== undefined) {
-      setLoading(false)
+      const userPermissions = session.user.permissions || [];
+
+      const permissionsRequired: { [key: string]: string } = {
+        '/pagos': 'Pagos',
+        '/servicios': 'Servicios',
+        '/embudos': 'Embudos',
+        '/crm': 'CRM',
+        '/llamadas': 'Llamadas',
+        '/estadisticas': 'Estadisticas',
+        '/clientes': 'Clientes',
+        '/campanas': 'Campañas',
+        '/automatizaciones': 'Automatizaciones',
+        '/mensajes': 'Mensajes',
+        '/blog': 'Blog',
+        '/diseno': 'Diseño',
+        '/configuracion': 'Configuracion'
+      };
+
+      const isRestrictedPage = Object.keys(permissionsRequired).some(page => 
+        pathname.includes(page) && !userPermissions.includes(permissionsRequired[page])
+      );
+
+      if (
+        session.user.type !== 'Administrador' &&
+        isRestrictedPage
+      ) {
+        router.push('/');
+      } else {
+        setLoading(false);
+      }
     }
-  }, [session, router])
+  }, [session, pathname, router]);
 
   useEffect(() => {
     setMounted(true)

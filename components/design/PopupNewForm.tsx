@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Button2, ButtonSubmit2, Input, Select, Spinner2 } from '../ui'
 import { IClientData, IForm, IFunnel, ITag } from '@/interfaces'
+import { IoMdClose } from 'react-icons/io'
 
 interface Props {
   popupForm: { view: string, opacity: string, mouse: boolean }
@@ -11,7 +12,7 @@ interface Props {
   setNewForm: any
   getForms: any
   tags: ITag[]
-  funnels: IFunnel[]
+  funnels?: IFunnel[]
   getTags: any
   error: string
   setError: any
@@ -161,13 +162,55 @@ export const PopupNewForm: React.FC<Props> = ({ popupForm, setPopupForm, titleFo
                         : ''
                     }
                   </Select>
+                  <Select value={label.type} change={(e: any) => {
+                    const oldLabels = [...newForm.labels]
+                    oldLabels[i].type = e.target.value
+                    oldLabels[i].datas = ['']
+                    setNewForm({ ...newForm, labels: oldLabels })
+                  }}>
+                    <option value=''>Seleccionar tipo de respuesta</option>
+                    <option>Texto</option>
+                    <option>Selector</option>
+                  </Select>
+                  {
+                    label.type === 'Selector'
+                      ? (
+                        <>
+                          {
+                            label.datas?.map((data, index) => (
+                              <div className='flex gap-2'>
+                                <Input change={(e: any) => {
+                                  e.preventDefault()
+                                  const oldLabels = [...newForm.labels]
+                                  oldLabels![i].datas![index] =e.target.value
+                                  setNewForm({ ...newForm, labels: oldLabels })
+                                }} placeholder={`Respuesta ${i + 1}`} />
+                                <button onClick={(e: any) => {
+                                  e.preventDefault()
+                                  const oldLabels = [...newForm.labels]
+                                  oldLabels![i].datas?.splice(index, 1)
+                                  setNewForm({ ...newForm, labels: oldLabels })
+                                }}><IoMdClose className='text-2xl' /></button>
+                              </div>
+                            ))
+                          }
+                          <Button2 action={(e: any) => {
+                            e.preventDefault()
+                            const oldLabels = [...newForm.labels]
+                            oldLabels[i].datas?.push('')
+                            setNewForm({ ...newForm, labels: oldLabels })
+                          }} color={'main'}>Agregar </Button2>
+                        </>
+                      )
+                      : ''
+                  }
                 </>
               ))
             }
             <Button2 color='main' action={(e: any) => {
               e.preventDefault()
               const oldLabels = [...newForm.labels]
-              oldLabels.push({ data: '', name: '', text: '' })
+              oldLabels.push({ data: '', name: '', text: '', type: '' })
               setNewForm({ ...newForm, labels: oldLabels })
             }}>Agregar campo</Button2>
             <div className='flex flex-col gap-2'>
@@ -248,7 +291,7 @@ export const PopupNewForm: React.FC<Props> = ({ popupForm, setPopupForm, titleFo
                   <Select value={newForm.redirect} change={(e: any) => setNewForm({ ...newForm, redirect: e.target.value })}>
                     <option value=''>Seleccionar pagina</option>
                     {
-                      funnels.map(funnel => (
+                      funnels?.map(funnel => (
                         <>
                           {
                             funnel.steps.map(step => (

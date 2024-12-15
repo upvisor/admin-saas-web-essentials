@@ -5,6 +5,7 @@ export interface Design {
     productPage: IProductPage
     categoryPage: ICategoryPage[]
     popup: IPopupWeb
+    whatsapp: boolean
 }
 
 export interface IHeader {
@@ -20,6 +21,7 @@ export interface IPage {
     metaTitle?: string
     metaDescription?: string
     image?: string
+    subPage?: { page?: string, slug?: string }[]
     design: IDesign[]
 }
 
@@ -78,6 +80,8 @@ export interface IInfo {
     background?: string
     textColor?: string
     faq?: [{ question?: string, response?: string }]
+    blocks?: [{ title?: string, description?: string, buttonText?: string, buttonLink?: string }]
+    reviews?: [{ review?: string, stars?: string, name?: string }]
 }
 
 export interface IBanner {

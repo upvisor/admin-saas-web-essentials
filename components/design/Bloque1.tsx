@@ -15,16 +15,11 @@ interface Props {
     inde?: number
     indx?: number
     pageNeed: IPage[]
-    funnels?: IFunnel[]
-    setFunnels?: any
     responsive: string
-    calls: ICall[] | undefined
     forms: IForm[] | undefined
-    services?: IService[]
-    setServices?: any
 }
 
-export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, pageNeed, funnels, setFunnels, responsive, calls, forms, services, setServices }) => {
+export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, pageNeed, responsive, forms }) => {
 
   const [gradient, setGradient] = useState('')
   const [firstColor, setFirstColor] = useState('')
@@ -86,19 +81,9 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                     <div className='flex flex-col gap-2'>
                       <p className='m-auto font-medium'>Tipo fondo</p>
                       <Select change={(e: any) => {
-                        if (inde !== undefined) {
-                          const oldFunnels = [...funnels!]
-                          oldFunnels[inde].steps[ind].design![index].info.typeBackground = e.target.value
-                          setFunnels(oldFunnels)
-                        } else if (indx !== undefined) {
-                          const oldServices = [...services!]
-                          oldServices[indx].steps[ind].design![index].info.typeBackground = e.target.value
-                          setServices(oldServices)
-                        } else {
-                          const oldPages = [...pages]
-                          oldPages[ind].design[index].info.typeBackground = e.target.value
-                          setPages(oldPages)
-                        }
+                        const oldPages = [...pages]
+                        oldPages[ind].design[index].info.typeBackground = e.target.value
+                        setPages(oldPages)
                       }} value={design.info.typeBackground} config='w-fit m-auto'>
                         <option>Sin fondo</option>
                         <option>Imagen</option>
@@ -140,19 +125,9 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                                       'Accept-Language': 'en-US,en;q=0.8'
                                     }
                                   })
-                                  if (inde !== undefined) {
-                                    const oldFunnels = [...funnels!]
-                                    oldFunnels[inde].steps[ind].design![index].info.background = data
-                                    setFunnels(oldFunnels)
-                                  } else if (indx !== undefined) {
-                                    const oldServices = [...services!]
-                                    oldServices[indx].steps[ind].design![index].info.background = data
-                                    setServices(oldServices)
-                                  } else {
-                                    const oldPages = [...pages]
-                                    oldPages[ind].design[index].info.background = data
-                                    setPages(oldPages)
-                                  }
+                                  const oldPages = [...pages]
+                                  oldPages[ind].design[index].info.background = data
+                                  setPages(oldPages)
                                   setLoadingImage(false)
                                 } catch (error) {
                                   setLoadingImage(false)
@@ -167,19 +142,9 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                     {
                       design.info.typeBackground === 'Color'
                         ? <input type='color' onChange={(e: any) => {
-                            if (inde !== undefined) {
-                              const oldFunnels = [...funnels!]
-                              oldFunnels[inde].steps[ind].design![index].info.background = e.target.value
-                              setFunnels(oldFunnels)
-                            } else if (indx !== undefined) {
-                              const oldServices = [...services!]
-                              oldServices[indx].steps[ind].design![index].info.background = e.target.value
-                              setServices(oldServices)
-                            } else {
-                              const oldPages = [...pages]
-                              oldPages[ind].design[index].info.background = e.target.value
-                              setPages(oldPages)
-                            }
+                            const oldPages = [...pages]
+                            oldPages[ind].design[index].info.background = e.target.value
+                            setPages(oldPages)
                           }} className='m-auto' value={design.info.background} />
                         : ''
                     }
@@ -190,21 +155,10 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                             <div className='flex flex-col gap-2'>
                               <p>Tipo de degradado</p>
                               <Select change={(e: any) => {
-                                if (inde !== undefined) {
-                                  const oldFunnels = [...funnels!]
-                                  setGradient(e.target.value)
-                                  oldFunnels[inde].steps[ind].design![index].info.background = `${e.target.value === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${e.target.value === 'circle' ? e.target.value : `${e.target.value}deg`}, ${firstColor}, ${lastColor})` 
-                                  setFunnels(oldFunnels)
-                                } else if (indx !== undefined) {
-                                  const oldServices = [...services!]
-                                  oldServices[indx].steps[ind].design![index].info.background = `${e.target.value === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${e.target.value === 'circle' ? e.target.value : `${e.target.value}deg`}, ${firstColor}, ${lastColor})` 
-                                  setServices(oldServices)
-                                } else {
-                                  const oldPages = [...pages]
-                                  setGradient(e.target.value)
-                                  oldPages[ind].design[index].info.background = `${e.target.value === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${e.target.value === 'circle' ? e.target.value : `${e.target.value}deg`}, ${firstColor}, ${lastColor})` 
-                                  setPages(oldPages)
-                                }
+                                const oldPages = [...pages]
+                                setGradient(e.target.value)
+                                oldPages[ind].design[index].info.background = `${e.target.value === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${e.target.value === 'circle' ? e.target.value : `${e.target.value}deg`}, ${firstColor}, ${lastColor})` 
+                                setPages(oldPages)
                               }}>
                                 <option>Seleccionar tipo</option>
                                 <option value='135'>Lineal</option>
@@ -214,65 +168,29 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                             {
                               design.info.background?.includes('linear-gradient')
                                 ? <Input placeholder='Grados' change={(e: any) => {
-                                  if (inde !== undefined) {
-                                    const oldFunnels = [...funnels!]
-                                    setGradient(e.target.value)
-                                    oldFunnels[inde].steps[ind].design![index].info.background =  `linear-gradient(${e.target.value}deg, ${firstColor}, ${lastColor})` 
-                                    setFunnels(oldFunnels)
-                                  } else if (indx !== undefined) {
-                                    const oldServices = [...services!]
-                                    setGradient(e.target.value)
-                                    oldServices[indx].steps[ind].design![index].info.background = `linear-gradient(${e.target.value}deg, ${firstColor}, ${lastColor})` 
-                                    setServices(oldServices)
-                                  } else {
-                                    const oldPages = [...pages]
-                                    setGradient(e.target.value)
-                                    oldPages[ind].design[index].info.background = `linear-gradient(${e.target.value}deg, ${firstColor}, ${lastColor})` 
-                                    setPages(oldPages)
-                                  }
+                                  const oldPages = [...pages]
+                                  setGradient(e.target.value)
+                                  oldPages[ind].design[index].info.background = `linear-gradient(${e.target.value}deg, ${firstColor}, ${lastColor})` 
+                                  setPages(oldPages)
                                 }} value={gradient} config='w-fit' />
                                 : ''
                             }
                             <div className='flex flex-col gap-2'>
                               <p>Primer color</p>
                               <input type='color' onChange={(e: any) => {
-                                if (inde !== undefined) {
-                                  const oldFunnels = [...funnels!]
-                                  setFirstColor(e.target.value)
-                                  oldFunnels[inde].steps[ind].design![index].info.background = `${gradient === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${gradient}deg, ${e.target.value}, ${lastColor})` 
-                                  setFunnels(oldFunnels)
-                                } else if (indx !== undefined) {
-                                  const oldServices = [...services!]
-                                  setFirstColor(e.target.value)
-                                  oldServices[indx].steps[ind].design![index].info.background = `${gradient === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${gradient}deg, ${e.target.value}, ${lastColor})` 
-                                  setServices(oldServices)
-                                } else {
-                                  const oldPages = [...pages]
-                                  setFirstColor(e.target.value)
-                                  oldPages[ind].design[index].info.background = `${gradient === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${gradient}deg, ${e.target.value}, ${lastColor})` 
-                                  setPages(oldPages)
-                                }
+                                const oldPages = [...pages]
+                                setFirstColor(e.target.value)
+                                oldPages[ind].design[index].info.background = `${gradient === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${gradient}deg, ${e.target.value}, ${lastColor})` 
+                                setPages(oldPages)
                               }} className='m-auto' value={firstColor} />
                             </div>
                             <div className='flex flex-col gap-2'>
                               <p>Segundo color</p>
                               <input type='color' onChange={(e: any) => {
-                                if (inde !== undefined) {
-                                  const oldFunnels = [...funnels!]
-                                  setLastColor(e.target.value)
-                                  oldFunnels[inde].steps[ind].design![index].info.background = `${gradient === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${gradient}deg, ${firstColor}, ${e.target.value})` 
-                                  setFunnels(oldFunnels)
-                                } else if (indx !== undefined) {
-                                  const oldServices = [...services!]
-                                  setLastColor(e.target.value)
-                                  oldServices[indx].steps[ind].design![index].info.background = `${gradient === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${gradient}deg, ${firstColor}, ${e.target.value})` 
-                                  setServices(oldServices)
-                                } else {
-                                  const oldPages = [...pages]
-                                  setLastColor(e.target.value)
-                                  oldPages[ind].design[index].info.background = `${gradient === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${gradient}deg, ${firstColor}, ${e.target.value})` 
-                                  setPages(oldPages)
-                                }
+                                const oldPages = [...pages]
+                                setLastColor(e.target.value)
+                                oldPages[ind].design[index].info.background = `${gradient === 'circle' ? 'radial-gradient' : 'linear-gradient'}(${gradient}deg, ${firstColor}, ${e.target.value})` 
+                                setPages(oldPages)
                               }} className='m-auto' value={lastColor} />
                             </div>
                           </div>
@@ -282,106 +200,42 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                     <div className='flex flex-col gap-2'>
                       <p className='font-medium m-auto'>Color texto</p>
                       <input type='color' onChange={(e: any) => {
-                        if (inde !== undefined) {
-                          const oldFunnels = [...funnels!]
-                          oldFunnels[inde].steps[ind].design![index].info.textColor = e.target.value
-                          setFunnels(oldFunnels)
-                        } else if (indx !== undefined) {
-                          const oldServices = [...services!]
-                          oldServices[indx].steps[ind].design![index].info.textColor = e.target.value
-                          setServices(oldServices)
-                        } else {
-                          const oldPages = [...pages]
-                          oldPages[ind].design[index].info.textColor = e.target.value
-                          setPages(oldPages)
-                        }
+                        const oldPages = [...pages]
+                        oldPages[ind].design[index].info.textColor = e.target.value
+                        setPages(oldPages)
                       }} value={design.info.textColor} className='m-auto' />
                     </div>
                   </div>
                 </div>
                 <div className="w-1/2 m-auto flex flex-col gap-4">
                   <textarea placeholder='Titulo' value={design.info.title} onChange={(e: any) => {
-                    if (inde !== undefined) {
-                      const oldFunnels = [...funnels!]
-                      oldFunnels[inde].steps[ind].design![index].info.title = e.target.value
-                      setFunnels(oldFunnels)
-                    } else if (indx !== undefined) {
-                      const oldServices = [...services!]
-                      oldServices[indx].steps[ind].design![index].info.title = e.target.value
-                      setServices(oldServices)
-                    } else {
-                      const oldPages = [...pages]
-                      oldPages[ind].design[index].info.title = e.target.value
-                      setPages(oldPages)
-                    }
+                    const oldPages = [...pages]
+                    oldPages[ind].design[index].info.title = e.target.value
+                    setPages(oldPages)
                   }} className={`${responsive === '400px' ? 'text-3xl' : 'text-5xl'} font-semibold p-1.5 rounded border bg-transparent`} style={{ color: design.info.textColor }} />
                   <textarea placeholder='Descripción' value={design.info.description} onChange={(e: any) => {
-                    if (inde !== undefined) {
-                      const oldFunnels = [...funnels!]
-                      oldFunnels[inde].steps[ind].design![index].info.description = e.target.value
-                      setFunnels(oldFunnels)
-                    } else if (indx !== undefined) {
-                      const oldServices = [...services!]
-                      oldServices[indx].steps[ind].design![index].info.description = e.target.value
-                      setServices(oldServices)
-                    } else {
-                      const oldPages = [...pages]
-                      oldPages[ind].design[index].info.description = e.target.value
-                      setPages(oldPages)
-                    }
+                    const oldPages = [...pages]
+                    oldPages[ind].design[index].info.description = e.target.value
+                    setPages(oldPages)
                   }} className={`${responsive === '400px' ? 'text-base' : 'text-lg'} p-1.5 rounded border bg-transparent`} style={{ color: design.info.textColor }} />
                   <div className='flex gap-4'>
                     <div className='bg-main border border-main w-fit text-white py-1.5 px-6 rounded-xl shadow-md shadow-main/30'>
                       <input type='text' placeholder='Boton' value={design.info.button} onChange={(e: any) => {
-                        if (inde !== undefined) {
-                          const oldFunnels = [...funnels!]
-                          oldFunnels[inde].steps[ind].design![index].info.button = e.target.value
-                          setFunnels(oldFunnels)
-                        } else if (indx !== undefined) {
-                          const oldServices = [...services!]
-                          oldServices[indx].steps[ind].design![index].info.button = e.target.value
-                          setServices(oldServices)
-                        } else {
-                          const oldPages = [...pages]
-                          oldPages[ind].design[index].info.button = e.target.value
-                          setPages(oldPages)
-                        }
+                        const oldPages = [...pages]
+                        oldPages[ind].design[index].info.button = e.target.value
+                        setPages(oldPages)
                       }} className='text-sm lg:text-[16px] bg-main rounded border border-neutral-500' />
                     </div>
                     <select value={design.info.buttonLink} onChange={(e: any) => {
-                      if (inde !== undefined) {
-                        const oldFunnels = [...funnels!]
-                        oldFunnels[inde].steps[ind].design![index].info.buttonLink = e.target.value
-                        setFunnels(oldFunnels)
-                      } else if (indx !== undefined) {
-                        const oldServices = [...services!]
-                        oldServices[indx].steps[ind].design![index].info.buttonLink = e.target.value
-                        setServices(oldServices)
-                      } else {
-                        const oldPages = [...pages]
-                        oldPages[ind].design[index].info.buttonLink = e.target.value
-                        setPages(oldPages)
-                      }
+                      const oldPages = [...pages]
+                      oldPages[ind].design[index].info.buttonLink = e.target.value
+                      setPages(oldPages)
                     }} className='rounded border'>
                       <option>Acción boton</option>
                       {
                         pageNeed.map(page => (
                           <option key={page.slug}>/{page.slug}</option>
                         ))
-                      }
-                      {
-                        funnels?.map(funnel => {
-                          return funnel.steps.map(step => (
-                            <option key={step._id} value={step.slug}>{funnel.funnel} - {step.step}</option>
-                          ))
-                        })
-                      }
-                      <option>Abrir popup</option>
-                      {
-                        forms?.map(form => <option key={form._id} value={form._id}>Abrir formulario {form.nameForm} como popup</option>)
-                      }
-                      {
-                        calls?.map(call => <option key={call._id} value={call._id}>Abrir llamada {call.nameMeeting} como popup</option>)
                       }
                     </select>
                   </div>
@@ -422,19 +276,9 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                             'Accept-Language': 'en-US,en;q=0.8'
                           }
                         })
-                        if (inde !== undefined) {
-                          const oldFunnels = [...funnels!]
-                          oldFunnels[inde].steps[ind].design![index].info.image = data
-                          setFunnels(oldFunnels)
-                        } else if (indx !== undefined) {
-                          const oldServices = [...services!]
-                          oldServices[indx].steps[ind].design![index].info.image = data
-                          setServices(oldServices)
-                        } else {
-                          const oldPages = [...pages]
-                          oldPages[ind].design[index].info.image = data
-                          setPages(oldPages)
-                        }
+                        const oldPages = [...pages]
+                        oldPages[ind].design[index].info.image = data
+                        setPages(oldPages)
                         setLoading(false)
                       } catch (error) {
                         setLoading(false)

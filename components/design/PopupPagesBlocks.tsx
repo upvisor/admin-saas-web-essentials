@@ -41,22 +41,6 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
                 }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Carrusel', info: { banner: [{ title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: 'https://images-upvisor.b-cdn.net/Imagen%20prueba.jpg' }] } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Carrusel', info: { banner: [{ title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: 'https://images-upvisor.b-cdn.net/Imagen%20prueba.jpg' }] } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
               }
             }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
               <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Slider.png' />
@@ -67,22 +51,6 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 const oldPages = [...pages]
                 oldPages[indexPage].design.push({ content: 'Bloque 1', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: '' } })
                 setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Bloque 1', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: '' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Bloque 1', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: '' } })
-                setServices(oldServices)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
@@ -101,22 +69,6 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
                 }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Bloque 2', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: '' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Bloque 2', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: '' } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
               }
             }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
               <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Bloque%202.png' />
@@ -127,22 +79,6 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 const oldPages = [...pages]
                 oldPages[indexPage].design.push({ content: 'Bloque 3', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: '' } })
                 setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Bloque 3', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: '' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Bloque 3', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', image: '' } })
-                setServices(oldServices)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
@@ -161,22 +97,6 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
                 }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Bloque 4', info: { title: 'Lorem ipsum', subTitle: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', subTitle2: 'Lorem ipsum', description2: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button2: 'Lorem ipsum', buttonLink2: '', subTitle3: 'Lorem ipsum', description3: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button3: 'Lorem ipsum', buttonLink3: '', image: '' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Bloque 4', info: { title: 'Lorem ipsum', subTitle: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', subTitle2: 'Lorem ipsum', description2: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button2: 'Lorem ipsum', buttonLink2: '', subTitle3: 'Lorem ipsum', description3: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button3: 'Lorem ipsum', buttonLink3: '', image: '' } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
               }
             }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
               <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Bloque%204.png' />
@@ -187,22 +107,6 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 const oldPages = [...pages]
                 oldPages[indexPage].design.push({ content: 'Bloque 5', info: { title: 'Lorem ipsum', subTitle: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', subTitle2: 'Lorem ipsum', description2: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button2: 'Lorem ipsum', buttonLink2: '', image: '' } })
                 setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Bloque 5', info: { title: 'Lorem ipsum', subTitle: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', subTitle2: 'Lorem ipsum', description2: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button2: 'Lorem ipsum', buttonLink2: '', image: '' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Bloque 5', info: { title: 'Lorem ipsum', subTitle: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button: 'Lorem ipsum', buttonLink: '', subTitle2: 'Lorem ipsum', description2: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', button2: 'Lorem ipsum', buttonLink2: '', image: '' } })
-                setServices(oldServices)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
@@ -221,22 +125,6 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
                 }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Contacto', info: { title: 'Contacto', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur tempora ipsam nesciunt impedit explicabo, alias similique illum neque voluptas nemo eos distinctio vero. Veritatis iste et porro inventore tempore commodi?', titleForm: 'Llena el siguiente formulario' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Contacto', info: { title: 'Contacto', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur tempora ipsam nesciunt impedit explicabo, alias similique illum neque voluptas nemo eos distinctio vero. Veritatis iste et porro inventore tempore commodi?', titleForm: 'Llena el siguiente formulario' } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
               }
             }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
               <Image className="border dark:border-neutral-600" width={397} height={190} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Contacto.png' />
@@ -247,22 +135,6 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 const oldPages = [...pages]
                 oldPages[indexPage].design.push({ content: 'Suscripción', info: { title: 'Suscribete a nuestra lista' } })
                 setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Suscripción', info: { title: 'Suscribete a nuestra lista' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Suscripción', info: { title: 'Suscribete a nuestra lista' } })
-                setServices(oldServices)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
@@ -281,22 +153,6 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
                 }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Lead 1', form: '', info: { description2: 'Lorem ipsum', title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', subTitle: 'Lorem ipsum', subTitle2: 'Lorem ipsum', subTitle3: 'Lorem ipsum' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Lead 1', form: '', info: { description2: 'Lorem ipsum', title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', subTitle: 'Lorem ipsum', subTitle2: 'Lorem ipsum', subTitle3: 'Lorem ipsum' } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
               }
             }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
               <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Lead%201.png' />
@@ -305,174 +161,8 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
             <div onClick={() => {
               if (indexPage !== -1) {
                 const oldPages = [...pages]
-                oldPages[indexPage].design.push({ content: 'Video', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum', video: '' } })
-                setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Video', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum', video: '' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Video', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum', video: '' } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              }
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
-              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Video.png' />
-              <p className="m-auto">Video</p>
-            </div>
-            <div onClick={() => {
-              if (indexPage !== -1) {
-                const oldPages = [...pages]
-                oldPages[indexPage].design.push({ content: 'Agendar llamada', meeting: '', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum' } })
-                setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Agendar llamada', meeting: '', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Agendar llamada', meeting: '', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum' } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              }
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
-              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Agendar%20llamada.png' />
-              <p className="m-auto">Agendar llamada</p>
-            </div>
-            <div onClick={() => {
-              if (indexPage !== -1) {
-                const oldPages = [...pages]
-                oldPages[indexPage].design.push({ content: 'Bloque 7', meeting: '', info: { description: 'Lorem ipsum' } })
-                setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Bloque 7', meeting: '', info: { description: 'Lorem ipsum' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Bloque 7', meeting: '', info: { description: 'Lorem ipsum' } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              }
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
-              <Image className="border m-auto dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Bloque%207.png' />
-              <p className="mx-auto">Bloque 7</p>
-            </div>
-            <div onClick={() => {
-              if (indexPage !== -1) {
-                const oldPages = [...pages]
-                oldPages[indexPage].design.push({ content: 'Checkout', info: {  } })
-                setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Checkout', info: {  } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Checkout', info: {  } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              }
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
-              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Checkout.png' />
-              <p className="m-auto">Checkout</p>
-            </div>
-            <div onClick={() => {
-              if (indexPage !== -1) {
-                const oldPages = [...pages]
-                oldPages[indexPage].design.push({ content: 'Llamadas', meetings: [], info: {  } })
-                setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Llamadas', meetings: [], info: {  } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Llamadas', meetings: [], info: {  } })
-                setServices(oldServices)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              }
-            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
-              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Calls.png' />
-              <p className="m-auto">Llamadas</p>
-            </div>
-            <div onClick={() => {
-              if (indexPage !== -1) {
-                const oldPages = [...pages]
                 oldPages[indexPage].design.push({ content: 'Lead 2', form: '', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', subTitle: 'Lorem ipsum', subTitle2: 'Lorem ipsum', subTitle3: 'Lorem ipsum' } })
                 setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Lead 2', form: '', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', subTitle: 'Lorem ipsum', subTitle2: 'Lorem ipsum', subTitle3: 'Lorem ipsum' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Lead 2', form: '', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', subTitle: 'Lorem ipsum', subTitle2: 'Lorem ipsum', subTitle3: 'Lorem ipsum' } })
-                setServices(oldServices)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
@@ -485,62 +175,30 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
             <div onClick={() => {
               if (indexPage !== -1) {
                 const oldPages = [...pages]
-                oldPages[indexPage].design.push({ content: 'Servicios', services: [], info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
+                oldPages[indexPage].design.push({ content: 'Video', info: { title: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', description: 'Lorem ipsum', video: '' } })
                 setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Servicios', services: [], info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Servicios', services: [], info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
-                setServices(oldServices)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
                 }, 200)
               }
             }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
-              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Servicios.png' />
-              <p className="m-auto">Servicios</p>
+              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Video.png' />
+              <p className="m-auto">Video</p>
             </div>
             <div onClick={() => {
               if (indexPage !== -1) {
                 const oldPages = [...pages]
-                oldPages[indexPage].design.push({ content: 'Planes', service: { service: '' }, info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
+                oldPages[indexPage].design.push({ content: 'Bloque 7', meeting: '', info: { description: 'Lorem ipsum' } })
                 setPages(oldPages)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Planes', service: { service: '' }, info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Planes', service: { service: '' }, info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
-                setServices(oldServices)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
                 }, 200)
               }
             }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
-              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Planes.png' />
-              <p className="m-auto">Planes</p>
+              <Image className="border m-auto dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Bloque%207.png' />
+              <p className="mx-auto">Bloque 7</p>
             </div>
             <div onClick={() => {
               if (indexPage !== -1) {
@@ -551,26 +209,52 @@ export const PopupPagesBlocks: React.FC<Props> = ({ popup, setPopup, pages, inde
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
                 }, 200)
-              } else if (indexFunnel !== -1 && indexStep !== -1) {
-                const oldFunnels = [...funnels!]
-                oldFunnels[indexFunnel].steps[indexStep].design?.push({ content: 'Preguntas frecuentes', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', faq: [{ question: 'Lorem ipsum', response: 'Lorem ipsum' }] } })
-                setFunnels(oldFunnels)
-                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
-                }, 200)
-              } else if (indexService !== -1 && indexStepService !== -1) {
-                const oldServices = [...services!]
-                oldServices[indexService].steps[indexStepService].design?.push({ content: 'Preguntas frecuentes', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', faq: [{ question: 'Lorem ipsum', response: 'Lorem ipsum' }] } })
-                setServices(oldServices)
+              }
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Preguntas%20frecuentes.png' />
+              <p className="m-auto">Preguntas frecuentes</p>
+            </div>
+            <div onClick={() => {
+              if (indexPage !== -1) {
+                const oldPages = [...pages]
+                oldPages[indexPage].design.push({ content: 'Bloques', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', blocks: [{ title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', buttonText: 'Lorem ipsum', buttonLink: '' }] } })
+                setPages(oldPages)
                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
                 setTimeout(() => {
                   setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
                 }, 200)
               }
             }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
-              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Preguntas%20frecuentes.png' />
-              <p className="m-auto">Preguntas frecuentes</p>
+              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Bloques.png' />
+              <p className="m-auto">Bloques</p>
+            </div>
+            <div onClick={() => {
+              if (indexPage !== -1) {
+                const oldPages = [...pages]
+                oldPages[indexPage].design.push({ content: 'Reseñas', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', reviews: [{ title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.', stars: '5', name: 'Lorem ipsum' }] } })
+                setPages(oldPages)
+                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                setTimeout(() => {
+                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+                }, 200)
+              }
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Rese%C3%B1as.png' />
+              <p className="m-auto">Reseñas</p>
+            </div>
+            <div onClick={() => {
+              if (indexPage !== -1) {
+                const oldPages = [...pages]
+                oldPages[indexPage].design.push({ content: 'Formulario', form: '', info: { title: 'Lorem ipsum', description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.' } })
+                setPages(oldPages)
+                setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                setTimeout(() => {
+                  setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+                }, 200)
+              }
+            }} className={`w-[355px] border p-2 rounded flex flex-col gap-2 cursor-pointer transition-all duration-150 hover:border-main hover:shadow-md hover:shadow-main/30 dark:border-neutral-600 dark:hover:border-main`}>
+              <Image className="border dark:border-neutral-600" width={450} height={216} draggable='false' alt="Imagen Slider" src='https://img-saas-upvisor.b-cdn.net/Rese%C3%B1as.png' />
+              <p className="m-auto">Formulario</p>
             </div>
           </div>
         </div>

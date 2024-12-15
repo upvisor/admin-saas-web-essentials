@@ -236,7 +236,7 @@ export default function Page () {
                 <div className='flex gap-4'>
                   <div className='flex flex-col gap-2 w-1/2'>
                     <p className='text-sm'>Región</p>
-                    <Select change={regionChange}>
+                    <Select change={regionChange} value={storeData.region}>
                       <option>Seleccionar Región</option>
                       {
                         regions !== undefined
@@ -247,7 +247,7 @@ export default function Page () {
                   </div>
                   <div className='flex flex-col gap-2 w-1/2'>
                     <p className='text-sm'>Ciudad</p>
-                    <Select change={cityChange}>
+                    <Select change={cityChange} value={storeData.city}>
                       <option>Seleccionar Ciudad</option>
                       {citys?.map((city: any) => <option key={city.countyCode}>{city.countyName}</option>)}
                     </Select>
