@@ -11,6 +11,7 @@ export default function Page () {
 
   const [storeData, setStoreData] = useState<IStoreData>({
     name: '',
+    nameContact: '',
     email: '',
     phone: '',
     address: '',
@@ -187,6 +188,10 @@ export default function Page () {
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Nombre del negocio</p>
                   <Input name='name' value={storeData.name} change={inputChange} placeholder='Nombre de la tienda' />
+                </div>
+                <div className='flex flex-col gap-2'>
+                  <p className='text-sm'>Nombre de contacto</p>
+                  <Input name='nameContact' value={storeData.nameContact} change={inputChange} placeholder='Nombre de contacto' />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Correo del negocio</p>
