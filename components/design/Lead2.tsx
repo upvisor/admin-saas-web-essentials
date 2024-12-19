@@ -5,6 +5,7 @@ import { FaCheck } from 'react-icons/fa'
 import { Button, Button2, Button2Secondary, Input, Select, Spinner } from '../ui'
 import axios from 'axios'
 import Image from 'next/image'
+import { ButtonDesign } from '.'
 
 interface Props {
     edit: any
@@ -31,9 +32,10 @@ interface Props {
     services?: IService[]
     setServices?: any
     storeData?: IStoreData
+    style?: any
   }
 
-export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, forms, popupForm, setPopupForm, setTitleForm, selectFunnel, setSelectFunnel, selectStep, setNewForm, responsive, error, setError, services, setServices, storeData }) => {
+export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, forms, popupForm, setPopupForm, setTitleForm, selectFunnel, setSelectFunnel, selectStep, setNewForm, responsive, error, setError, services, setServices, storeData, style }) => {
   
   const [gradient, setGradient] = useState('')
   const [firstColor, setFirstColor] = useState('')
@@ -324,7 +326,7 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                 }
               }} className={`${responsive === '400px' ? 'text-2xl' : 'text-4xl'} font-medium p-1 border text-center bg-transparent`} style={{ color: design.info.textColor }} />
               <div className='flex gap-3 m-auto'>
-                <FaCheck className='my-auto text-main text-lg' />
+                <FaCheck className='my-auto text-lg' style={{ color: style.primary }} />
                 <input value={design.info.subTitle} onChange={(e: any) => {
                   if (inde !== undefined) {
                     const oldFunnels = [...funnels!]
@@ -342,7 +344,7 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                 }} className={`${responsive === '400px' ? 'text-lg' : 'text-xl'} w-96 text-center p-1 border bg-transparent`} style={{ color: design.info.textColor }} />
                 </div>
                 <div className='flex gap-3 m-auto'>
-                <FaCheck className='my-auto text-main text-lg' />
+                <FaCheck className='my-auto text-lg' style={{ color: style.primary }} />
                 <input value={design.info.subTitle2} onChange={(e: any) => {
                   if (inde !== undefined) {
                     const oldFunnels = [...funnels!]
@@ -360,7 +362,7 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                 }} className={`${responsive === '400px' ? 'text-lg' : 'text-xl'} w-96 text-center p-1 border bg-transparent`} style={{ color: design.info.textColor }} />
                 </div>
                 <div className='flex gap-3 m-auto'>
-                <FaCheck className='my-auto text-main text-lg' />
+                <FaCheck className='my-auto text-lg' style={{ color: style.primary }} />
                 <input value={design.info.subTitle3} onChange={(e: any) => {
                   if (inde !== undefined) {
                     const oldFunnels = [...funnels!]
@@ -378,7 +380,7 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                 }} className={`${responsive === '400px' ? 'text-lg' : 'text-xl'} w-96 text-center p-1 border bg-transparent`} style={{ color: design.info.textColor }} />
                 </div>
                 <div className='flex'>
-                <div className="flex flex-col gap-4 border border-black/5 rounded-xl h-fit m-auto w-full p-6 max-w-[500px] bg-white" style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                <div className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 h-fit m-auto w-full p-6 max-w-[500px] bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                   <p className='font-medium text-lg'>Selecciona un formulario</p>
                     {
                       forms?.length
@@ -438,6 +440,7 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                     design.form && design.form !== ''
                       ? (
                         <>
+                          <p className="text-xl font-medium text-center" style={{ color: style.primary }}>{forms?.find(form => form._id === design.form)?.title}</p>
                           {
                             forms?.find(form => form._id === design.form)?.informations.map(information => (
                               <div key={information.text} className="flex gap-2">
@@ -460,11 +463,27 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                             forms?.find(form => form._id === design.form)?.labels.map(label => (
                               <div key={label.data} className="flex flex-col gap-2">
                                 <p>{label.text !== '' ? label.text : label.name}</p>
-                                <Input placeholder={label.name} change={undefined} value={undefined} />
+                                {
+                                  label.type === 'Texto'
+                                    ? <input placeholder={label.name} className='border py-2 px-3 text-sm' style={{ borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }} />
+                                    : ''
+                                }
+                                {
+                                  label.type === 'Selector'
+                                    ? (
+                                      <select className='border p-2 text-sm' style={{ borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>
+                                        <option>Seleccionar opción</option>
+                                        {
+                                          label.datas?.map(data => <option key={data}>{data}</option>)
+                                        }
+                                      </select>
+                                    )
+                                    : ''
+                                }
                               </div>
                             ))
                           }
-                          <Button type='submit' config='w-full'>{forms?.find(form => form._id === design.form)?.button}</Button>
+                          <ButtonDesign style={style} text={forms?.find(form => form._id === design.form)?.button} config='w-full' />
                         </>
                       )
                       : ''
@@ -493,15 +512,15 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                 dangerouslySetInnerHTML={{ __html: design.info.description ? design.info.description  : '' }}
               />
               <div className='flex gap-3 m-auto'>
-                <FaCheck className='my-auto text-main text-lg min-w-7' />
+                <FaCheck className='my-auto text-lg min-w-7' style={{ color: style.primary }} />
                 <p className={`${responsive === '400px' ? 'text-lg' : 'text-xl'}`} style={{ color: design.info.textColor }}>{design.info.subTitle}</p>
               </div>
               <div className='flex gap-3 m-auto'>
-                <FaCheck className='my-auto text-main text-lg min-w-7' />
+                <FaCheck className='my-auto text-lg min-w-7' style={{ color: style.primary }} />
                 <p className={`${responsive === '400px' ? 'text-lg' : 'text-xl'}`} style={{ color: design.info.textColor }}>{design.info.subTitle2}</p>
               </div>
               <div className='flex gap-3 m-auto'>
-                <FaCheck className='my-auto text-main text-lg min-w-7' />
+                <FaCheck className='my-auto text-lg min-w-7' style={{ color: style.primary }} />
                 <p className={`${responsive === '400px' ? 'text-lg' : 'text-xl'}`} style={{ color: design.info.textColor }}>{design.info.subTitle3}</p>
               </div>
               <div className={`${responsive === '400px' ? 'w-full' : 'w-full'} flex`}>
@@ -509,7 +528,7 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                   design.form && design.form !== ''
                     ? ''
                     : (
-                      <div className="flex flex-col gap-4 border border-black/5 rounded-xl h-fit m-auto w-full p-6 max-w-[500px]" style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                      <div className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 h-fit m-auto w-full p-6 max-w-[500px]`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                         <p>Selecciona un formulario</p>
                       </div>
                     )
@@ -518,8 +537,8 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                   design.form && design.form !== ''
                     ? (
                       <form className="flex w-full">
-                        <div className="flex flex-col gap-4 border border-black/5 rounded-xl h-fit m-auto w-full p-6 max-w-[500px] bg-white" style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
-                          <p className="text-main text-xl font-medium text-center">{forms?.find(form => form._id === design.form)?.title}</p>
+                        <div className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 h-fit m-auto w-full p-6 max-w-[500px] bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
+                        <p className="text-xl font-medium text-center" style={{ color: style.primary }}>{forms?.find(form => form._id === design.form)?.title}</p>
                           {
                             forms?.find(form => form._id === design.form)?.informations.map(information => (
                               <div key={information.text} className="flex gap-2">
@@ -542,11 +561,27 @@ export const Lead2: React.FC<Props> = ({ edit, pages, setPages, design, index, i
                             forms?.find(form => form._id === design.form)?.labels.map(label => (
                               <div key={label.data} className="flex flex-col gap-2">
                                 <p>{label.text !== '' ? label.text : label.name}</p>
-                                <Input placeholder={label.name} change={undefined} value={undefined} config='dark:bg-white dark:border-neutral-200' />
+                                {
+                                  label.type === 'Texto'
+                                    ? <input placeholder={label.name} className='border py-2 px-3 text-sm' style={{ borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }} />
+                                    : ''
+                                }
+                                {
+                                  label.type === 'Selector'
+                                    ? (
+                                      <select className='border p-2 text-sm' style={{ borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>
+                                        <option>Seleccionar opción</option>
+                                        {
+                                          label.datas?.map(data => <option key={data}>{data}</option>)
+                                        }
+                                      </select>
+                                    )
+                                    : ''
+                                }
                               </div>
                             ))
                           }
-                          <Button type='submit' config='w-full'>{forms?.find(form => form._id === design.form)?.button}</Button>
+                          <ButtonDesign style={style} text={forms?.find(form => form._id === design.form)?.button} config='w-full' />
                         </div>
                       </form>
                     )

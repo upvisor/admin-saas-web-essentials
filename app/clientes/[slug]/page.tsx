@@ -1,6 +1,6 @@
 "use client"
 import { Button, Button2, Button2Red, ButtonSubmit, ButtonSubmit2, Card, Input, Spinner, Textarea } from '@/components/ui'
-import { IClient, IFunnel, IMeeting, IService } from '@/interfaces'
+import { IClient, IForm, IFunnel, IMeeting, IService } from '@/interfaces'
 import { NumberFormat } from '@/utils'
 import axios from 'axios'
 import Head from 'next/head'
@@ -22,46 +22,31 @@ export default function Page ({ params }: { params: { slug: string } }) {
   const [popupEmail, setPopupEmail] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [email, setEmail] = useState({ subject: '', email: '' })
   const [loadingEmail, setLoadingEmail] = useState(false)
-  const [meetings, setMeetings] = useState<IMeeting[]>([])
-  const [funnels, setFunnels] = useState<IFunnel[]>()
   const [data, setData] = useState([])
   const [dataView, setDataView] = useState(false)
-  const [services, setServices] = useState<IService[]>([])
-  const [popupPrice, setPopupPrice] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
-  const [price, setPrice] = useState('')
-  const [loadingPrice, setLoadingPrice] = useState(false)
-  const [service, setService] = useState<IService>()
+  const [leads, setLeads] = useState([])
+  const [forms, setForms] = useState<IForm[]>([])
+  const [popupForm, setPopupForm] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
+  const [selectForm, setSelectForm] = useState<IForm>()
+  const [selectLead, setSelectLead] = useState<any>()
+  const [contacts, setContacts] = useState([])
+  const [selectContact, setSelectContact] = useState<any>()
+  const [popupContact, setPopupContact] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
 
   const router = useRouter()
 
   useEffect(() => {
     const getClientData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-email/${params.slug}`);
-        setClientData(response.data);
-        
-        // Usar Promise.all para esperar que todas las llamadas se completen
-        const funnelsFind = await Promise.all(
-          response.data.funnels.map(async (funnel: any) => {
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnel/${funnel.funnel}`);
-            return res.data;
-          })
-        );
-        
-        setFunnels(funnelsFind);
-  
-        const respon = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/services`);
-        const filter = respon.data.filter((service: IService) => 
-          response.data.services.some((serv: any) => serv.service === service._id)
-        );
-        setServices(filter);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-email/${params.slug}`)
+        setClientData(response.data)
       } catch (error) {
-        console.error("Error fetching client data:", error);
+        console.error("Error fetching client data:", error)
       }
     };
   
     getClientData();
-  }, [params.slug]);
+  }, [params.slug])
 
   const getClientTags = async () => {
     const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-tag`)
@@ -70,15 +55,6 @@ export default function Page ({ params }: { params: { slug: string } }) {
 
   useEffect(() => {
     getClientTags()
-  }, [])
-
-  const getMeetings = async () => {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/meetings/${params.slug}`)
-    setMeetings(res.data)
-  }
-
-  useEffect(() => {
-    getMeetings()
   }, [])
 
   const getData = async () => {
@@ -98,46 +74,38 @@ export default function Page ({ params }: { params: { slug: string } }) {
     }
   }
 
+  const getLeads = async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/leads`)
+    setLeads(res.data)
+  }
+
+  useEffect(() => {
+    getLeads()
+  }, [])
+
+  const getForms = async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/forms`)
+    setForms(res.data)
+  }
+
+  useEffect(() => {
+    getForms()
+  }, [])
+
+  const getContacts = async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/contact`)
+    setContacts(res.data)
+  }
+
+  useEffect(() => {
+    getContacts()
+  }, [])
+
   return (
     <>
       <Head>
         <title>Cliente: {clientData?._id}</title>
       </Head>
-      <div onClick={() => {
-        if (!popupPrice.mouse) {
-          setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-0' })
-          setTimeout(() => {
-            setPopupPrice({ ...popupPrice, view: 'hidden', opacity: 'opacity-0' })
-          }, 200)
-        }
-      }} className={`${popupPrice.view} ${popupPrice.opacity} transition-opacity duration-200 w-full h-full top-0 left-0 z-50 right-0 fixed flex bg-black/20 dark:bg-black/40`}>
-        <div onMouseEnter={() => setPopupPrice({ ...popupPrice, mouse: true })} onMouseLeave={() => setPopupPrice({ ...popupPrice, mouse: false })} className={`${popupPrice.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 w-[500px] p-6 flex flex-col gap-2 rounded-xl border bg-white m-auto dark:bg-neutral-800 dark:border-neutral-700`} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
-          <p>Asignar precio</p>
-          <Input change={(e: any) => setPrice(e.target.value)} placeholder='Precio' value={price} />
-          <div className='flex gap-6'>
-            <ButtonSubmit action={async (e: any) => {
-              e.preventDefault()
-              if (!loadingPrice) {
-                setLoadingPrice(true)
-                const oldServices = [...clientData?.services!]
-                oldServices.find(servi => servi.service === service?._id)!.price = price
-                await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/clients/${clientData?._id}`, { services: oldServices })
-                setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-0' })
-                setTimeout(() => {
-                  setPopupPrice({ ...popupPrice, view: 'hidden', opacity: 'opacity-0' })
-                  setLoadingPrice(false)
-                }, 200)
-              }
-            }} color='main' submitLoading={loadingPrice} textButton='Asignar precio' config='w-44' />
-            <button onClick={() => {
-              setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-0' })
-              setTimeout(() => {
-                setPopupPrice({ ...popupPrice, view: 'hidden', opacity: 'opacity-0' })
-              }, 200)
-            }}>Cancelar</button>
-          </div>
-        </div>
-      </div>
       {
         clientData?.email
           ? (
@@ -203,6 +171,62 @@ export default function Page ({ params }: { params: { slug: string } }) {
           )
           : ''
       }
+      {
+        clientData?.email
+          ? (
+            <div onClick={() => {
+              if (!popupForm.mouse) {
+                setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-0' })
+                setTimeout(() => {
+                  setPopupForm({ ...popupForm, view: 'hidden', opacity: 'opacity-0' })
+                }, 200)
+              }
+            }} className={`${popupForm.view} ${popupForm.opacity} transition-opacity duration-200 w-full h-full top-0 left-0 z-50 right-0 fixed flex bg-black/20 dark:bg-black/40`}>
+              <div onMouseEnter={() => setPopupForm({ ...popupForm, mouse: true })} onMouseLeave={() => setPopupForm({ ...popupForm, mouse: false })} className={`${popupForm.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 w-[700px] p-8 flex flex-col gap-4 rounded-xl border bg-white m-auto dark:bg-neutral-800 dark:border-neutral-700`} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                <h3 className='text-lg font-medium'>Formulario {selectForm?.nameForm}</h3>
+                {
+                  selectForm?.labels.map(label => (
+                    <div key={label.name} className="flex flex-col gap-2">
+                      <p>{label.text !== '' ? label.text : label.name}</p>
+                      <p className='px-3 py-2 border shadow rounded-xl text-sm'>{selectLead[label.data!] ? selectLead[label.data!] : selectLead.data.find((data: any) => data.name === label.data)?.value}</p>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          )
+          : ''
+      }
+      {
+        clientData?.email
+          ? (
+            <div onClick={() => {
+              if (!popupContact.mouse) {
+                setPopupContact({ ...popupContact, view: 'flex', opacity: 'opacity-0' })
+                setTimeout(() => {
+                  setPopupContact({ ...popupContact, view: 'hidden', opacity: 'opacity-0' })
+                }, 200)
+              }
+            }} className={`${popupContact.view} ${popupContact.opacity} transition-opacity duration-200 w-full h-full top-0 left-0 z-50 right-0 fixed flex bg-black/20 dark:bg-black/40`}>
+              <div onMouseEnter={() => setPopupContact({ ...popupContact, mouse: true })} onMouseLeave={() => setPopupContact({ ...popupContact, mouse: false })} className={`${popupContact.opacity === 'opacity-1' ? 'scale-100' : 'scale-90'} transition-transform duration-200 w-[700px] p-8 flex flex-col gap-4 rounded-xl border bg-white m-auto dark:bg-neutral-800 dark:border-neutral-700`} style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                <h3 className='text-lg font-medium'>Formulario de contacto</h3>
+                <div className="flex flex-col gap-2">
+                  <p>Nombre</p>
+                  <p className='px-3 py-2 border shadow rounded-xl text-sm'>{selectContact?.name}</p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <p>Email</p>
+                  <p className='px-3 py-2 border shadow rounded-xl text-sm'>{selectContact?.email}</p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <p>Mensaje</p>
+                  <p className='px-3 py-2 border shadow rounded-xl text-sm'>{selectContact?.message}</p>
+                </div>
+              </div>
+            </div>
+          )
+          : ''
+      }
       <div className='bg-bg p-6 overflow-y-auto dark:bg-neutral-900 h-full'>
         <div className='flex flex-col gap-6 w-full max-w-[1280px] m-auto'>
           {
@@ -224,83 +248,47 @@ export default function Page ({ params }: { params: { slug: string } }) {
                   </div>
                   <form className='flex gap-6 w-full m-auto'>
                     <div className='flex gap-6 flex-col w-2/3'>
-                      <Card title='Servicios'>
+                      <Card title='Formularios'>
                         {
-                          services.length
-                            ? services.map(service => {
-                              if (clientData.services?.find(serv => serv.service === service._id)?.step && clientData.services?.find(serv => serv.service === service._id)?.step !== '') {
-                                return (
-                                  <div key={service._id} className='flex gap-4 justify-around overflow-y-auto'>
-                                    <p className='my-auto text-center min-w-32'>{clientData.services?.find(serv => serv.service === service._id)?.payStatus}</p>
-                                    <p className='my-auto text-center min-w-32'>{service.name}</p>
-                                    {
-                                      clientData.services?.find(serv => serv.service === service._id)?.price
-                                        ? <p className='text-center my-auto min-w-32'>${NumberFormat(Number(clientData.services?.find(serv => serv.service === service._id)?.price))}</p>
-                                        : <Button2 color='main' action={(e: any) => {
-                                          e.preventDefault()
-                                          setService(service)
-                                          setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-0' })
-                                          setTimeout(() => {
-                                            setPopupPrice({ ...popupPrice, view: 'flex', opacity: 'opacity-1' })
-                                          }, 10)
-                                        }}>Asignar precio</Button2>
-                                    }
-                                    <p className='my-auto text-center min-w-32'>{service.typeService}</p>
-                                    <p className='my-auto text-center min-w-32'>{service.typePrice}</p>
-                                    <p className='my-auto text-center min-w-32'>{service.steps.find(step => step._id === clientData.services!.find(serv => serv.service === service._id)!.step)?.step}</p>
-                                  </div>
-                                )
-                              } else {
-                                return <p key={service._id}>Este cliente no esta asociado a algun servicio</p>
-                              }
+                          clientData.forms?.length
+                            ? clientData.forms?.map((form, index) => {
+                              const lead: any = leads.find((lead: any) => lead.form === form.form)
+                              const formFind = forms.find((e: any) => e._id === form.form)
+                              return (
+                                <button key={lead?._id} onClick={(e: any) => {
+                                  e.preventDefault()
+                                  setSelectForm(formFind)
+                                  setSelectLead(lead)
+                                  setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-0' })
+                                  setTimeout(() => {
+                                    setPopupForm({ ...popupForm, view: 'flex', opacity: 'opacity-1' })
+                                  }, 10)
+                                }} className={`${index + 1 < clientData.forms!.length ? 'border-b border-border' : ''} flex rounded-lg gap-4 p-4 justify-between transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700`}>
+                                  <p>{formFind?.nameForm}</p>
+                                  <p>{new Date(formFind?.createdAt!).toLocaleDateString()} - {new Date(formFind?.createdAt!).toLocaleTimeString()}</p>
+                                </button>
+                              )
                             })
-                            : <p>Este cliente no esta asociado a algun servicio</p>
+                            : <p>No hay formularios completados</p>
                         }
                       </Card>
-                      <Card title='Embudo actual'>
+                      <Card title={'Contactos'}>
                         {
-                          funnels?.length
-                            ? funnels.map((funnel, index) => (
-                              <>
-                                <p>Embudo: {funnel?.funnel}</p>
-                                <p>Etapas:</p>
-                                <div className='flex gap-4 justify-around overflow-x-auto'>
-                                  {
-                                    funnel?.steps.map(step => {
-                                      if (step._id === clientData.funnels![index].step) {
-                                        return (
-                                          <div key={step._id} className='p-4 bg-main rounded-lg flex'>
-                                            <p className='text-white my-auto text-center'>{step.step}</p>
-                                          </div>
-                                        )
-                                      } else {
-                                        return (
-                                          <div key={step._id} className='p-4 flex'>
-                                            <p className='m-auto text-center'>{step.step}</p>
-                                          </div>
-                                        )
-                                      }
-                                    })
-                                  }
-                                </div>
-                              </>
-                            ))
-                            : <p>Este cliente no esta en un embudo</p>
-                        }
-                      </Card>
-                      <Card title='Llamadas'>
-                        {
-                          meetings.length
-                            ? meetings.map((meeting, index) => (
-                              <button key={meeting._id} onClick={(e: any) => {
+                          contacts.length
+                            ? contacts?.filter((contact: any) => contact.email === clientData.email).map((contact: any, index) => (
+                              <button key={contact?._id} onClick={(e: any) => {
                                 e.preventDefault()
-                                router.push(`/llamadas/${meeting._id}`)
-                              }} className={`${index + 1 < meetings.length ? 'border-b border-border' : ''} flex rounded-lg gap-4 p-4 justify-between transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700`}>
-                                <p>{meeting.meeting}</p>
-                                <p>{new Date(meeting.date).toLocaleDateString()} - {new Date(meeting.date).toLocaleTimeString()}</p>
+                                setSelectContact(contact)
+                                setPopupContact({ ...popupForm, view: 'flex', opacity: 'opacity-0' })
+                                setTimeout(() => {
+                                  setPopupContact({ ...popupForm, view: 'flex', opacity: 'opacity-1' })
+                                }, 10)
+                              }} className={`${index + 1 < clientData.forms!.length ? 'border-b border-border' : ''} flex rounded-lg gap-4 p-4 justify-between transition-colors duration-150 hover:bg-neutral-100 dark:hover:bg-neutral-700`}>
+                                <p>{contact?.message.split(' ').slice(0, 5).join(' ')}</p>
+                                <p>{new Date(contact?.createdAt!).toLocaleDateString()} - {new Date(contact?.createdAt!).toLocaleTimeString()}</p>
                               </button>
                             ))
-                            : <p>Este cliente no ha agendado ninguna llamada</p>
+                            : <p>No hay contactos realizados.</p>
                         }
                       </Card>
                     </div>

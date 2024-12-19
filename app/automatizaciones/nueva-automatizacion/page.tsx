@@ -41,9 +41,6 @@ export default function Page () {
   const [selectStep, setSelectStep] = useState(0)
   const [clientData, setClientData] = useState([])
   const [forms, setForms] = useState<IForm[]>([])
-  const [calls, setCalls] = useState<ICall[]>([])
-  const [services, setServices] = useState<IService[]>([])
-  const [funnels, setFunnels] = useState<IFunnel[]>([])
   const [error, setError] = useState('')
 
   const router = useRouter()
@@ -86,33 +83,6 @@ export default function Page () {
 
   useEffect(() => {
     getForms()
-  }, [])
-
-  const getCalls = async () => {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/calls`)
-    setCalls(res.data)
-  }
-
-  useEffect(() => {
-    getCalls()
-  }, [])
-
-  const getServices = async () => {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/services`)
-    setServices(res.data)
-  }
-
-  useEffect(() => {
-    getServices()
-  }, [])
-
-  const getFunnels = async () => {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnels`)
-    setFunnels(res.data)
-  }
-
-  useEffect(() => {
-    getFunnels()
   }, [])
 
   const handleSubmit = async (e: any) => {
@@ -206,31 +176,18 @@ export default function Page () {
           <div className='w-full flex max-w-[1280px] mx-auto'>
             <div className='m-auto flex gap-6 flex-col lg:flex-row'>
               <div className='flex flex-col h-fit'>
-                <Segment setAutomatization={setAutomatization} automatization={automatization} clientTags={clientTags} forms={forms} calls={calls} services={services} funnels={funnels} />
+                <Segment setAutomatization={setAutomatization} automatization={automatization} clientTags={clientTags} forms={forms} />
                 {
                   automatization.automatization.map((email, index) => (
                     <Step key={email.affair} email={email} index={index} setAutomatization={setAutomatization} automatization={automatization} setTempEmail={setTempEmail} selectStep={selectStep} setSelectStep={setSelectStep} popupCondition={popupCondition} setPopupCondition={setPopupCondition} />
                   ))
                 }
-                <Button2 action={(e: any) => {
-                  e.preventDefault()
-                  setAutomatization({ ...automatization, automatization: automatization.automatization.concat({
-                    affair: '',
-                    title: 'Lorem ipsum',
-                    paragraph: 'Lorem ipsum',
-                    buttonText: 'Lorem ipsum',
-                    condition: [],
-                    url: '',
-                    number: 0,
-                    time: 'Días'
-                  }) })
-                }} color='main' config='m-auto mt-4'>Agregar paso</Button2>
               </div>
               {
                 (tempEmail.buttonText !== '' || tempEmail.paragraph !== '' || tempEmail.title !== '')
                   ? (
                     <div className='w-full'>
-                      <Config setTempEmail={setTempEmail} automatization={automatization} tempEmail={tempEmail} setAutomatization={setAutomatization} storeData={storeData} clientData={clientData} setClientData={setClientData} services={services} calls={calls} funnels={funnels} />
+                      <Config setTempEmail={setTempEmail} automatization={automatization} tempEmail={tempEmail} setAutomatization={setAutomatization} storeData={storeData} clientData={clientData} setClientData={setClientData} />
                     </div>
                   )
                   : ''

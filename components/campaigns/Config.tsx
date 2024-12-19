@@ -17,7 +17,6 @@ export const Config: React.FC<Props> = ({ setEmail, email, setDate, date, client
 
   const [titleData, setTitleData] = useState('')
   const [paragraphData, setParagraphData] = useState('')
-  const [funnels, setFunnels] = useState<IFunnel[]>([])
   const [design, setDesign] = useState<Design>()
 
   const getDesign = async () => {
@@ -27,15 +26,6 @@ export const Config: React.FC<Props> = ({ setEmail, email, setDate, date, client
 
   useEffect(() => {
     getDesign()
-  }, [])
-
-  const getFunnels = async () => {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnels`)
-    setFunnels(res.data)
-  }
-
-  useEffect(() => {
-    getFunnels()
   }, [])
 
   return (
@@ -90,9 +80,6 @@ export const Config: React.FC<Props> = ({ setEmail, email, setDate, date, client
             <option>Selecciona una pagina</option>
             {
               design?.pages.map(page => <option key={page._id} value={`${process.env.NEXT_PUBLIC_WEB_URL}/${page.slug}`}>{page.page}</option>)
-            }
-            {
-              funnels.map(funnel => funnel.steps.filter(step => step.slug && step.slug !== '').map(step => <option key={step._id} value={`${process.env.NEXT_PUBLIC_WEB_URL}/${step.slug}`}>{funnel.funnel} - {step.step}</option>))
             }
           </Select>
         </div>

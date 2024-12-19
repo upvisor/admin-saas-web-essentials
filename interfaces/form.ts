@@ -9,4 +9,7 @@ export interface IForm {
     action: string
     redirect?: string
     message?: string
+
+    createdAt?: string
+    updatedAt?: string
 }

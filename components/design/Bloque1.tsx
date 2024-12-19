@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { ICall, ICategoryPage, IDesign, IForm, IFunnel, IPage, IService } from '@/interfaces'
 import { Button, Input, Select, Spinner } from '../ui'
+import { ButtonDesign } from './ButtonDesign'
 
 interface Props {
     edit: any
@@ -17,9 +18,10 @@ interface Props {
     pageNeed: IPage[]
     responsive: string
     forms: IForm[] | undefined
+    style?: any
 }
 
-export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, pageNeed, responsive, forms }) => {
+export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, pageNeed, responsive, forms, style }) => {
 
   const [gradient, setGradient] = useState('')
   const [firstColor, setFirstColor] = useState('')
@@ -61,7 +63,7 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                   />
                   {
                     design.info.button && design.info.button !== '' && design.info.buttonLink && design.info.buttonLink !== ''
-                      ? <Button>{design.info.button}</Button>
+                      ? <ButtonDesign style={style} text={design.info.button} />
                       : ''
                   }
                 </div>
@@ -219,12 +221,12 @@ export const Bloque1: React.FC<Props> = ({ edit, pages, setPages, design, index,
                     setPages(oldPages)
                   }} className={`${responsive === '400px' ? 'text-base' : 'text-lg'} p-1.5 rounded border bg-transparent`} style={{ color: design.info.textColor }} />
                   <div className='flex gap-4'>
-                    <div className='bg-main border border-main w-fit text-white py-1.5 px-6 rounded-xl shadow-md shadow-main/30'>
+                    <div className='w-fit text-white py-2 px-6' style={{ backgroundColor: style.primary, color: style.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>
                       <input type='text' placeholder='Boton' value={design.info.button} onChange={(e: any) => {
                         const oldPages = [...pages]
                         oldPages[ind].design[index].info.button = e.target.value
                         setPages(oldPages)
-                      }} className='text-sm lg:text-[16px] bg-main rounded border border-neutral-500' />
+                      }} className='text-sm lg:text-[16px] bg-transparent border border-neutral-500' />
                     </div>
                     <select value={design.info.buttonLink} onChange={(e: any) => {
                       const oldPages = [...pages]

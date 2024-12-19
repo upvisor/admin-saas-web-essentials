@@ -7,12 +7,9 @@ interface Props {
     automatization: any
     clientTags: IClientTag[]
     forms: IForm[]
-    calls: ICall[]
-    services: IService[]
-    funnels: IFunnel[]
 }
 
-export const Segment: React.FC<Props> = ({ setAutomatization, automatization, clientTags, forms, calls, services, funnels }) => {
+export const Segment: React.FC<Props> = ({ setAutomatization, automatization, clientTags, forms }) => {
   return (
     <div className='w-full max-w-[500px] p-5 flex flex-col gap-4 bg-white m-auto rounded-xl border border-black/5 dark:bg-neutral-800 dark:border-neutral-700' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
       <div className='flex flex-col gap-2'>
@@ -36,34 +33,6 @@ export const Segment: React.FC<Props> = ({ setAutomatization, automatization, cl
               ? forms.map(form => (
                 <option key={form._id} value={form._id}>{form.nameForm}</option>
               ))
-              : ''
-          }
-          {
-            automatization.startType === 'Llamada agendada'
-              ? calls.map(call => (
-                <option key={call._id} value={call._id}>{call.nameMeeting}</option>
-              ))
-              : ''
-          }
-          {
-            automatization.startType === 'Ingreso a un servicio'
-              ? services.map(service => (
-                <option key={service._id} value={service._id}>{service.name}</option>
-              ))
-              : ''
-          }
-          {
-            automatization.startType === 'Añadido a una etapa de un embudo'
-              ? funnels.map(funnel => funnel.steps.map(step => (
-                <option key={step._id} value={step._id}>{funnel.funnel} / {step.step}</option>
-              )))
-              : ''
-          }
-          {
-            automatization.startType === 'Añadido a una etapa de un servicio'
-              ? services.map(service => service.steps.map(step => (
-                <option key={step._id} value={step._id}>{service.name} / {step.step}</option>
-              )))
               : ''
           }
           {

@@ -3,6 +3,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { Select, Spinner, Button2Red, Button2, Input, Button } from '../ui'
+import { ButtonDesign } from './ButtonDesign'
 
 interface Props {
     edit: any
@@ -20,9 +21,10 @@ interface Props {
     setServices?: any
     responsive: string
     pageNeed: IPage[]
+    style?: any
 }
 
-export const Blocks: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed }) => {
+export const Blocks: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed, style }) => {
   
     const [gradient, setGradient] = useState('')
     const [firstColor, setFirstColor] = useState('')
@@ -184,7 +186,7 @@ export const Blocks: React.FC<Props> = ({ edit, pages, setPages, design, index, 
                       <div className='flex gap-6 justify-around flex-wrap'>
                         {
                             design.info.blocks?.map((block, i) => (
-                                <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border w-full max-w-96 border-black/5' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                                <div key={i} className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 p-6 w-full max-w-96 bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                                   <input onChange={(e: any) => {
                                     const oldPages = [...pages]
                                     oldPages[ind].design[index].info.blocks![i].title = e.target.value
@@ -195,12 +197,12 @@ export const Blocks: React.FC<Props> = ({ edit, pages, setPages, design, index, 
                                     oldPages[ind].design[index].info.blocks![i].description = e.target.value
                                     setPages(oldPages)
                                   }} value={block.description} placeholder='Pregunta' className='p-1.5 border text-center' />
-                                  <div className='bg-main border border-main m-auto w-fit text-white py-1.5 px-6 rounded-xl shadow-md shadow-main/30'>
+                                  <div className='m-auto w-fit text-white py-2 px-6' style={{ backgroundColor: style.primary, color: style.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>
                                     <input type='text' placeholder='Boton' value={block.buttonText} onChange={(e: any) => {
                                         const oldPages = [...pages]
                                         oldPages[ind].design[index].info.blocks![i].buttonText = e.target.value
                                         setPages(oldPages)
-                                    }} className='text-sm lg:text-[16px] bg-main rounded border border-neutral-500' />
+                                    }} className='text-sm lg:text-[16px] bg-transparent border border-neutral-500' />
                                     </div>
                                     <select value={block.buttonLink} onChange={(e: any) => {
                                     const oldPages = [...pages]
@@ -265,7 +267,7 @@ export const Blocks: React.FC<Props> = ({ edit, pages, setPages, design, index, 
                       <div className='flex gap-6 justify-around flex-wrap'>
                         {
                           design.info.blocks?.map((block, i) => (
-                            <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border border-black/5 w-full max-w-96 bg-white' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                            <div key={i} className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 p-6 w-full max-w-96 bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                               <div className='flex flex-col gap-4 m-auto'>
                                 {
                                   index === 0
@@ -287,7 +289,7 @@ export const Blocks: React.FC<Props> = ({ edit, pages, setPages, design, index, 
                                 <p className='text-center'>{block.description}</p>
                                 {
                                   block.buttonLink && block.buttonLink !== '' && block.buttonText && block.buttonText !== ''
-                                    ? <Button config='w-fit mx-auto'>{block.buttonText}</Button>
+                                    ? <ButtonDesign style={style} text={block.buttonText} config='m-auto' />
                                     : ''
                                 }
                               </div>

@@ -6,7 +6,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import Image from 'next/image'
-import { Bloque1, Bloque2, Bloque3, Bloque4, Bloque5, Call, Contact, Layout, Lead1, PopupNewCall, PopupNewForm, PopupNewPage, PopupPagesBlocks, Slider, Subscription, Video, PopupDeleteFunnel, PopupDeletePage, Bloque7, Checkout, Calls, Lead2, Services, Plans, Faq, Blocks, Reviews, Form } from '@/components/design'
+import { Bloque1, Bloque2, Bloque3, Bloque4, Bloque5, Contact, Layout, Lead1, PopupNewCall, PopupNewForm, PopupNewPage, PopupPagesBlocks, Slider, Subscription, Video, PopupDeleteFunnel, PopupDeletePage, Bloque7, Lead2, Faq, Blocks, Reviews, Form } from '@/components/design'
 import { Button, Button2, ButtonSecondary2, ButtonSubmit, Input, Select, Spinner, Textarea } from '@/components/ui'
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl'
 import { PopupNewFunnel } from '@/components/funnels'
@@ -76,7 +76,7 @@ export default function Page () {
   const [errorImage, setErrorImage] = useState('')
   const [type, setType] = useState('')
   const [menu, setMenu] = useState('hidden')
-  const [style, setStyle] = useState({ design: 'Borde', form: 'Redondeadas', primary: '', secondary: '', button: '#111111' })
+  const [style, setStyle] = useState({ design: 'Borde', form: 'Redondeadas', primary: '', secondary: '', button: '#111111', borderButton: 0, borderBlock: 0 })
   const [popupWhatsapp, setPopupWhatsapp] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [whatsapp, setWhatsapp] = useState(false)
 
@@ -220,48 +220,64 @@ export default function Page () {
                     <div className='flex flex-col gap-2'>
                       {
                         pages.map((page, index) => (
-                          <div key={page.slug} className='flex gap-4'>
-                            <button onClick={() => {
-                              setType('Page')
-                              setMenu('hidden')
-                              setPart(page.page)
-                            }} className='text-left w-full'>{page.page}</button>
-                            <div className='flex gap-2'>
-                              <div className='flex gap-1'>
-                                <input type='checkbox' checked={page.header} onChange={async (e: any) => {
-                                  const newPages = [...pages]
-                                  newPages[index].header = e.target.checked
-                                  setPages(newPages)
-                                  await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
-                                }} />
-                                <p className='my-auto'>Menu</p>
+                          <div key={page.slug} className='flex flex-col gap-2'>
+                            <div className='flex gap-4'>
+                              <button onClick={() => {
+                                setType('Page')
+                                setMenu('hidden')
+                                setPart(page.page)
+                              }} className='text-left w-full'>{page.page}</button>
+                              <div className='flex gap-2'>
+                                <div className='flex gap-1'>
+                                  <input type='checkbox' checked={page.header} onChange={async (e: any) => {
+                                    const newPages = [...pages]
+                                    newPages[index].header = e.target.checked
+                                    setPages(newPages)
+                                    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
+                                  }} />
+                                  <p className='my-auto'>Menu</p>
+                                </div>
+                                {
+                                  page.header === true
+                                    ? (
+                                      <div className='flex gap-1'>
+                                        <input type='checkbox' checked={page.button === true ? true : false} onChange={async (e: any) => {
+                                          const newPages = [...pages]
+                                          newPages[index].button = e.target.checked
+                                          setPages(newPages)
+                                          await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
+                                        }} />
+                                        <p className='my-auto'>Boton</p>
+                                      </div>
+                                    )
+                                    : ''
+                                }
+                                <button onClick={() => handleMoveUp(index)}><SlArrowUp className='text-lg' /></button>
+                                <button onClick={() => handleMoveDown(index)}><SlArrowDown className='text-lg' /></button>
+                                <button onClick={(e: any) => {
+                                  e.preventDefault()
+                                  setSelectPage(page)
+                                  setPopupDeletePage({ ...popupDeletePage, view: 'flex', opacity: 'opacity-0' })
+                                  setTimeout(() => {
+                                    setPopupDeletePage({ ...popupDeletePage, view: 'flex', opacity: 'opacity-1' })
+                                  }, 10)
+                                }}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
                               </div>
-                              {
-                                page.header === true
-                                  ? (
-                                    <div className='flex gap-1'>
-                                      <input type='checkbox' checked={page.button === true ? true : false} onChange={async (e: any) => {
-                                        const newPages = [...pages]
-                                        newPages[index].button = e.target.checked
-                                        setPages(newPages)
-                                        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: newPages })
-                                      }} />
-                                      <p className='my-auto'>Boton</p>
-                                    </div>
-                                  )
-                                  : ''
-                              }
-                              <button onClick={() => handleMoveUp(index)}><SlArrowUp className='text-lg' /></button>
-                              <button onClick={() => handleMoveDown(index)}><SlArrowDown className='text-lg' /></button>
-                              <button onClick={(e: any) => {
-                                e.preventDefault()
-                                setSelectPage(page)
-                                setPopupDeletePage({ ...popupDeletePage, view: 'flex', opacity: 'opacity-0' })
-                                setTimeout(() => {
-                                  setPopupDeletePage({ ...popupDeletePage, view: 'flex', opacity: 'opacity-1' })
-                                }, 10)
-                              }}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
                             </div>
+                            {
+                              page.subPage?.map((subPage, i) => (
+                                <div key={subPage.slug} className='flex gap-2 ml-10 justify-between'>
+                                  <p>{subPage.page}</p>
+                                  <button onClick={async (e: any) => {
+                                    e.preventDefault()
+                                    const oldPages = [...pages]
+                                    oldPages[index].subPage?.splice(i, 1)
+                                    setPages(oldPages)
+                                    await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: oldPages })
+                                  }}><svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
+                                </div>
+                              ))
+                            }
                           </div>
                         ))
                       }
@@ -274,6 +290,23 @@ export default function Page () {
                           setPopupPage({ ...popupPage, view: 'flex', opacity: 'opacity-1' })
                         }, 10)
                       }} color='main' config='w-full'>Agregar pagina</Button2>
+                      {
+                      whatsapp
+                        ? (
+                          <button onClick={async(e: any) => {
+                            e.preventDefault()
+                            await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { whatsapp: false })
+                            setWhatsapp(false)
+                          }} className={`w-full bg-red-500 min-h-9 h-9 px-4 text-white text-sm rounded-xl transition-colors duration-300 hover:bg-red-500/80`}>Desactivar boton Whatsapp</button>
+                        )
+                        : (
+                          <button onClick={async(e: any) => {
+                            e.preventDefault()
+                            await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { whatsapp: true })
+                            setWhatsapp(true)
+                          }} className={`w-full bg-green-500 min-h-9 h-9 px-4 text-white text-sm rounded-xl transition-colors duration-300 hover:bg-green-500/80`}>Activar boton Whatsapp</button>
+                        )
+                    }
                       <button onClick={(e: any) => setPart('Estilo')} className='mt-2 text-sm'>Editar estilo del sitio web</button>
                     </div>
                   </div>
@@ -361,6 +394,7 @@ export default function Page () {
                       <Select change={(e: any) => setStyle({ ...style, design: e.target.value })} value={style?.design}>
                         <option>Borde</option>
                         <option>Sombreado</option>
+                        <option>Ninguno</option>
                       </Select>
                     </div>
                     <div className='flex flex-col gap-2'>
@@ -442,7 +476,6 @@ export default function Page () {
                             } else {
                               oldPages[index].subPage = [{ page: newPage.page, slug: newPage.slug }]
                             }
-                            console.log(oldPages)
                             setPages(oldPages)
                             await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { pages: oldPages })
                           }}>
@@ -520,14 +553,14 @@ export default function Page () {
                             e.preventDefault()
                             await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { whatsapp: false })
                             setWhatsapp(false)
-                          }} className={`w-full bg-red-500 min-h-9 h-9 px-4 text-white text-sm rounded-xl shadow-md shadow-red-500/30 transition-colors duration-300 hover:bg-red-500/80`}>Desactivar boton Whatsapp</button>
+                          }} className={`w-full bg-red-500 min-h-9 h-9 px-4 text-white text-sm rounded-xl transition-colors duration-300 hover:bg-red-500/80`}>Desactivar boton Whatsapp</button>
                         )
                         : (
                           <button onClick={async(e: any) => {
                             e.preventDefault()
                             await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/design/${id}`, { whatsapp: true })
                             setWhatsapp(true)
-                          }} className={`w-full bg-green-500 min-h-9 h-9 px-4 text-white text-sm rounded-xl shadow-md shadow-green-500/30 transition-colors duration-300 hover:bg-green-500/80`}>Activar boton Whatsapp</button>
+                          }} className={`w-full bg-green-500 min-h-9 h-9 px-4 text-white text-sm rounded-xl transition-colors duration-300 hover:bg-green-500/80`}>Activar boton Whatsapp</button>
                         )
                     }
                     <button onClick={(e: any) => setPart('Estilo')} className='mt-2 text-sm'>Editar estilo del sitio web</button>
@@ -617,6 +650,7 @@ export default function Page () {
                     <Select change={(e: any) => setStyle({ ...style, design: e.target.value })} value={style?.design}>
                       <option>Borde</option>
                       <option>Sombreado</option>
+                      <option>Ninguno</option>
                     </Select>
                   </div>
                   <div className='flex flex-col gap-2'>
@@ -626,6 +660,22 @@ export default function Page () {
                       <option>Cuadradas</option>
                     </Select>
                   </div>
+                  {
+                    style.form === 'Redondeadas'
+                      ? (
+                        <>
+                          <div className='flex flex-col gap-2'>
+                            <p>Esquinas botones</p>
+                            <Input type='number' change={(e: any) => setStyle({ ...style, borderButton: e.target.value })} value={style.borderButton} />
+                          </div>
+                          <div className='flex flex-col gap-2'>
+                            <p>Esquinas bloques</p>
+                            <Input type='number' change={(e: any) => setStyle({ ...style, borderBlock: e.target.value })} value={style.borderBlock} />
+                          </div>
+                        </>
+                      )
+                      : ''
+                  }
                   <div className='flex flex-col gap-2'>
                     <p>Color principal</p>
                     <input type='color' onChange={(e: any) => setStyle({ ...style, primary: e.target.value })} value={style?.primary} />
@@ -715,37 +765,37 @@ export default function Page () {
                               <div key={index}>
                                 {
                                   design.content === 'Carrusel'
-                                    ? <Slider design={design} edit={edit} pages={pages} setPages={setPages} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} />
+                                    ? <Slider design={design} edit={edit} pages={pages} setPages={setPages} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} style={style} />
                                     : design.content === 'Bloque 1'
-                                      ? <Bloque1 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} />
+                                      ? <Bloque1 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} style={style} />
                                       : design.content === 'Bloque 2'
-                                        ? <Bloque2 edit={edit} design={design} pages={pages} setPages={setPages} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} />
+                                        ? <Bloque2 edit={edit} design={design} pages={pages} setPages={setPages} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} style={style} />
                                         : design.content === 'Bloque 3'
-                                          ? <Bloque3 edit={edit} design={design} index={index} pages={pages} setPages={setPages} ind={i} pageNeed={pages} responsive={responsive} forms={forms} />
+                                          ? <Bloque3 edit={edit} design={design} index={index} pages={pages} setPages={setPages} ind={i} pageNeed={pages} responsive={responsive} forms={forms} style={style} />
                                           : design.content === 'Bloque 4'
-                                            ? <Bloque4 edit={edit} design={design} pages={pages} setPages={setPages} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} />
+                                            ? <Bloque4 edit={edit} design={design} pages={pages} setPages={setPages} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} style={style} />
                                             : design.content === 'Bloque 5'
-                                              ? <Bloque5 edit={edit} design={design} pages={pages} setPages={setPages} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} />
+                                              ? <Bloque5 edit={edit} design={design} pages={pages} setPages={setPages} index={index} ind={i} pageNeed={pages} responsive={responsive} forms={forms} style={style} />
                                               : design.content === 'Contacto'
-                                                ? <Contact edit={edit} design={design} pages={pages} setPages={setPages} index={index} ind={i} responsive={responsive} />
+                                                ? <Contact edit={edit} design={design} pages={pages} setPages={setPages} index={index} ind={i} responsive={responsive} style={style} />
                                                 : design.content === 'Suscripción'
-                                                  ? <Subscription edit={edit} pages={pages} setPages={setPages} index={index} design={design} ind={i} responsive={responsive} />
+                                                  ? <Subscription edit={edit} pages={pages} setPages={setPages} index={index} design={design} ind={i} responsive={responsive} style={style} />
                                                   : design.content === 'Lead 1'
-                                                    ? <Lead1 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} storeData={storeData} />
+                                                    ? <Lead1 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} storeData={storeData} style={style} />
                                                     : design.content === 'Video'
                                                       ? <Video edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} responsive={responsive} />
                                                       : design.content === 'Bloque 7'
                                                         ? <Bloque7 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} />
                                                         : design.content === 'Lead 2'
-                                                          ? <Lead2 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} storeData={storeData} />
+                                                          ? <Lead2 edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} forms={forms} popupForm={popupForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} selectStep={step} setNewForm={setNewForm} responsive={responsive} error={error} setError={setError} storeData={storeData} style={style} />
                                                           : design.content === 'Preguntas frecuentes'
-                                                            ? <Faq edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} responsive={responsive} pageNeed={pages} />
+                                                            ? <Faq edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} responsive={responsive} pageNeed={pages} style={style} />
                                                             : design.content === 'Bloques'
-                                                              ? <Blocks edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} responsive={responsive} pageNeed={pages} />
+                                                              ? <Blocks edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} responsive={responsive} pageNeed={pages} style={style} />
                                                               : design.content === 'Reseñas'
-                                                                ? <Reviews edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} responsive={responsive} pageNeed={pages} />
+                                                                ? <Reviews edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} responsive={responsive} pageNeed={pages} style={style} />
                                                                 : design.content === 'Formulario'
-                                                                  ? <Form edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} responsive={responsive} pageNeed={pages} forms={forms} popupForm={popupForm} setNewForm={setNewForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} />
+                                                                  ? <Form edit={edit} pages={pages} setPages={setPages} design={design} index={index} ind={i} responsive={responsive} pageNeed={pages} forms={forms} popupForm={popupForm} setNewForm={setNewForm} setPopupForm={setPopupForm} setTitleForm={setTitleForm} style={style} />
                                                                   : ''
                                 }
                                 <div className='m-auto mt-2 mb-6 flex gap-4 w-fit'>
@@ -811,35 +861,35 @@ export default function Page () {
                   <div className='flex gap-4 my-auto'>
                     <p className='my-auto'>Inicio</p>
                     <p className='my-auto'>Contacto</p>
-                    <p className={`${style?.form === 'Redondeadas' ? 'rounded-xl' : ''} my-auto px-4 py-2 text-white`} style={{ backgroundColor: style?.primary, color: style?.button }}>Hablemos</p>
+                    <p className={`my-auto px-4 py-2 text-white`} style={{ backgroundColor: style?.primary, color: style?.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>Hablemos</p>
                   </div>
                 </div>
                 <div className='w-full flex flex-col gap-4 px-4 py-12'>
                   <p className='text-center m-auto text-4xl font-semibold'>Lorem ipsum</p>
                   <p className='text-center m-auto'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti voluptatem dolorum deleniti doloremque nulla? Dolore, error assumenda. Repellendus similique natus ut accusamus ipsa voluptatem nostrum, eos, quidem sed, non reiciendis.</p>
                   <div className='flex gap-4 justify-around flex-wrap'>
-                    <div className={`${style?.design === 'Borde' ? 'border' : style?.design === 'Sombreado' ? 'border border-black/5' : ''} ${style?.form === 'Redondeadas' ? 'rounded-xl' : ''} p-6 w-96 flex flex-col gap-3`} style={{ boxShadow: style?.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' :'' }}>
+                    <div className={`${style?.design === 'Borde' ? 'border' : style?.design === 'Sombreado' ? 'border border-black/5' : ''} p-6 w-96 flex flex-col gap-3`} style={{ boxShadow: style?.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                       <p className='text-center m-auto font-medium text-2xl'>Lorem ipsum</p>
                       <p className='text-center m-auto'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                      <button className={`${style?.form === 'Redondeadas' ? 'rounded-xl' : ''} m-auto px-4 py-2 text-white w-full`} style={{ backgroundColor: style?.primary, color: style?.button }}>Lorem ipsum</button>
+                      <button className={` m-auto px-4 py-2 text-white w-full`} style={{ backgroundColor: style?.primary, color: style?.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>Lorem ipsum</button>
                     </div>
-                    <div className={`${style?.design === 'Borde' ? 'border' : style?.design === 'Sombreado' ? 'border border-black/5' : ''} ${style?.form === 'Redondeadas' ? 'rounded-xl' : ''} p-6 w-96 flex flex-col gap-3`} style={{ boxShadow: style?.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' :'' }}>
+                    <div className={`${style?.design === 'Borde' ? 'border' : style?.design === 'Sombreado' ? 'border border-black/5' : ''} p-6 w-96 flex flex-col gap-3`} style={{ boxShadow: style?.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                       <p className='text-center m-auto font-medium text-2xl'>Lorem ipsum</p>
                       <p className='text-center m-auto'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                      <button className={`${style?.form === 'Redondeadas' ? 'rounded-xl' : ''} m-auto px-4 py-2 text-white w-full`} style={{ backgroundColor: style?.primary, color: style?.button }}>Lorem ipsum</button>
+                      <button className={` m-auto px-4 py-2 text-white w-full`} style={{ backgroundColor: style?.primary, color: style?.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>Lorem ipsum</button>
                     </div>
-                    <div className={`${style?.design === 'Borde' ? 'border' : style?.design === 'Sombreado' ? 'border border-black/5' : ''} ${style?.form === 'Redondeadas' ? 'rounded-xl' : ''} p-6 w-96 flex flex-col gap-3`} style={{ boxShadow: style?.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' :'' }}>
+                    <div className={`${style?.design === 'Borde' ? 'border' : style?.design === 'Sombreado' ? 'border border-black/5' : ''} p-6 w-96 flex flex-col gap-3`} style={{ boxShadow: style?.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                       <p className='text-center m-auto font-medium text-2xl'>Lorem ipsum</p>
                       <p className='text-center m-auto'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                      <button className={`${style?.form === 'Redondeadas' ? 'rounded-xl' : ''} m-auto px-4 py-2 text-white w-full`} style={{ backgroundColor: style?.primary, color: style?.button }}>Lorem ipsum</button>
+                      <button className={` m-auto px-4 py-2 text-white w-full`} style={{ backgroundColor: style?.primary, color: style?.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>Lorem ipsum</button>
                     </div>
                   </div>
                 </div>
                 <div className='w-full px-4 py-12 flex flex-col gap-4'>
                   <p className='text-2xl font-medium text-center m-auto'>Lorem ipsum dolor sit amet</p>
                   <div className='flex gap-2'>
-                    <input className={`${style?.form === 'Redondeadas' ? 'rounded-xl' : ''} w-full border px-2`} placeholder='Email' />
-                    <button className={`${style?.form === 'Redondeadas' ? 'rounded-xl' : ''} m-auto px-4 py-2 text-white`} style={{ backgroundColor: style?.primary, color: style?.button }}>Envíar</button>
+                    <input className={`w-full border px-2`} style={{ borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }} placeholder='Email' />
+                    <button className={` m-auto px-4 py-2 text-white`} style={{ backgroundColor: style?.primary, color: style?.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>Envíar</button>
                   </div>
                 </div>
               </div>

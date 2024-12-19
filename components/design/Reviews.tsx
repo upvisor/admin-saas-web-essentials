@@ -21,9 +21,10 @@ interface Props {
     setServices?: any
     responsive: string
     pageNeed: IPage[]
+    style?: any
 }
 
-export const Reviews: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed }) => {
+export const Reviews: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed, style }) => {
   
     const [gradient, setGradient] = useState('')
     const [firstColor, setFirstColor] = useState('')
@@ -185,7 +186,7 @@ export const Reviews: React.FC<Props> = ({ edit, pages, setPages, design, index,
                       <div className='flex gap-6 justify-around flex-wrap'>
                         {
                           design.info.reviews?.map((review, i) => (
-                            <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border w-full max-w-96 border-black/5' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                            <div key={i} className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 p-6 w-full max-w-96 bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                               <div className='flex flex-col gap-2'>
                                 <p>Estrellas</p>
                                 <div className='flex gap-2 flex-wrap'>
@@ -310,7 +311,7 @@ export const Reviews: React.FC<Props> = ({ edit, pages, setPages, design, index,
                       <div className='flex gap-6 justify-around flex-wrap'>
                         {
                           design.info.reviews?.map((review, i) => (
-                            <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border border-black/5 w-full max-w-96 bg-white' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                            <div key={i} className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 p-6 w-full max-w-96 bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                               <div className='flex flex-col gap-4 m-auto'>
                                 <div className='flex gap-1 m-auto'>
                                   {

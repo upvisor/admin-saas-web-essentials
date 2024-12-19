@@ -8,6 +8,7 @@ import { Navigation, Pagination } from "swiper/modules"
 import axios from 'axios'
 import { Design, ICall, ICategoryPage, IDesign, IForm, IFunnel, IPage, IService } from '@/interfaces'
 import { Button } from '../ui'
+import { ButtonDesign } from './'
 
 interface Props {
     design: IDesign
@@ -21,9 +22,10 @@ interface Props {
     pageNeed: IPage[]
     responsive: string
     forms: IForm[] | undefined
+    style?: any
 }
 
-export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, ind, inde, indx, pageNeed, responsive, forms }) => {
+export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, ind, inde, indx, pageNeed, responsive, forms, style }) => {
   return (
     <div>
       <Swiper
@@ -56,7 +58,7 @@ export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, 
                               />
                               {
                                 banner.button && banner.button !== '' && banner.buttonLink && banner.buttonLink !== ''
-                                  ? <Button config='w-fit'>{banner.button}</Button>
+                                  ? <ButtonDesign text={banner.button} style={style} />
                                   : ''
                               }
                             </div>
@@ -68,23 +70,23 @@ export const Slider: React.FC<Props> = ({ design, edit, pages, setPages, index, 
                         <>
                         <div className="m-auto w-full p-4">
                           <div className='max-w-[1600px] w-full m-auto flex flex-col gap-4'>
-                            <input type='text' placeholder='Titulo' className='text-[25px] font-medium lg:text-[32px] text-white bg-transparent border p-1.5 border-neutral-500 rounded w-[800px]' value={banner.title} onChange={(e: any) => {
-                              const oldPages = [...pages]
-                              if (oldPages[ind].design[index].info.banner?.length) {
-                                oldPages[ind].design[index].info.banner![i].title = e.target.value
-                                setPages(oldPages)
-                              }
-                            }} />
-                            <input type='text' placeholder='Descripción' className='text-white text-sm lg:text-[16px] rounded bg-transparent border border-neutral-500 p-1.5' value={banner.description} onChange={(e: any) => {
-                              const oldPages = [...pages]
-                              if (oldPages[ind].design[index].info.banner?.length) {
-                                oldPages[ind].design[index].info.banner![i].description = e.target.value
-                                setPages(oldPages)
-                              }
-                            }} />
+                          <textarea placeholder='Titulo' value={banner.title} onChange={(e: any) => {
+                            const oldPages = [...pages]
+                            if (oldPages[ind].design[index].info.banner?.length) {
+                              oldPages[ind].design[index].info.banner![i].title = e.target.value
+                              setPages(oldPages)
+                            }
+                          }} className={`${responsive === '400px' ? 'text-3xl' : 'text-5xl'} text-white font-semibold p-1.5 rounded border bg-transparent`} style={{ color: design.info.textColor }} />
+                          <textarea placeholder='Descripción' value={banner.description} onChange={(e: any) => {
+                            const oldPages = [...pages]
+                            if (oldPages[ind].design[index].info.banner?.length) {
+                              oldPages[ind].design[index].info.banner![i].description = e.target.value
+                              setPages(oldPages)
+                            }
+                          }} className={`${responsive === '400px' ? 'text-base' : 'text-lg'} text-white p-1.5 rounded border bg-transparent`} style={{ color: design.info.textColor }} />
                             <div className='flex gap-4'>
-                              <div className='px-8 py-1.5 bg-main border border-main text-white rounded-md'>
-                                <input type='text' placeholder='Boton' className='bg-main text-white border border-neutral-500 rounded' value={banner.button} onChange={(e: any) => {
+                              <div className='px-6 py-2 text-white' style={{ backgroundColor: style.primary, color: style.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }}>
+                                <input type='text' placeholder='Boton' className='text-white border border-neutral-500 bg-transparent' value={banner.button} onChange={(e: any) => {
                                   const oldPages = [...pages]
                                   if (oldPages[ind].design[index].info.banner?.length) {
                                     oldPages[ind].design[index].info.banner![i].button = e.target.value

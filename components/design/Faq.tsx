@@ -21,9 +21,10 @@ interface Props {
     setServices?: any
     responsive: string
     pageNeed: IPage[]
+    style?: any
 }
 
-export const Faq: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed }) => {
+export const Faq: React.FC<Props> = ({ edit, pages, setPages, design, index, ind, inde, indx, funnels, setFunnels, calls, services, setServices, responsive, pageNeed, style }) => {
   
   const [gradient, setGradient] = useState('')
   const [firstColor, setFirstColor] = useState('')
@@ -289,7 +290,7 @@ export const Faq: React.FC<Props> = ({ edit, pages, setPages, design, index, ind
                 {
                   design.info.faq?.length
                     ? design.info.faq?.map((faq, i) => (
-                      <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border border-black/5' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                      <div key={i} className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 p-6 bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                         <div className='flex gap-6 justify-between'>
                           <input onChange={(e: any) => {
                             if (inde !== undefined) {
@@ -385,7 +386,7 @@ export const Faq: React.FC<Props> = ({ edit, pages, setPages, design, index, ind
                 />
                 {
                   design.info.faq?.map((faq, i) => (
-                    <div key={i} className='flex flex-col gap-4 p-6 rounded-xl border border-black/5' style={{ boxShadow: '0px 3px 10px 3px #11111108' }}>
+                    <div key={i} className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 p-6 bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
                       <div className='flex gap-6 justify-between'>
                         <p className='font-medium text-lg'>{faq.question}</p>
                         <IoIosArrowDown className='my-auto text-2xl rotate-180' />
